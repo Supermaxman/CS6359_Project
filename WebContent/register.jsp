@@ -14,12 +14,14 @@
 	
 	Username: <input type="text" name="username"> <br>
 	<div id="username_error"></div><br>
-	Customer name: <input type="text" name="name"><br>
+	Name: <input type="text" name="name"><br>
 	
 	Password: <input type="password" name="password" id="password"> 
 	<br>
 	Re-Type Password: <input type="password" name="retry-password" id="retry-password"> 
 	<br>
+	
+	Address: <input type="text" name="address"> <br>
 	<div id="password_error"></div><br>
 	<input type="submit" name="submit" value="register" >
 	<input type="reset" name="reset">

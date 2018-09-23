@@ -1,4 +1,4 @@
-package domain.login;
+package domain.user;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -20,22 +20,23 @@ public class LoginController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		CustomerDao customerDao = new CustomerDaoImpl();
+		UserDao userDao = new UserDaoImpl();
 		
 		String username = request.getParameter("username");
 		String pass = request.getParameter("password");
 		String submitType = request.getParameter("submit");
 		Login login = new Login(username, pass);
-		Customer c = customerDao.validateCustomer(login);
+		User c = userDao.validate(login);
 		
 		if(submitType.equals("login") && c!=null && c.getName()!=null){
-			request.setAttribute("message", "Hello "+c.getName());
+			request.setAttribute("message", "Hello "+ c.getName());
 			request.getRequestDispatcher("welcome.jsp").forward(request, response);
 		}else if(submitType.equals("register")){
-			c.setName(request.getParameter("name"));
 			c.setUsername(request.getParameter("username"));
 			c.setPassword(request.getParameter("password"));
-			customerDao.register(c);
+			c.setName(request.getParameter("name"));
+			c.setAddress(request.getParameter("address"));
+			userDao.register(c);
 			request.setAttribute("successMessage", "Registration done, please login!");
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}else{

@@ -1,14 +1,18 @@
-package domain.login;
+package domain.user;
+
 /**
  * 
  * @author mehra
- *
+ * This is the Customer before the validation.
  */
-public class Customer {
-
+public class Login {
 	private String username;
 	private String password;
-	private String name;
+	
+	public Login(String username, String pass){
+		this.username = username;
+		this.password = pass;
+	}
 	public String getUsername() {
 		return username;
 	}
@@ -21,13 +25,5 @@ public class Customer {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
 
-	
 }
-
