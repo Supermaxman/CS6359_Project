@@ -1,4 +1,4 @@
-package domain.user;
+package db.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import com.mysql.jdbc.Statement;
 
 import db.DbManager;
+import db.dao.UserDao;
+import domain.user.Login;
+import domain.user.User;
 
 
 
@@ -65,13 +68,13 @@ public class UserDaoImpl implements UserDao {
 			ps.setString(2, login.getPassword());
 
 			ResultSet rs = ps.executeQuery();
-			while(rs.next()){
-				c.setUserId(Integer.parseInt(rs.getString(1)));
-				c.setUsername(rs.getString(2));
-				c.setPassword(rs.getString(3));
-				c.setName(rs.getString(4));
-				c.setAddress(rs.getString(5));
-			}
+			rs.next();
+			c.setUserId(Integer.parseInt(rs.getString(1)));
+			c.setUsername(rs.getString(2));
+			c.setPassword(rs.getString(3));
+			c.setName(rs.getString(4));
+			c.setAddress(rs.getString(5));
+			
 			conn.close();
 		}catch(Exception e){
 			System.out.println(e);
@@ -79,4 +82,19 @@ public class UserDaoImpl implements UserDao {
 		return c;
 	}
 
+	public User buildUser(ResultSet rs) {
+		User user;
+		try {
+			user = new User();
+			user.setUserId(Integer.parseInt(rs.getString(1)));
+			user.setUsername(rs.getString(2));
+			user.setPassword(rs.getString(3));
+			user.setName(rs.getString(4));
+			user.setAddress(rs.getString(5));
+		} catch (Exception e) {
+			System.out.println(e);
+			return null;
+		}
+		return user;
+	}
 }

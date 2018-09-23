@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import db.dao.UserDao;
+import db.dao.impl.UserDaoImpl;
+
 /**
  * Servlet implementation class Login
  */
