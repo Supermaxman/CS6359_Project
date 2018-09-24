@@ -4,7 +4,6 @@ import java.util.Date;
 
 public class CreditCard {
 	private Integer cardId;
-	private User user;
 	private String number;
 	private Date expDate;
 	private String ccv;
@@ -14,12 +13,6 @@ public class CreditCard {
 	}
 	public void setCardId(Integer cardId) {
 		this.cardId = cardId;
-	}
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
 	}
 	public String getNumber() {
 		return number;

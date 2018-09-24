@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import db.dao.UserDao;
-import db.dao.impl.UserDaoImpl;
+import db.services.UserPersistenceService;
+import db.services.impl.UserPersistenceServiceImpl;
 
 /**
  * Servlet implementation class Login
@@ -17,19 +17,24 @@ import db.dao.impl.UserDaoImpl;
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	private UserPersistenceService userService = new UserPersistenceServiceImpl();
 
     public LoginController() {}
     
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		UserDao userDao = new UserDaoImpl();
-		
 		String username = request.getParameter("username");
 		String pass = request.getParameter("password");
 		String submitType = request.getParameter("submit");
 		Login login = new Login(username, pass);
-		User c = userDao.validate(login);
+		User c = null;
+		try 
+		{
+			c = userService.validate(login);
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
 		
 		if(submitType.equals("login") && c!=null && c.getName()!=null){
 			request.setAttribute("message", "Hello "+ c.getName());
@@ -39,8 +44,15 @@ public class LoginController extends HttpServlet {
 			c.setPassword(request.getParameter("password"));
 			c.setName(request.getParameter("name"));
 			c.setAddress(request.getParameter("address"));
-			userDao.register(c);
-			request.setAttribute("successMessage", "Registration done, please login!");
+			String message = "Registration done, please login!";
+			try 
+			{
+				userService.register(c);
+			} catch (Exception ex) {
+				System.out.println(ex);
+				message = "Unable to register user!";
+			}
+			request.setAttribute("successMessage", message);
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}else{
 			request.setAttribute("message", "Data Not Found! Please register!");

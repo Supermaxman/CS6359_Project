@@ -1,6 +1,5 @@
 package domain.product;
 
-import domain.user.User;
 
 public class Product {
 	
@@ -9,7 +8,6 @@ public class Product {
 	private String name;
 	private String description;
 	private double price;
-	private User seller;
 	private boolean isSold;
 		
 	public Integer getProdId() {
@@ -41,12 +39,6 @@ public class Product {
 	}
 	public void setSold(boolean isSold) {
 		this.isSold = isSold;
-	}
-	public User getSeller() {
-		return seller;
-	}
-	public void setSeller(User seller) {
-		this.seller = seller;
 	}
 	
 }

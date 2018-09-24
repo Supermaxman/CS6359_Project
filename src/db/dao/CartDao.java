@@ -1,14 +1,16 @@
 package db.dao;
 
-import java.sql.ResultSet;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import domain.user.Cart;
 
 public interface CartDao {
+
+	public void create(Connection connection, Cart cart, Integer userId) throws SQLException, DaoException;
 	
-	public Cart getUserCart(Integer userId);
+	public Cart retrieveByUser(Connection connection, Integer userId) throws SQLException, DaoException;
+
+	public int update(Connection connection, Cart cart) throws SQLException, DaoException;
 	
-	public int updateCart(Cart cart);
-	
-	public Cart buildCart(ResultSet rs);
 }
