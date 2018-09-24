@@ -136,6 +136,7 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 		}
 		catch (Exception ex) 
 		{
+			System.out.println(ex);
 			connection.rollback();
 			return null;
 		}

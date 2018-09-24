@@ -1,6 +1,8 @@
 package domain.user;
 
 import java.io.IOException;
+import java.sql.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,10 +42,16 @@ public class LoginController extends HttpServlet {
 			request.setAttribute("message", "Hello "+ c.getName());
 			request.getRequestDispatcher("welcome.jsp").forward(request, response);
 		}else if(submitType.equals("register")){
+			c = new User();
 			c.setUsername(request.getParameter("username"));
 			c.setPassword(request.getParameter("password"));
 			c.setName(request.getParameter("name"));
 			c.setAddress(request.getParameter("address"));
+			CreditCard card = new CreditCard();
+			card.setNumber(request.getParameter("number"));
+			card.setExpDate(Date.valueOf(request.getParameter("expdate")));
+			card.setCcv(request.getParameter("ccv"));
+			c.setCreditCard(card);
 			String message = "Registration done, please login!";
 			try 
 			{

@@ -19,19 +19,19 @@ public class UserDaoImpl implements UserDao {
 	private static final String registerQuery = 
 			"INSERT INTO "
 			+ "USER (USERNAME, PASSWORD, NAME, ADDRESS) "
-			+ "VALUES (?, ?, ?, ?)";
+			+ "VALUES (?, ?, ?, ?) ";
 	
 	private static final String validateQuery = 
 			"SELECT "
 			+ "USERID, USERNAME, PASSWORD, NAME, ADDRESS "
 			+ "FROM USER "
-			+ "WHERE USERNAME = ? AND PASSWORD = ?";
+			+ "WHERE USERNAME = ? AND PASSWORD = ? ";
 
 	private static final String retrieveQuery = 
 			"SELECT "
 			+ "USERID, USERNAME, PASSWORD, NAME, ADDRESS "
 			+ "FROM USER "
-			+ "WHERE USERID = ?";
+			+ "WHERE USERID = ? ";
 	
 	private static final String updateQuery = 
 			"UPDATE USER "

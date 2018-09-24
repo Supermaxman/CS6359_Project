@@ -22,20 +22,20 @@ public class TransactionDaoImpl implements TransactionDao {
 	
 	private static final String addProductQuery = 
 			"INSERT INTO "
-			+ "TRANSACTIONPRODUCT (TRXN, PRODID) "
+			+ "TRANSACTIONPRODUCT (TRXNID, PRODID) "
 			+ "VALUES (?, ?) ";
 	
 	private static final String retrieveQuery = 
 			"SELECT "
-			+ "TRXN, DATE, PRICE "
+			+ "TRXNID, DATE, PRICE "
 			+ "FROM TRANSACTION "
-			+ "WHERE TRXN = ? ";
+			+ "WHERE TRXNID = ? ";
 	
 	private static final String retrieveByUserQuery = 
 			"SELECT "
-			+ "TRXN, DATE, PRICE "
+			+ "TRXNID, DATE, PRICE "
 			+ "FROM TRANSACTION "
-			+ "WHERE USERID = ?";
+			+ "WHERE USERID = ? ";
 	
 	@Override
 	public void create(Connection connection, Transaction transaction, Integer userId) throws SQLException, DaoException {

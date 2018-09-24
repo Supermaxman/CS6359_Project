@@ -29,9 +29,9 @@ public class InventoryDaoImpl implements InventoryDao {
 			"SELECT "
 			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD "
 			+ "FROM INVENTORY i "
-			+ "JOIN INVENTORYPRODUCT ip ON i.INVNID = ip.INVNID"
-			+ "JOIN PRODUCT p on ip.PRODID = p.PRODID"
-			+ "WHERE i.USERID = ?";
+			+ "JOIN INVENTORYPRODUCT ip ON i.INVNID = ip.INVNID "
+			+ "JOIN PRODUCT p on ip.PRODID = p.PRODID "
+			+ "WHERE i.USERID = ? ";
 	
 	private static final String addProductQuery = 
 			"INSERT INTO "
