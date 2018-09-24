@@ -1,6 +1,6 @@
 package domain.user;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class CreditCard {
 	private Integer cardId;

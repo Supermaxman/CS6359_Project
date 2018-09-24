@@ -10,11 +10,13 @@ import db.dao.CartDao;
 import db.dao.CreditCardDao;
 import db.dao.DaoException;
 import db.dao.InventoryDao;
+import db.dao.ProductDao;
 import db.dao.TransactionDao;
 import db.dao.UserDao;
 import db.dao.impl.CartDaoImpl;
 import db.dao.impl.CreditCardDaoImpl;
 import db.dao.impl.InventoryDaoImpl;
+import db.dao.impl.ProductDaoImpl;
 import db.dao.impl.TransactionDaoImpl;
 import db.dao.impl.UserDaoImpl;
 import db.services.UserPersistenceService;
@@ -34,7 +36,7 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 	private InventoryDao inventoryDao = new InventoryDaoImpl();
 	private CartDao cartDao = new CartDaoImpl();
 	private TransactionDao trxnDao = new TransactionDaoImpl();
-
+	private ProductDao prodDao = new ProductDaoImpl();
 	
 	@Override
 	public void register(User user) throws SQLException, DaoException {
@@ -164,6 +166,12 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 		user.setCreditCard(creditCard);
 		
 		List<Transaction> transactions = trxnDao.retrieveByUser(connection, userId);
+		for (Transaction trxn : transactions)
+		{
+			List<Product> trxnProds = prodDao.retrieveByTransaction(connection, trxn.getTrxnId());
+			trxn.setProducts(trxnProds);
+		}
+		
 		user.setTransactions(transactions);
 		
 	}

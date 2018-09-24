@@ -33,13 +33,11 @@ public class InventoryDaoImpl implements InventoryDao {
 			+ "JOIN PRODUCT p on ip.PRODID = p.PRODID"
 			+ "WHERE i.USERID = ?";
 	
-	private static final String deleteProductsQuery = 
-			"DELETE FROM INVENTORYPRODUCT WHERE INVNID = ? ";
-				
 	private static final String addProductQuery = 
 			"INSERT INTO "
 			+ "INVENTORYPRODUCT (INVNID, PRODID) "
 			+ "VALUES (?, ?) ";
+			
 	
 	@Override
 	public void create(Connection connection, Inventory inv, Integer userId) throws SQLException, DaoException {
@@ -138,48 +136,30 @@ public class InventoryDaoImpl implements InventoryDao {
 		
 	}
 
-	public int update(Connection connection, Inventory inv) throws SQLException, DaoException {
-		if(inv.getInvnId() == null)
-		{
+	
+	@Override
+	public void addProduct(Connection connection, Integer prodId, Integer invnId) throws SQLException, DaoException {
+		if(prodId == null) {
+			throw new DaoException("ProdId cannot be null!");
+		}
+		if(invnId == null) {
 			throw new DaoException("InvnId cannot be null!");
 		}
-		
 		PreparedStatement statement = null;
 		try 
 		{	
-			statement = connection.prepareStatement(deleteProductsQuery);
-			statement.setInt(1, inv.getInvnId());
+			statement = connection.prepareStatement(addProductQuery);
+			statement.setInt(1, invnId);
+			statement.setInt(2, prodId);
 			statement.executeUpdate();
 		}
 		finally
 		{
-			if (statement != null && !statement.isClosed()) 
-			{
+			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
 		}
-		int count = 0;
-		for (Product prod : inv.getProducts())
-		{
-			statement = null;
-			try 
-			{	
-				statement = connection.prepareStatement(addProductQuery);
-				statement.setInt(1, inv.getInvnId());
-				statement.setInt(2, prod.getProdId());
-				statement.executeUpdate();
-				count += 1;
-			}
-			finally
-			{
-				if (statement != null && !statement.isClosed()) 
-				{
-					statement.close();
-				}
-			}
-		}
-		return count;
-		
 	}
+
 
 }

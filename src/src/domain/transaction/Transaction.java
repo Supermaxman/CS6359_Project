@@ -1,7 +1,7 @@
 package src.domain.transaction;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
+import java.util.List;
 
 import domain.product.Product;
 
@@ -9,7 +9,7 @@ public class Transaction {
 	private Integer trxnId;
 	private Date date;
 	private double price;
-	private ArrayList<Product> products;
+	private List<Product> products;
 	
 	public Integer getTrxnId() {
 		return trxnId;
@@ -29,10 +29,10 @@ public class Transaction {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	public ArrayList<Product> getProducts() {
+	public List<Product> getProducts() {
 		return products;
 	}
-	public void setProducts(ArrayList<Product> products) {
+	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
 	public void addProduct(Product product) {

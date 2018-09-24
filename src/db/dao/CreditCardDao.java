@@ -7,10 +7,10 @@ import domain.user.CreditCard;
 
 public interface CreditCardDao {
 	
-	CreditCard create(Connection connection, CreditCard creditCard, Integer userId) throws SQLException, DaoException;
+	void create(Connection connection, CreditCard creditCard, Integer userId) throws SQLException, DaoException;
+
+	CreditCard retrieve(Connection connection, Integer cardId) throws SQLException, DaoException;
 	
 	CreditCard retrieveByUser(Connection connection, Integer userId) throws SQLException, DaoException;
-	
-	public int update(Connection connection, CreditCard creditCard) throws SQLException, DaoException;
 	
 }
