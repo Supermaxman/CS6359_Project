@@ -1,6 +1,5 @@
 package domain.user;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import src.domain.transaction.Transaction;
