@@ -14,4 +14,5 @@ public interface TransactionDao {
 	
 	public List<Transaction> retrieveByUser(Connection connection, Integer userId) throws SQLException, DaoException;
 	
+	
 }

@@ -38,6 +38,7 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 	private TransactionDao trxnDao = new TransactionDaoImpl();
 	private ProductDao prodDao = new ProductDaoImpl();
 	
+	
 	@Override
 	public void register(User user) throws SQLException, DaoException {
 		if (user.getAddress() == null) 
@@ -86,7 +87,6 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 			}
 		}
 	}
-
 	
 	@Override
 	public User retrieve(Integer id) throws SQLException, DaoException {
@@ -119,8 +119,7 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 			}
 		}
 	}
-	
-	
+		
 	public User validate(Login login) throws SQLException, DaoException {
 		Connection connection = db.getConnection();
 		
@@ -152,7 +151,6 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 			}
 		}
 	}
-
 	
 	private void buildUser(Connection connection, User user) throws SQLException, DaoException
 	{
@@ -176,5 +174,6 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 		user.setTransactions(transactions);
 		
 	}
+	
 	
 }

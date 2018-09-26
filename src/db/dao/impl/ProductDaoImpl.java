@@ -25,6 +25,11 @@ public class ProductDaoImpl implements ProductDao {
 			+ "FROM PRODUCT p "
 			+ "WHERE p.PRODID = ? ";
 
+	private static final String retrieveAllQuery = 
+			"SELECT "
+			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD "
+			+ "FROM PRODUCT p ";
+	
 	private static final String retrieveByTransactionQuery = 
 			"SELECT "
 			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD "
@@ -39,6 +44,21 @@ public class ProductDaoImpl implements ProductDao {
 			+ "JOIN INVENTORYPRODUCT ip ON p.PRODID = ip.PRODID "
 			+ "JOIN INVENTORY i ON ip.INVNID = i.INVNID "
 			+ "WHERE i.USERID = ? ";
+
+	private static final String retrieveByCartQuery = 
+			"SELECT "
+			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD "
+			+ "FROM PRODUCT p "
+			+ "JOIN CARTPRODUCT cp ON p.PRODID = cp.PRODID "
+			+ "WHERE cp.CARTID = ? ";
+
+	private static final String retrieveByInventoryQuery = 
+			"SELECT "
+			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD "
+			+ "FROM PRODUCT p "
+			+ "JOIN INVENTORYPRODUCT ip ON p.PRODID = ip.PRODID "
+			+ "WHERE ip.INVNID = ? ";
+	
 	
 	@Override
 	public void create(Connection connection, Product product) throws SQLException, DaoException {
@@ -105,6 +125,36 @@ public class ProductDaoImpl implements ProductDao {
 		}
 	}
 
+	@Override
+	public List<Product> retrieveAll(Connection connection) throws SQLException, DaoException {
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		try 
+		{	
+			statement = connection.prepareStatement(retrieveAllQuery);
+			rs = statement.executeQuery();
+			ArrayList<Product> products = new ArrayList<Product>();
+			
+			while(rs.next())
+			{
+				Product product = buildProduct(rs);
+				products.add(product);
+			}
+			return products;
+		}
+		finally
+		{
+			if (statement != null && !statement.isClosed()) 
+			{
+				statement.close();
+			}
+			if (rs != null && !rs.isClosed()) 
+			{
+				rs.close();
+			}
+		}
+	}
+	
 	@Override
 	public List<Product> retrieveByTransaction(Connection connection, Integer trxnId) throws SQLException, DaoException {
 		if(trxnId == null)
@@ -173,7 +223,74 @@ public class ProductDaoImpl implements ProductDao {
 		}
 	}
 
+	@Override
+	public List<Product> retrieveByCart(Connection connection, Integer cartId) throws SQLException, DaoException {
+		if(cartId == null)
+		{
+			throw new DaoException("CartId cannot be null!");
+		}
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		try 
+		{	
+			statement = connection.prepareStatement(retrieveByCartQuery);
+			statement.setInt(1, cartId);
+			rs = statement.executeQuery();
+			ArrayList<Product> products = new ArrayList<Product>();
+			while (rs.next())
+			{
+				Product product = buildProduct(rs);
+				products.add(product);
+			}
+			return products;
+		}
+		finally
+		{
+			if (statement != null && !statement.isClosed()) 
+			{
+				statement.close();
+			}
+			if (rs != null && !rs.isClosed()) 
+			{
+				rs.close();
+			}
+		}
+	}
 
+	@Override
+	public List<Product> retrieveByInventory(Connection connection, Integer invnId) throws SQLException, DaoException {
+		if(invnId == null)
+		{
+			throw new DaoException("InvnId cannot be null!");
+		}
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		try 
+		{	
+			statement = connection.prepareStatement(retrieveByInventoryQuery);
+			statement.setInt(1, invnId);
+			rs = statement.executeQuery();
+			ArrayList<Product> products = new ArrayList<Product>();
+			while (rs.next())
+			{
+				Product product = buildProduct(rs);
+				products.add(product);
+			}
+			return products;
+		}
+		finally
+		{
+			if (statement != null && !statement.isClosed()) 
+			{
+				statement.close();
+			}
+			if (rs != null && !rs.isClosed()) 
+			{
+				rs.close();
+			}
+		}
+	}
+	
 	private static Product buildProduct(ResultSet rs) throws SQLException {
 		//p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD
 		Product product = new Product();
@@ -185,4 +302,5 @@ public class ProductDaoImpl implements ProductDao {
 		return product;
 	}
 
+	
 }

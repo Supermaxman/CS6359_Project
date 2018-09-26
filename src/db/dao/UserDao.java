@@ -15,6 +15,7 @@ public interface UserDao {
 	public User retrieve(Connection conn, Integer id) throws SQLException, DaoException;
 	
 	public int update(Connection conn, User user) throws SQLException, DaoException;
-		
+	
+	
 }
 

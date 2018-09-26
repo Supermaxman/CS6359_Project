@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import db.dao.DaoException;
 import db.dao.PaintingDao;
@@ -23,7 +25,13 @@ public class PaintingDaoImpl implements PaintingDao {
 			+ "JOIN PAINTING i ON p.PRODID = i.PRODID "
 			+ "WHERE p.PRODID = ? ";
 
+	private static final String retrieveAllQuery = 
+			"SELECT "
+			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, i.CANVASTYPE, i.PAINTTYPE, i.LENGTH, i.WIDTH "
+			+ "FROM PRODUCT p "
+			+ "JOIN PAINTING i ON p.PRODID = i.PRODID ";
 
+	
 	@Override
 	public void create(Connection connection, Painting product) throws SQLException, DaoException {
 		if(product.getProdId() == null) {
@@ -48,7 +56,6 @@ public class PaintingDaoImpl implements PaintingDao {
 			}
 		}
 	}
-
 
 	@Override
 	public Painting retrieve(Connection connection, Integer prodId) throws SQLException, DaoException {
@@ -84,6 +91,36 @@ public class PaintingDaoImpl implements PaintingDao {
 		}
 	}
 
+	@Override
+	public List<Painting> retrieveAll(Connection connection) throws SQLException, DaoException {
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		try 
+		{	
+			statement = connection.prepareStatement(retrieveAllQuery);
+			rs = statement.executeQuery();
+			ArrayList<Painting> paintings = new ArrayList<Painting>();
+			
+			while(rs.next())
+			{
+				Painting painting = buildPainting(rs);
+				paintings.add(painting);
+			}
+			return paintings;
+		}
+		finally
+		{
+			if (statement != null && !statement.isClosed()) 
+			{
+				statement.close();
+			}
+			if (rs != null && !rs.isClosed()) 
+			{
+				rs.close();
+			}
+		}
+	}
+		
 	private static Painting buildPainting(ResultSet rs) throws SQLException {
 		//p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, i.CANVASTYPE, i.PAINTTYPE, i.LENGTH, i.WIDTH 
 		Painting painting = new Painting();

@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import db.dao.CartDao;
 import db.dao.DaoException;
@@ -25,14 +24,6 @@ public class CartDaoImpl implements CartDao {
 			+ "FROM CART "
 			+ "WHERE USERID = ?";
 	
-	private static final String retireveProductsQuery = 
-			"SELECT "
-			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD "
-			+ "FROM CART c "
-			+ "JOIN CARTPRODUCT cp ON c.CARTID = cp.CARTID "
-			+ "JOIN PRODUCT p on cp.PRODID = p.PRODID "
-			+ "WHERE c.USERID = ? ";
-
 	private static final String deleteProductsQuery = 
 			"DELETE FROM CARTPRODUCT WHERE CARTID = ? ";
 				
@@ -40,6 +31,7 @@ public class CartDaoImpl implements CartDao {
 			"INSERT INTO "
 			+ "CARTPRODUCT (CARTID, PRODID) "
 			+ "VALUES (?, ?) ";
+	
 	
 	@Override
 	public void create(Connection connection, Cart cart, Integer userId) throws SQLException, DaoException {
@@ -79,7 +71,6 @@ public class CartDaoImpl implements CartDao {
 		}
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		Cart cart = null;
 		try 
 		{	
 			statement = connection.prepareStatement(retrieveQuery);
@@ -89,39 +80,8 @@ public class CartDaoImpl implements CartDao {
 			if(!found) {
 				return null;
 			}
-			cart = new Cart();
+			Cart cart = new Cart();
 			cart.setCartId(rs.getInt(1));
-		}
-		finally
-		{
-			if (statement != null && !statement.isClosed()) 
-			{
-				statement.close();
-			}
-			if (rs != null && !rs.isClosed()) 
-			{
-				rs.close();
-			}
-		}
-		
-		statement = null;
-		rs = null;
-		try 
-		{	
-			ArrayList<Product> products = new ArrayList<Product>();
-			statement = connection.prepareStatement(retireveProductsQuery);
-			statement.setInt(1, userId);
-			rs = statement.executeQuery();
-			while (rs.next()) {
-				Product product = new Product();
-				product.setProdId(rs.getInt(1));
-				product.setName(rs.getString(2));
-				product.setDescription(rs.getString(3));
-				product.setPrice(rs.getDouble(4));
-				products.add(product);
-			}
-			cart.setProducts(products);
-						
 			return cart;
 		}
 		finally
@@ -135,8 +95,6 @@ public class CartDaoImpl implements CartDao {
 				rs.close();
 			}
 		}
-		
-		
 	}
 
 	public int update(Connection connection, Cart cart) throws SQLException, DaoException {
@@ -183,4 +141,5 @@ public class CartDaoImpl implements CartDao {
 		
 	}
 
+	
 }

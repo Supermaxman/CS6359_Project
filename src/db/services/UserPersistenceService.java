@@ -13,4 +13,6 @@ public interface UserPersistenceService {
 	public User retrieve(Integer id) throws SQLException, DaoException;
 	
 	public User validate(Login login) throws SQLException, DaoException;
+	
+	
 }

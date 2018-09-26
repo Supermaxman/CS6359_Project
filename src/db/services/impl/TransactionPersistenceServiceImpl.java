@@ -6,36 +6,62 @@ import java.util.List;
 
 import db.DbManager;
 import db.dao.DaoException;
-import db.dao.InventoryDao;
-import db.dao.PaintingDao;
 import db.dao.ProductDao;
-import db.dao.impl.InventoryDaoImpl;
-import db.dao.impl.PaintingDaoImpl;
+import db.dao.TransactionDao;
 import db.dao.impl.ProductDaoImpl;
-import db.services.PaintingPersistenceService;
-import domain.product.Painting;
+import db.dao.impl.TransactionDaoImpl;
+import db.services.TransactionPersistenceService;
+import domain.product.Product;
+import domain.transaction.Transaction;
 
-public class PaintingPersistenceServiceImpl implements PaintingPersistenceService {
+public class TransactionPersistenceServiceImpl implements TransactionPersistenceService {
 
 	private DbManager db = new DbManager();
-	private InventoryDao inventoryDao = new InventoryDaoImpl();
+	private TransactionDao trxnDao = new TransactionDaoImpl();
 	private ProductDao prodDao = new ProductDaoImpl();
-	private PaintingDao paintDao = new PaintingDaoImpl();
 	
 	
 	@Override
-	public void create(Painting painting, Integer invnId) throws SQLException, DaoException {
+	public void create(Transaction trxn, Integer userId) throws SQLException, DaoException {
 		Connection connection = db.getConnection();
-		
 		try 
 		{
 			connection.setAutoCommit(false);
-			
-			prodDao.create(connection, painting);
-			paintDao.create(connection, painting);
-			inventoryDao.addProduct(connection, painting.getProdId(), invnId);
+			trxnDao.create(connection, trxn, userId);
 			
 			connection.commit();
+		}
+		catch (Exception ex) 
+		{
+			connection.rollback();
+			throw ex;
+		}
+		finally 
+		{
+			if (connection != null) 
+			{
+				connection.setAutoCommit(true);
+				if (!connection.isClosed())
+				{
+					connection.close();
+				}
+			}
+		}		
+	}
+
+	@Override
+	public Transaction retrieve(Integer trxnId) throws SQLException, DaoException {
+		Connection connection = db.getConnection();
+		try 
+		{
+			connection.setAutoCommit(false);
+			Transaction trxn = trxnDao.retrieve(connection, trxnId);
+			
+			List<Product> prods = prodDao.retrieveByTransaction(connection, trxnId);
+			trxn.setProducts(prods);
+			
+			connection.commit();
+			return trxn;
 		}
 		catch (Exception ex) 
 		{
@@ -55,52 +81,22 @@ public class PaintingPersistenceServiceImpl implements PaintingPersistenceServic
 		}
 	}
 
-	
 	@Override
-	public List<Painting> retrieveAll() throws SQLException, DaoException {
+	public List<Transaction> retrieveByUser(Integer userId) throws SQLException, DaoException {
 		Connection connection = db.getConnection();
-		
 		try 
 		{
 			connection.setAutoCommit(false);
-
-			List<Painting> paintings = paintDao.retrieveAll(connection);
+			List<Transaction> trxns = trxnDao.retrieveByUser(connection, userId);
 			
-			connection.commit();
-			return paintings;
-		}
-		catch (Exception ex) 
-		{
-			connection.rollback();
-			throw ex;
-		}
-		finally 
-		{
-			if (connection != null) 
+			for (Transaction trxn : trxns)
 			{
-				connection.setAutoCommit(true);
-				if (!connection.isClosed())
-				{
-					connection.close();
-				}
+				List<Product> prods = prodDao.retrieveByTransaction(connection, trxn.getTrxnId());
+				trxn.setProducts(prods);
 			}
-		}
-			
-	}
-	
-
-	@Override
-	public Painting retrieve(Integer prodId) throws SQLException, DaoException {
-		Connection connection = db.getConnection();
-		
-		try 
-		{
-			connection.setAutoCommit(false);
-
-			Painting painting = paintDao.retrieve(connection, prodId);
-			
+						
 			connection.commit();
-			return painting;
+			return trxns;
 		}
 		catch (Exception ex) 
 		{

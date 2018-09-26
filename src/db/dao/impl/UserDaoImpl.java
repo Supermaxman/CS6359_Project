@@ -142,7 +142,6 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 	
-
 	@Override
 	public int update(Connection conn, User user) throws SQLException, DaoException {
 		if(user.getUserId() == null)
@@ -184,5 +183,6 @@ public class UserDaoImpl implements UserDao {
 		user.setAddress(rs.getString(5));
 		return user;
 	}
+	
 	
 }

@@ -9,4 +9,5 @@ public interface InventoryPersistenceService {
 
 	public Inventory retrieve(Integer userId) throws SQLException, DaoException;
 	
+	
 }

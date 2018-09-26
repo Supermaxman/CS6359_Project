@@ -20,21 +20,17 @@ public interface MyDB {
 -- Mon Sep 17 01:32:56 2018
 -- Model: New Model    Version: 1.0
 -- MySQL Workbench Forward Engineering
-
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
-
 -- -----------------------------------------------------
 -- Schema artkart
 -- -----------------------------------------------------
-
 -- -----------------------------------------------------
 -- Schema artkart
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `artkart` DEFAULT CHARACTER SET utf8 ;
 USE `artkart` ;
-
 -- -----------------------------------------------------
 -- Table `artkart`.`User`
 -- -----------------------------------------------------
@@ -47,8 +43,6 @@ CREATE TABLE IF NOT EXISTS `artkart`.`User` (
   PRIMARY KEY (`userId`),
   UNIQUE INDEX `User_userId_UNIQUE` (`userId` ASC),
   UNIQUE INDEX `User_username_UNIQUE` (`username` ASC));
-
-
 -- -----------------------------------------------------
 -- Table `artkart`.`CreditCard`
 -- -----------------------------------------------------
@@ -66,8 +60,6 @@ CREATE TABLE IF NOT EXISTS `artkart`.`CreditCard` (
     REFERENCES `artkart`.`User` (`userId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
-
 -- -----------------------------------------------------
 -- Table `artkart`.`Cart`
 -- -----------------------------------------------------
@@ -82,8 +74,6 @@ CREATE TABLE IF NOT EXISTS `artkart`.`Cart` (
     REFERENCES `artkart`.`User` (`userId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
-
 -- -----------------------------------------------------
 -- Table `artkart`.`Inventory`
 -- -----------------------------------------------------
@@ -98,8 +88,6 @@ CREATE TABLE IF NOT EXISTS `artkart`.`Inventory` (
     REFERENCES `artkart`.`User` (`userId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
-
 -- -----------------------------------------------------
 -- Table `artkart`.`Product`
 -- -----------------------------------------------------
@@ -108,18 +96,9 @@ CREATE TABLE IF NOT EXISTS `artkart`.`Product` (
   `name` VARCHAR(255) NOT NULL,
   `description` VARCHAR(2000) NULL,
   `price` DOUBLE NOT NULL,
-  `sellerId` INT NOT NULL,
   `isSold` TINYINT NOT NULL,
   PRIMARY KEY (`prodId`),
-  UNIQUE INDEX `Product_prodId_UNIQUE` (`prodId` ASC),
-  INDEX `Product_sellerId_idx` (`sellerId` ASC),
-  CONSTRAINT `fk_Product_User_sellerId`
-    FOREIGN KEY (`sellerId`)
-    REFERENCES `artkart`.`User` (`userId`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
-
-
+  UNIQUE INDEX `Product_prodId_UNIQUE` (`prodId` ASC));
 -- -----------------------------------------------------
 -- Table `artkart`.`InventoryProduct`
 -- -----------------------------------------------------
@@ -138,8 +117,6 @@ CREATE TABLE IF NOT EXISTS `artkart`.`InventoryProduct` (
     REFERENCES `artkart`.`Product` (`prodId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
-
 -- -----------------------------------------------------
 -- Table `artkart`.`CartProduct`
 -- -----------------------------------------------------
@@ -158,8 +135,6 @@ CREATE TABLE IF NOT EXISTS `artkart`.`CartProduct` (
     REFERENCES `artkart`.`Product` (`prodId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
-
 -- -----------------------------------------------------
 -- Table `artkart`.`Transaction`
 -- -----------------------------------------------------
@@ -176,8 +151,6 @@ CREATE TABLE IF NOT EXISTS `artkart`.`Transaction` (
     REFERENCES `artkart`.`User` (`userId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
-
 -- -----------------------------------------------------
 -- Table `artkart`.`TransactionProduct`
 -- -----------------------------------------------------
@@ -196,8 +169,6 @@ CREATE TABLE IF NOT EXISTS `artkart`.`TransactionProduct` (
     REFERENCES `artkart`.`Product` (`prodId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
-
 -- -----------------------------------------------------
 -- Table `artkart`.`Painting`
 -- -----------------------------------------------------
@@ -214,8 +185,6 @@ CREATE TABLE IF NOT EXISTS `artkart`.`Painting` (
     REFERENCES `artkart`.`Product` (`prodId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
-
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
