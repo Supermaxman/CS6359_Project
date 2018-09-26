@@ -17,5 +17,7 @@ public interface ProductDao extends ProductCategoryDao<Product> {
 	
 	public List<Product> retrieveByInventory(Connection connection, Integer invnId) throws SQLException, DaoException;
 	
+	public int update(Connection connection, Product prod) throws SQLException, DaoException;
+	
 	
 }

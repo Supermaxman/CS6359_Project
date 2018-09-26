@@ -59,6 +59,14 @@ public class ProductDaoImpl implements ProductDao {
 			+ "JOIN INVENTORYPRODUCT ip ON p.PRODID = ip.PRODID "
 			+ "WHERE ip.INVNID = ? ";
 	
+	private static final String updateQuery = 
+			"UPDATE PRODUCT "
+			+ "SET NAME = ?, "
+			+ "DESCRIPTION = ?, "
+			+ "PRICE = ?, "
+			+ "ISSOLD = ? "
+			+ "WHERE PRODID = ? ";
+	
 	
 	@Override
 	public void create(Connection connection, Product product) throws SQLException, DaoException {
@@ -287,6 +295,38 @@ public class ProductDaoImpl implements ProductDao {
 			if (rs != null && !rs.isClosed()) 
 			{
 				rs.close();
+			}
+		}
+	}
+
+	@Override
+	public int update(Connection conn, Product prod) throws SQLException, DaoException {
+		if(prod.getProdId() == null)
+		{
+			throw new DaoException("ProdId cannot be null!");
+		}
+		
+		PreparedStatement statement = null;
+		try 
+		{	
+			statement = conn.prepareStatement(updateQuery);
+			statement.setString(1, prod.getName());
+			statement.setString(2, prod.getDescription());
+			statement.setDouble(3, prod.getPrice());
+			statement.setBoolean(4, prod.isSold());
+			statement.setInt(5, prod.getProdId());
+			int result = statement.executeUpdate();
+			if(result != 1)
+			{
+				throw new DaoException("Unable to update product!");
+			}
+			return result;
+		}
+		finally
+		{
+			if (statement != null && !statement.isClosed()) 
+			{
+				statement.close();
 			}
 		}
 	}

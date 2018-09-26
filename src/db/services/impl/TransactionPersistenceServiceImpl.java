@@ -28,6 +28,10 @@ public class TransactionPersistenceServiceImpl implements TransactionPersistence
 		{
 			connection.setAutoCommit(false);
 			trxnDao.create(connection, trxn, userId);
+			for (Product prod : trxn.getProducts())
+			{
+				prodDao.update(connection, prod);
+			}
 			
 			connection.commit();
 		}
