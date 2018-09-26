@@ -1,4 +1,4 @@
-package src.domain.transaction;
+package domain.transaction;
 
 import java.sql.Date;
 import java.util.List;

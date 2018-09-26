@@ -11,7 +11,7 @@ import java.util.List;
 import db.dao.DaoException;
 import db.dao.TransactionDao;
 import domain.product.Product;
-import src.domain.transaction.Transaction;
+import domain.transaction.Transaction;
 
 public class TransactionDaoImpl implements TransactionDao {
 		

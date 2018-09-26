@@ -2,7 +2,7 @@ package domain.user;
 
 import java.util.List;
 
-import src.domain.transaction.Transaction;
+import domain.transaction.Transaction;
 
 public class User {
 

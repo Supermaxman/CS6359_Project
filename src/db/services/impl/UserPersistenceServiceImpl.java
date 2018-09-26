@@ -21,12 +21,12 @@ import db.dao.impl.TransactionDaoImpl;
 import db.dao.impl.UserDaoImpl;
 import db.services.UserPersistenceService;
 import domain.product.Product;
+import domain.transaction.Transaction;
 import domain.user.Cart;
 import domain.user.CreditCard;
 import domain.user.Inventory;
 import domain.user.Login;
 import domain.user.User;
-import src.domain.transaction.Transaction;
 
 public class UserPersistenceServiceImpl implements UserPersistenceService {
 
