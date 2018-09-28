@@ -131,8 +131,8 @@ public class PaintingDaoImpl implements PaintingDao {
 		painting.setSold(rs.getBoolean(5));
 		painting.setCanvasType(rs.getString(6));
 		painting.setPaintType(rs.getString(7));
-		painting.setWidth(rs.getDouble(8));
-		painting.setLength(rs.getDouble(9));
+		painting.setLength(rs.getDouble(8));
+		painting.setWidth(rs.getDouble(9));
 		return painting;
 	}
 
