@@ -12,7 +12,7 @@ public interface ProductCategoryPersistenceService<T extends Product> {
 
 	public List<T> retrieveAll() throws SQLException, DaoException;
 	
-	public Product retrieve(Integer prodId) throws SQLException, DaoException;
+	public T retrieve(Integer prodId) throws SQLException, DaoException;
 	
 	
 }

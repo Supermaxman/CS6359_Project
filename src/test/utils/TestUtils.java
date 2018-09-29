@@ -127,6 +127,8 @@ public class TestUtils {
 		assertEquals(a.getInvnId(), b.getInvnId());
 		List<Product> aProds = a.getProducts();
 		List<Product> bProds = b.getProducts();
+		
+		assertEquals(aProds.size(), bProds.size());
 		for (int i = 0; i < aProds.size(); i++) {
 			assertEqual(aProds.get(i), bProds.get(i));
 		}
@@ -148,5 +150,18 @@ public class TestUtils {
 		assertEquals(a.getCardId(), b.getCardId());
 		assertEquals(a.getExpDate(), b.getExpDate());
 		assertEquals(a.getCcv(), b.getCcv());
+	}
+
+	public static Painting generatePainting() throws Exception {
+		Painting testPaint = new Painting();
+		testPaint.setName("Stary Night");
+		testPaint.setDescription("Pretty!");
+		testPaint.setSold(false);
+		testPaint.setPrice(1000.0);
+		testPaint.setCanvasType("Paper");
+		testPaint.setPaintType("Oil");
+		testPaint.setLength(15.0);
+		testPaint.setWidth(10.0);
+		return testPaint;
 	}
 }
