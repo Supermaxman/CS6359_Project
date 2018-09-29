@@ -1,7 +1,5 @@
 package test.dao;
 
-import static org.junit.Assert.*;
-
 import java.sql.Connection;
 import java.sql.Date;
 
@@ -16,6 +14,7 @@ import db.dao.impl.CreditCardDaoImpl;
 import db.dao.impl.UserDaoImpl;
 import domain.user.CreditCard;
 import domain.user.User;
+import test.utils.TestUtils;
 
 public class CreditCardDaoTest {
 
@@ -24,7 +23,7 @@ public class CreditCardDaoTest {
 	private UserDao userDao = new UserDaoImpl();
 	private Connection conn;
 	private User testUser;
-	private CreditCard test;
+	private CreditCard testCard;
 	
 	
 	@SuppressWarnings("deprecation")
@@ -41,10 +40,10 @@ public class CreditCardDaoTest {
 		
 		userDao.register(conn, testUser);
 		
-		test = new CreditCard();
-		test.setNumber("1234");
-		test.setExpDate(new Date(2019, 1, 1));
-		test.setCcv("111");
+		testCard = new CreditCard();
+		testCard.setNumber("1234");
+		testCard.setExpDate(new Date(2019, 1, 1));
+		testCard.setCcv("111");
 		
 	}
 
@@ -58,25 +57,19 @@ public class CreditCardDaoTest {
 
 	@Test
 	public void testCreateRetrieve() throws Exception {
-		testDao.create(conn, test, testUser.getUserId());
+		testDao.create(conn, testCard, testUser.getUserId());
 		
-		CreditCard saved = testDao.retrieve(conn, test.getCardId());
-		assertEqual(test, saved);
+		CreditCard saved = testDao.retrieve(conn, testCard.getCardId());
+		TestUtils.assertEqual(testCard, saved);
 	}
 
 	@Test
 	public void testRetrieveByUser() throws Exception {
-		testDao.create(conn, test, testUser.getUserId());
+		testDao.create(conn, testCard, testUser.getUserId());
 		
 		CreditCard saved = testDao.retrieveByUser(conn, testUser.getUserId());
-		assertEqual(test, saved);
+		TestUtils.assertEqual(testCard, saved);
 	}
 	
-	private void assertEqual(CreditCard a, CreditCard b)
-	{
-		assertEquals(a.getCardId(), b.getCardId());
-		assertEquals(a.getExpDate(), b.getExpDate());
-		assertEquals(a.getCcv(), b.getCcv());
-	}
-
+	
 }

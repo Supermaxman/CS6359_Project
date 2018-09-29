@@ -27,6 +27,7 @@ import domain.transaction.Transaction;
 import domain.user.Cart;
 import domain.user.Inventory;
 import domain.user.User;
+import test.utils.TestUtils;
 
 public class ProductDaoTest {
 
@@ -37,7 +38,7 @@ public class ProductDaoTest {
 	private CartDao cartDao = new CartDaoImpl();
 	private TransactionDao trxnDao = new TransactionDaoImpl();
 	private Connection conn;
-	private Product test;
+	private Product testProd;
 	private User testUser;
 	private Inventory testInvn;
 	private Cart testCart;
@@ -49,12 +50,12 @@ public class ProductDaoTest {
 		conn = db.getConnection();
 		conn.setAutoCommit(false);
 
-		test = new Product();
-		test.setName("Stary Night");
-		test.setDescription("Pretty!");
-		test.setSold(false);
+		testProd = new Product();
+		testProd.setName("Stary Night");
+		testProd.setDescription("Pretty!");
+		testProd.setSold(false);
 
-		testDao.create(conn, test);
+		testDao.create(conn, testProd);
 		
 		testUser = new User();
 		testUser.setUsername("Max");
@@ -67,15 +68,15 @@ public class ProductDaoTest {
 		testInvn = new Inventory();
 		testInvn.setProducts(new ArrayList<Product>());
 		invnDao.create(conn, testInvn, testUser.getUserId());
-		testInvn.addProduct(test);
-		invnDao.addProduct(conn, test.getProdId(), testInvn.getInvnId());
+		testInvn.addProduct(testProd);
+		invnDao.addProduct(conn, testProd.getProdId(), testInvn.getInvnId());
 		testUser.setInventory(testInvn);
 		
 		testCart = new Cart();
 		testCart.setProducts(new ArrayList<Product>());
 		
 		cartDao.create(conn, testCart, testUser.getUserId());
-		testCart.addProduct(test);
+		testCart.addProduct(testProd);
 		cartDao.update(conn, testCart);
 		testUser.setCart(testCart);
 		
@@ -86,7 +87,7 @@ public class ProductDaoTest {
 		testUser.setTransactions(new ArrayList<Transaction>());
 		testUser.addTransaction(testTrxn);
 		
-		testTrxn.addProduct(test);
+		testTrxn.addProduct(testProd);
 		
 		trxnDao.create(conn, testTrxn, testUser.getUserId());
 		
@@ -103,26 +104,26 @@ public class ProductDaoTest {
 
 	@Test
 	public void testCreateRetrieve() throws Exception {		
-		Product saved = testDao.retrieve(conn, test.getProdId());
-		assertEqual(test, saved);
+		Product saved = testDao.retrieve(conn, testProd.getProdId());
+		TestUtils.assertEqual(testProd, saved);
 	}
 	
 	@Test
 	public void testRetrieveAll() throws Exception {
 		List<Product> saved = testDao.retrieveAll(conn);
 		assertEquals(saved.size(), 1);
-		assertEqual(test, saved.get(0));
+		TestUtils.assertEqual(testProd, saved.get(0));
 	}
 	
 	@Test
 	public void testUpdate() throws Exception {
-		test.setName("Very Stary Night");
+		testProd.setName("Very Stary Night");
 				
-		int count = testDao.update(conn, test);
+		int count = testDao.update(conn, testProd);
 		assertEquals(count, 1);
 		
-		Product saved = testDao.retrieve(conn, test.getProdId());
-		assertEqual(test, saved);
+		Product saved = testDao.retrieve(conn, testProd.getProdId());
+		TestUtils.assertEqual(testProd, saved);
 	}
 	
 	@Test
@@ -130,7 +131,7 @@ public class ProductDaoTest {
 		List<Product> saved = testDao.retrieveByCart(conn, testCart.getCartId());
 
 		assertEquals(saved.size(), 1);
-		assertEqual(test, saved.get(0));
+		TestUtils.assertEqual(testProd, saved.get(0));
 	}
 
 	@Test
@@ -138,7 +139,7 @@ public class ProductDaoTest {
 		List<Product> saved = testDao.retrieveByInventory(conn, testInvn.getInvnId());
 		
 		assertEquals(saved.size(), 1);
-		assertEqual(test, saved.get(0));
+		TestUtils.assertEqual(testProd, saved.get(0));
 	}
 
 	@Test
@@ -146,7 +147,7 @@ public class ProductDaoTest {
 		List<Product> saved = testDao.retrieveBySeller(conn, testUser.getUserId());
 		
 		assertEquals(saved.size(), 1);
-		assertEqual(test, saved.get(0));
+		TestUtils.assertEqual(testProd, saved.get(0));
 	}
 
 	@Test
@@ -154,14 +155,7 @@ public class ProductDaoTest {
 		List<Product> saved = testDao.retrieveByTransaction(conn, testTrxn.getTrxnId());
 		
 		assertEquals(saved.size(), 1);
-		assertEqual(test, saved.get(0));
+		TestUtils.assertEqual(testProd, saved.get(0));
 	}
 	
-	private void assertEqual(Product a, Product b) throws Exception {
-		assertEquals(a.getProdId(), b.getProdId());
-		assertEquals(a.getName(), b.getName());
-		assertEquals(a.getDescription(), b.getDescription());
-		assertEquals(a.isSold(), b.isSold());
-		assertEquals(a.getPrice(), b.getPrice(), 0.001);
-	}
 }

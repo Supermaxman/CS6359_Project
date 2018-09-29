@@ -1,7 +1,5 @@
 package test.dao;
 
-import static org.junit.Assert.*;
-
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +18,7 @@ import db.dao.impl.UserDaoImpl;
 import domain.product.Product;
 import domain.user.Inventory;
 import domain.user.User;
+import test.utils.TestUtils;
 
 public class InventoryDaoTest {
 
@@ -28,7 +27,7 @@ public class InventoryDaoTest {
 	private UserDao userDao = new UserDaoImpl();
 	private ProductDao prodDao = new ProductDaoImpl();
 	private Connection conn;
-	private Inventory test;
+	private Inventory testInvn;
 	private User testUser;
 	private Product testProd;
 	
@@ -52,8 +51,8 @@ public class InventoryDaoTest {
 		
 		userDao.register(conn, testUser);
 				
-		test = new Inventory();
-		test.setProducts(new ArrayList<Product>());
+		testInvn = new Inventory();
+		testInvn.setProducts(new ArrayList<Product>());
 				
 	}
 
@@ -67,37 +66,21 @@ public class InventoryDaoTest {
 
 	@Test
 	public void testCreateRetrieve() throws Exception {
-		testDao.create(conn, test, testUser.getUserId());
+		testDao.create(conn, testInvn, testUser.getUserId());
 		Inventory saved = testDao.retrieveByUser(conn, testUser.getUserId());
-		assertEqual(test, saved);
+		TestUtils.assertEqual(testInvn, saved);
 	}
 
 	@Test
 	public void testAddProduct() throws Exception {
-		testDao.create(conn, test, testUser.getUserId());
-		test.addProduct(testProd);
-		testDao.addProduct(conn, testProd.getProdId(), test.getInvnId());
+		testDao.create(conn, testInvn, testUser.getUserId());
+		testInvn.addProduct(testProd);
+		testDao.addProduct(conn, testProd.getProdId(), testInvn.getInvnId());
 		Inventory saved = testDao.retrieveByUser(conn, testUser.getUserId());
-		List<Product> savedProds = prodDao.retrieveByInventory(conn, test.getInvnId());
+		List<Product> savedProds = prodDao.retrieveByInventory(conn, testInvn.getInvnId());
 		saved.setProducts(savedProds);
-		assertEqual(test, saved);
+		TestUtils.assertEqual(testInvn, saved);
 	}
-	
-	private void assertEqual(Inventory a, Inventory b) throws Exception {
-		assertEquals(a.getInvnId(), b.getInvnId());
-		List<Product> aProds = a.getProducts();
-		List<Product> bProds = b.getProducts();
-		for (int i = 0; i < aProds.size(); i++) {
-			assertEqual(aProds.get(i), bProds.get(i));
-		}
-	}
-	
-	private void assertEqual(Product a, Product b) throws Exception {
-		assertEquals(a.getProdId(), b.getProdId());
-		assertEquals(a.getName(), b.getName());
-		assertEquals(a.getDescription(), b.getDescription());
-		assertEquals(a.isSold(), b.isSold());
-		assertEquals(a.getPrice(), b.getPrice(), 0.001);
-	}
+		
 
 }

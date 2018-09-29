@@ -28,7 +28,7 @@ public class CartDaoTest {
 	private UserDao userDao = new UserDaoImpl();
 	private ProductDao prodDao = new ProductDaoImpl();
 	private Connection conn;
-	private Cart test;
+	private Cart testCart;
 	private User testUser;
 	private Product testProd;
 	
@@ -52,8 +52,8 @@ public class CartDaoTest {
 		
 		userDao.register(conn, testUser);
 				
-		test = new Cart();
-		test.setProducts(new ArrayList<Product>());
+		testCart = new Cart();
+		testCart.setProducts(new ArrayList<Product>());
 				
 	}
 
@@ -67,21 +67,21 @@ public class CartDaoTest {
 
 	@Test
 	public void testCreateRetrieve() throws Exception {
-		testDao.create(conn, test, testUser.getUserId());
+		testDao.create(conn, testCart, testUser.getUserId());
 		Cart saved = testDao.retrieveByUser(conn, testUser.getUserId());
-		assertEqual(test, saved);
+		assertEqual(testCart, saved);
 	}
 	
 	@Test
 	public void testUpdate() throws Exception {
-		testDao.create(conn, test, testUser.getUserId());
-		test.addProduct(testProd);
-		int count = testDao.update(conn, test);
+		testDao.create(conn, testCart, testUser.getUserId());
+		testCart.addProduct(testProd);
+		int count = testDao.update(conn, testCart);
 		assertEquals(count, 1);
 		Cart saved = testDao.retrieveByUser(conn, testUser.getUserId());
-		List<Product> prods = prodDao.retrieveByCart(conn, test.getCartId());
+		List<Product> prods = prodDao.retrieveByCart(conn, testCart.getCartId());
 		saved.setProducts(prods);
-		assertEqual(test, saved);
+		assertEqual(testCart, saved);
 	}
 		
 	private void assertEqual(Cart a, Cart b) throws Exception {

@@ -1,7 +1,5 @@
 package test.dao;
 
-import static org.junit.Assert.*;
-
 import java.sql.Connection;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -19,6 +17,7 @@ import db.dao.impl.UserDaoImpl;
 import domain.product.Product;
 import domain.transaction.Transaction;
 import domain.user.User;
+import test.utils.TestUtils;
 
 public class TransactionDaoTest {
 
@@ -26,7 +25,7 @@ public class TransactionDaoTest {
 	private TransactionDao testDao = new TransactionDaoImpl();
 	private UserDao userDao = new UserDaoImpl();
 	private Connection conn;
-	private Transaction test;
+	private Transaction testProd;
 	private List<Transaction> testList;
 	private User testUser;
 	
@@ -44,13 +43,13 @@ public class TransactionDaoTest {
 		
 		userDao.register(conn, testUser);
 		
-		test = new Transaction();
-		test.setDate(new Date(2016, 1, 1));
-		test.setPrice(50.0);
-		test.setProducts(new ArrayList<Product>());
+		testProd = new Transaction();
+		testProd.setDate(new Date(2016, 1, 1));
+		testProd.setPrice(50.0);
+		testProd.setProducts(new ArrayList<Product>());
 		
 		testList = new ArrayList<Transaction>();
-		testList.add(test);
+		testList.add(testProd);
 		Transaction secondTest = new Transaction();
 		secondTest.setDate(new Date(2015, 1, 1));
 		secondTest.setPrice(100.0);
@@ -68,10 +67,10 @@ public class TransactionDaoTest {
 
 	@Test
 	public void testCreateRetrieve() throws Exception {
-		testDao.create(conn, test, testUser.getUserId());
+		testDao.create(conn, testProd, testUser.getUserId());
 		
-		Transaction saved = testDao.retrieve(conn, test.getTrxnId());
-		assertEqual(test, saved);
+		Transaction saved = testDao.retrieve(conn, testProd.getTrxnId());
+		TestUtils.assertEqual(testProd, saved);
 	}
 
 	@Test
@@ -84,16 +83,10 @@ public class TransactionDaoTest {
 		List<Transaction> saved = testDao.retrieveByUser(conn, testUser.getUserId());
 		int idx = 0;
 		for (Transaction s : saved) {
-			assertEqual(s, testList.get(idx));
+			TestUtils.assertEqual(s, testList.get(idx));
 			idx++;
 		}
 		
 	}
 	
-	private void assertEqual(Transaction a, Transaction b)
-	{
-		assertEquals(a.getTrxnId(), b.getTrxnId());
-		assertEquals(a.getDate(), b.getDate());
-		assertEquals(a.getPrice(), b.getPrice(), 0.001);
-	}
 }

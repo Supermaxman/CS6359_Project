@@ -45,6 +45,10 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 		{
 			throw new DaoException("Address cannot be null!");
 		}
+		if (user.getCreditCard() == null)
+		{
+			throw new DaoException("Credit Card cannot be null!");
+		}
 		Connection connection = db.getConnection();
 		
 		try 
@@ -135,7 +139,6 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 		}
 		catch (Exception ex) 
 		{
-			System.out.println(ex);
 			connection.rollback();
 			return null;
 		}
@@ -156,9 +159,13 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 	{
 		int userId = user.getUserId();
 		Inventory inventory = inventoryDao.retrieveByUser(connection, userId);
+		List<Product> invnProds = prodDao.retrieveByInventory(connection, inventory.getInvnId());
+		inventory.setProducts(invnProds);
 		user.setInventory(inventory);
 		
 		Cart cart = cartDao.retrieveByUser(connection, userId);
+		List<Product> cartProds = prodDao.retrieveByCart(connection, cart.getCartId());
+		cart.setProducts(cartProds);
 		user.setCart(cart);
 		
 		CreditCard creditCard = creditCardDao.retrieveByUser(connection, userId);
