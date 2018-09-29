@@ -14,17 +14,14 @@ import org.junit.Test;
 import db.DbManager;
 import db.dao.CartDao;
 import db.dao.InventoryDao;
-import db.dao.PaintingDao;
 import db.dao.ProductDao;
 import db.dao.TransactionDao;
 import db.dao.UserDao;
 import db.dao.impl.CartDaoImpl;
 import db.dao.impl.InventoryDaoImpl;
-import db.dao.impl.PaintingDaoImpl;
 import db.dao.impl.ProductDaoImpl;
 import db.dao.impl.TransactionDaoImpl;
 import db.dao.impl.UserDaoImpl;
-import domain.product.Painting;
 import domain.product.Product;
 import domain.transaction.Transaction;
 import domain.user.Cart;
@@ -147,6 +144,14 @@ public class ProductDaoTest {
 	@Test
 	public void testRetrieveBySeller() throws Exception {
 		List<Product> saved = testDao.retrieveBySeller(conn, testUser.getUserId());
+		
+		assertEquals(saved.size(), 1);
+		assertEqual(test, saved.get(0));
+	}
+
+	@Test
+	public void testRetrieveByTransaction() throws Exception {
+		List<Product> saved = testDao.retrieveByTransaction(conn, testTrxn.getTrxnId());
 		
 		assertEquals(saved.size(), 1);
 		assertEqual(test, saved.get(0));
