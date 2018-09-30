@@ -30,32 +30,35 @@ public class LoginController extends HttpServlet {
 		String pass = request.getParameter("password");
 		String submitType = request.getParameter("submit");
 		Login login = new Login(username, pass);
-		User c = null;
+		User user = null;
 		try 
 		{
-			c = userService.validate(login);
+			user = userService.validate(login);
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
 		
-		if(submitType.equals("login") && c!=null && c.getName()!=null){
-			request.setAttribute("message", "Hello "+ c.getName());
+		if(submitType.equals("login") && user!=null && user.getName()!=null){
+			request.getSession().setAttribute("name", user.getName());
+			request.getSession().setAttribute("userId", user.getUserId());
+			request.getSession().setAttribute("invnId", user.getInventory().getInvnId());
+			request.getSession().setAttribute("cartId", user.getCart().getCartId());
 			request.getRequestDispatcher("homepage.jsp").forward(request, response);
 		}else if(submitType.equals("register")){
-			c = new User();
-			c.setUsername(request.getParameter("username"));
-			c.setPassword(request.getParameter("password"));
-			c.setName(request.getParameter("name"));
-			c.setAddress(request.getParameter("address"));
+			user = new User();
+			user.setUsername(request.getParameter("username"));
+			user.setPassword(request.getParameter("password"));
+			user.setName(request.getParameter("name"));
+			user.setAddress(request.getParameter("address"));
 			CreditCard card = new CreditCard();
 			card.setNumber(request.getParameter("number"));
 			card.setExpDate(Date.valueOf(request.getParameter("expdate")));
 			card.setCcv(request.getParameter("ccv"));
-			c.setCreditCard(card);
+			user.setCreditCard(card);
 			String message = "Registration done, please login!";
 			try 
 			{
-				userService.register(c);
+				userService.register(user);
 			} catch (Exception ex) {
 				System.out.println(ex);
 				message = "Unable to register user!";
