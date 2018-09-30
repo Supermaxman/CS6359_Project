@@ -13,45 +13,41 @@ import javax.servlet.http.HttpServletResponse;
 public class ProductController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public ProductController() {}
+	public ProductController() {
+	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String productId = req.getParameter("prodId");
 		String button1 = req.getParameter("Back");
-		
-		
+
 		Painting painting = domain.product.PaintingDAO.getPainting(productId);
-		
-		if(painting != null) {
+
+		if (painting != null) {
 			resp.setContentType("text/html");
-		    req.setAttribute("desc", painting.getDescription());
-		    req.setAttribute("canvType", painting.getCanvasType());
-		    req.setAttribute("leng", painting.getLength());
-		    req.setAttribute("name", painting.getName());
-		    req.setAttribute("paintType", painting.getPaintType());
-		    req.setAttribute("price", painting.getPrice());
-		    req.setAttribute("prodId", painting.getProdId());
-		   // req.setAttribute("seller", painting.getSeller());
-		    req.setAttribute("width", painting.getWidth());
-		    req.setAttribute("sold", painting.isSold());
-			RequestDispatcher rs = req.getRequestDispatcher("productdetails.jsp"); 
-            rs.forward(req, resp);
-		} 
-		else{
-			RequestDispatcher rs = req.getRequestDispatcher("Error.jsp"); 
+			req.setAttribute("desc", painting.getDescription());
+			req.setAttribute("canvType", painting.getCanvasType());
+			req.setAttribute("leng", painting.getLength());
+			req.setAttribute("name", painting.getName());
+			req.setAttribute("paintType", painting.getPaintType());
+			req.setAttribute("price", painting.getPrice());
+			req.setAttribute("prodId", painting.getProdId());
+			// req.setAttribute("seller", painting.getSeller());
+			req.setAttribute("width", painting.getWidth());
+			req.setAttribute("sold", painting.isSold());
+			RequestDispatcher rs = req.getRequestDispatcher("productdetails.jsp");
+			rs.forward(req, resp);
+		} else {
+			RequestDispatcher rs = req.getRequestDispatcher("Error.jsp");
 			rs.forward(req, resp);
 		}
-		
-		if(button1!=null)
-		{
-			RequestDispatcher rs = req.getRequestDispatcher("PaintingCategory.jsp"); 
+
+		if (button1 != null) {
+			RequestDispatcher rs = req.getRequestDispatcher("PaintingCategory.jsp");
 			rs.forward(req, resp);
 		}
-		
-		
-		
+
 	}
 
 }

@@ -36,6 +36,9 @@ public class Product {
 	public void setPrice(double price) {
 		this.price = price;
 	}
+	public void setPrice(String price) {
+		this.price = Double.parseDouble(price);
+	}
 	public boolean isSold() {
 		return isSold;
 	}

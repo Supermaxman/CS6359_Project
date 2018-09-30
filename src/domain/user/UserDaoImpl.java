@@ -35,8 +35,7 @@ public class UserDaoImpl implements UserDao {
 			ps.setString(4, c.getAddress());
 			status = ps.executeUpdate();
 
-			if(status == 1)
-			{
+			if (status == 1) {
 				try {
 					ResultSet key = ps.getGeneratedKeys();
 					key.next();
@@ -77,6 +76,11 @@ public class UserDaoImpl implements UserDao {
 			System.out.println(e);
 		}
 		return c;
+	}
+	
+	public User getUser(String userId) {
+		
+		return new User();
 	}
 
 }

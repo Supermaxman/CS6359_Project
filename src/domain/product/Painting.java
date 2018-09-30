@@ -24,11 +24,17 @@ public class Painting extends Product {
 	public void setLength(double length) {
 		this.length = length;
 	}
+	public void setLength(String length) {
+		this.length = Double.parseDouble(length);
+	}
 	public double getWidth() {
 		return width;
 	}
 	public void setWidth(double width) {
 		this.width = width;
+	}
+	public void setWidth(String width) {
+		this.width = Double.parseDouble(width);
 	}
 	
 	
