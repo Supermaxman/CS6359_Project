@@ -58,7 +58,7 @@ public class PaintingDAO {
 	}
 
 	private static final String ADD_PRODUCT_QUERY = "INSERT INTO PRODUCT (NAME, DESCRIPTION, PRICE, SELLERID, ISSOLD ) VALUES (?, ?, ?, ?, 0)";
-	private static final String ADD_PAINTING_QUERY = "INSERT INTO PRODUCT (NAME, DESCRIPTION, PRICE, SELLERID, ISSOLD ) VALUES (?, ?, ?, ?, 0)";
+	private static final String ADD_PAINTING_QUERY = "INSERT INTO PRODUCT (CANVASTYPE, PAINTTYPE, LENGTH, WIDTH) VALUES (?, ?, ?, ?, 0)";
 
 	public static boolean setPanting(Painting painting) {
 		DbManager db = new DbManager();
