@@ -21,7 +21,15 @@
 	Re-Type Password: <input type="password" name="retry-password" id="retry-password"> 
 	<br>
 	
-	Address: <input type="text" name="address"> <br>
+	Address: <input type="text" name="address"> 
+	<br>
+	Credit Card Number: <input type="text" name="number"> 
+	<br>	
+	ExpDate: <input type="text" name="expdate"> 
+	<br>	
+	CCV: <input type="text" name="ccv"> 
+	<br>
+	
 	<div id="password_error"></div><br>
 	<input type="submit" name="submit" value="register" >
 	<input type="reset" name="reset">

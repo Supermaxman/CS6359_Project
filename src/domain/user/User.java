@@ -1,8 +1,8 @@
 package domain.user;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import src.domain.transaction.Transaction;
+import domain.transaction.Transaction;
 
 public class User {
 
@@ -13,8 +13,8 @@ public class User {
 	private String address;
 	private Inventory inventory;
 	private Cart cart;
-	private ArrayList<Transaction> transactions;
-	private ArrayList<CreditCard> creditCards;
+	private CreditCard creditCard;
+	private List<Transaction> transactions;
 	
 	public String getUsername() {
 		return username;
@@ -64,11 +64,11 @@ public class User {
 		this.cart = cart;
 	}
 
-	public ArrayList<Transaction> getTransactions() {
+	public List<Transaction> getTransactions() {
 		return transactions;
 	}
 
-	public void setTransactions(ArrayList<Transaction> transactions) {
+	public void setTransactions(List<Transaction> transactions) {
 		this.transactions = transactions;
 	}
 
@@ -76,16 +76,13 @@ public class User {
 		this.transactions.add(txn);
 	}
 
-	public ArrayList<CreditCard> getCreditCards() {
-		return creditCards;
+	public CreditCard getCreditCard() {
+		return creditCard;
 	}
 
-	public void setCreditCards(ArrayList<CreditCard> creditCards) {
-		this.creditCards = creditCards;
+	public void setCreditCard(CreditCard creditCard) {
+		this.creditCard = creditCard;
 	}
 	
-	public void addCreditCard(CreditCard card) {
-		this.creditCards.add(card);
-	}
 }
 
