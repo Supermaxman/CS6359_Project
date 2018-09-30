@@ -10,7 +10,7 @@ package db;
 public interface MyDB {
 
 	String USER="root";
-	String PASS="maxwell1";
+	String PASS="logitech";
 	String CONN_URL="jdbc:mysql://127.0.0.1:3306/artkart";
 	
 	
