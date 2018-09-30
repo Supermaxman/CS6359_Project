@@ -39,9 +39,9 @@
  	</div>
  	<hr>
 	<%
-	Integer paintId = (Integer) request.getAttribute("prodId");
+	Integer prodId = (Integer) request.getAttribute("prodId");
 	PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
-	Painting paint = paintService.retrieve(paintId);
+	Painting paint = paintService.retrieve(prodId);
 	%>
 	<h3>Product Details</h3>
 	<h4>Name: <%=paint.getName()%></h4>
@@ -55,7 +55,7 @@
 	<br>
 	<% if (!paint.isSold()){ %>
 	<form name="addCartForm" action="CartController" method="post">
-		<input type="hidden" name="prodId" value="<%= paintId.toString() %>">
+		<input type="hidden" name="prodId" value="<%= prodId.toString() %>">
 		<input class="demo" type="submit" name="AddToCart" value = "Add to Cart" style="left: 460px;">
 	</form>
 	<% } %>
