@@ -11,7 +11,7 @@ import db.dao.DaoException;
 import domain.user.CreditCard;
 
 public class CreditCardDaoImpl implements CreditCardDao {
-	
+
 	private static final String createQuery = 
 			"INSERT INTO "
 			+ "CREDITCARD (USERID, NUMBER, EXPDATE, CCV) "
@@ -29,17 +29,15 @@ public class CreditCardDaoImpl implements CreditCardDao {
 			+ "FROM CREDITCARD "
 			+ "WHERE USERID = ? ";
 
-	
 	@Override
 	public void create(Connection connection, CreditCard creditCard, Integer userId) throws SQLException, DaoException {
-		if(creditCard.getCardId() != null) {
+		if (creditCard.getCardId() != null) {
 			throw new DaoException("CardId must be null!");
 		}
-		
+
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		try 
-		{	
+		try {
 			statement = connection.prepareStatement(createQuery, Statement.RETURN_GENERATED_KEYS);
 			statement.setInt(1, userId);
 			statement.setString(2, creditCard.getNumber());
@@ -49,9 +47,7 @@ public class CreditCardDaoImpl implements CreditCardDao {
 			rs = statement.getGeneratedKeys();
 			rs.next();
 			creditCard.setCardId(rs.getInt(1));
-		}
-		finally
-		{
+		} finally {
 			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
@@ -63,67 +59,53 @@ public class CreditCardDaoImpl implements CreditCardDao {
 
 	@Override
 	public CreditCard retrieve(Connection connection, Integer cardId) throws SQLException, DaoException {
-		if(cardId == null)
-		{
+		if (cardId == null) {
 			throw new DaoException("CardId cannot be null!");
 		}
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		try 
-		{	
+		try {
 			statement = connection.prepareStatement(retrieveQuery);
 			statement.setInt(1, cardId);
 			rs = statement.executeQuery();
 			boolean found = rs.next();
-			if(!found)
-			{
+			if (!found) {
 				return null;
 			}
 			CreditCard card = buildCreditCard(rs);
 			return card;
-		}
-		finally
-		{
-			if (statement != null && !statement.isClosed()) 
-			{
+		} finally {
+			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
-			if (rs != null && !rs.isClosed()) 
-			{
+			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
 		}
 	}
-	
+
 	@Override
 	public CreditCard retrieveByUser(Connection connection, Integer userId) throws SQLException, DaoException {
-		if(userId == null)
-		{
+		if (userId == null) {
 			throw new DaoException("UserId cannot be null!");
 		}
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		try 
-		{	
+		try {
 			statement = connection.prepareStatement(retrieveByUserQuery);
 			statement.setInt(1, userId);
 			rs = statement.executeQuery();
 			boolean found = rs.next();
-			if(!found)
-			{
+			if (!found) {
 				return null;
 			}
 			CreditCard card = buildCreditCard(rs);
 			return card;
-		}
-		finally
-		{
-			if (statement != null && !statement.isClosed()) 
-			{
+		} finally {
+			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
-			if (rs != null && !rs.isClosed()) 
-			{
+			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
 		}
@@ -137,6 +119,5 @@ public class CreditCardDaoImpl implements CreditCardDao {
 		card.setCcv(rs.getString(4));
 		return card;
 	}
-
 
 }

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>CategoryPage</title>
+<title>TransactionCompletePage</title>
 </head>
 <style>
 .content {
@@ -32,11 +32,7 @@
 		<a href="logout.jsp" >Logout</a>
  	</div>
  	<hr>
-	<h3 align="center" style="color:brown;"> Choose a category. </h3>
-	<h4 align="left"> Select from a list of product categories: </h4>
-	<hr>
-	<div class="menu" align = "Center">
-	<a href="paintings.jsp" >Paintings</a>
-	 </div>
+	<h3 align="center" style="color:brown;"> Transaction Complete </h3>
+	<h4 align="left"> Thanks for shopping at ArtKart, <%=name%>!  </h4>
 </body>
 </html> 

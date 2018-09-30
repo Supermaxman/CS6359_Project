@@ -23,17 +23,16 @@
 	Integer cartId = (Integer) sess.getAttribute("cartId");
 	String name = (String) sess.getAttribute("name");
 	%>
-	<h3 align="center" style="color:brown;"> <%out.print(name);%>, Welcome to ArtKart! </h3>
-	<h4 align="left"> We hope you have a great shopping experience! </h4>
-	<hr>
 	<div class="menu" align = "Center">
-		<a href="inventory.jsp">Inventory</a>
+		<a href="home.jsp">Home</a>
 		<a href="category.jsp">Category</a>
 		<a href="cart.jsp">Cart</a>
+		<a href="inventory.jsp">Inventory</a>
+		<a href="transactions.jsp">Transactions</a>
+		<a href="logout.jsp" >Logout</a>
  	</div>
-	<div class="content" align="right">
-		<p><%out.print(name);%></p>
-		<a href="logout.jsp" >logout</a>
-	</div>
+ 	<hr>
+	<h3 align="center" style="color:brown;"> <%=name%>, Welcome to ArtKart! </h3>
+	<h4 align="left"> We hope you have a great shopping experience! </h4>
 </body>
 </html> 

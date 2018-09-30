@@ -21,104 +21,79 @@ public class PaintingPersistenceServiceImpl implements PaintingPersistenceServic
 	private InventoryDao inventoryDao = new InventoryDaoImpl();
 	private ProductDao prodDao = new ProductDaoImpl();
 	private PaintingDao paintDao = new PaintingDaoImpl();
-	
-	
+
 	@Override
 	public void create(Painting painting, Integer invnId) throws SQLException, DaoException {
 		Connection connection = db.getConnection();
-		
-		try 
-		{
+
+		try {
 			connection.setAutoCommit(false);
-			
+
 			prodDao.create(connection, painting);
 			paintDao.create(connection, painting);
 			inventoryDao.addProduct(connection, painting.getProdId(), invnId);
-			
+
 			connection.commit();
-		}
-		catch (Exception ex) 
-		{
+		} catch (Exception ex) {
 			connection.rollback();
 			throw ex;
-		}
-		finally 
-		{
-			if (connection != null) 
-			{
+		} finally {
+			if (connection != null) {
 				connection.setAutoCommit(true);
-				if (!connection.isClosed())
-				{
+				if (!connection.isClosed()) {
 					connection.close();
 				}
 			}
 		}
 	}
 
-	
 	@Override
 	public List<Painting> retrieveAll() throws SQLException, DaoException {
 		Connection connection = db.getConnection();
-		
-		try 
-		{
+
+		try {
 			connection.setAutoCommit(false);
 
 			List<Painting> paintings = paintDao.retrieveAll(connection);
-			
+
 			connection.commit();
 			return paintings;
-		}
-		catch (Exception ex) 
-		{
+		} catch (Exception ex) {
 			connection.rollback();
 			throw ex;
-		}
-		finally 
-		{
-			if (connection != null) 
-			{
+		} finally {
+			if (connection != null) {
 				connection.setAutoCommit(true);
-				if (!connection.isClosed())
-				{
+				if (!connection.isClosed()) {
 					connection.close();
 				}
 			}
 		}
-			
+
 	}
-	
 
 	@Override
 	public Painting retrieve(Integer prodId) throws SQLException, DaoException {
 		Connection connection = db.getConnection();
-		
-		try 
-		{
+
+		try {
 			connection.setAutoCommit(false);
 
 			Painting painting = paintDao.retrieve(connection, prodId);
-			
+
 			connection.commit();
 			return painting;
-		}
-		catch (Exception ex) 
-		{
+		} catch (Exception ex) {
 			connection.rollback();
 			throw ex;
-		}
-		finally 
-		{
-			if (connection != null) 
-			{
+		} finally {
+			if (connection != null) {
 				connection.setAutoCommit(true);
-				if (!connection.isClosed())
-				{
+				if (!connection.isClosed()) {
 					connection.close();
 				}
 			}
 		}
 	}
 
-	
 }

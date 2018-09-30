@@ -1,21 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>    
-<%@ page import="domain.product.Painting" %>
+<%@ page import="domain.transaction.Transaction" %>
 <%@ page import="domain.product.Product" %>
-<%@page import="db.services.PaintingPersistenceService"%>
-<%@page import="db.services.impl.PaintingPersistenceServiceImpl"%>
+<%@page import="db.services.TransactionPersistenceService"%>
+<%@page import="db.services.impl.TransactionPersistenceServiceImpl"%>
 <%@ page import="javax.servlet.http.*" %>
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>PaintingsPage</title>
- <script>
- </script>   
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TransactionDetailsPage</title>
 </head>
+<style>
+.content {
+    max-width: 1000px;
+    margin: auto;
+    background: white;
+    padding: 50px;
+    line-height: 0.3;
+}
+</style>
 <body>
-<% 
+	<% 
 	HttpSession sess = request.getSession(true);
 	Integer userId = (Integer) sess.getAttribute("userId");
 	Integer invnId = (Integer) sess.getAttribute("invnId");
@@ -31,15 +38,18 @@
 		<a href="logout.jsp" >Logout</a>
  	</div>
  	<hr>
-   
-   <% 
-   PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
-   List<Painting> paintings = paintService.retrieveAll();
-
-	if (paintings.size() > 0){
-		
-   	%>  
-   	<table border="1" style="margin-top: 20px; margin-right: 20px; margin-left: 29px; border-top-width: 2px;">
+	<%
+	Integer trxnId = (Integer) request.getAttribute("trxnId");
+	TransactionPersistenceService trxnService = new TransactionPersistenceServiceImpl();
+	Transaction trxn = trxnService.retrieve(trxnId);
+	List<Product> prods = trxn.getProducts();
+	%>
+	<h3>Transaction Details</h3>
+	<h4>Date: <%=trxn.getDate().toString() %></h4>
+	<h5>Total Price: <%=trxn.getPrice() %></h5>
+	<h5>Total Size: <%=prods.size() %></h5>
+	<h5>Products: </h5>
+	<table border="1" style="margin-top: 20px; margin-right: 20px; margin-left: 29px; border-top-width: 2px;">
      	<tr>
        		<th>Name</th>
        		<th>Description</th>
@@ -47,8 +57,8 @@
        		<th>Action</th>   
    		</tr>
      
-     	<%for(Painting prod : paintings) {%>
-			<% if (!prod.isSold()){ %>
+     	<%for(Product prod : prods) {%>
+			
 			<tr>
 			<td><%= prod.getName() %></td>
 			<td><%= prod.getDescription() %></td>
@@ -60,12 +70,10 @@
 				</form>
 			</td>
 			</tr>
-			<%}%>
+			
 		<%}%>
    	</table>
    	<br>
-	<% } else {%>
-		<p> We currently have no products for sale under this category. </p>
-	<%}%>
+	<br>
 </body>
-</html> 
+</html>

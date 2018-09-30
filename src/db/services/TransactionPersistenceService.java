@@ -9,10 +9,9 @@ import domain.transaction.Transaction;
 public interface TransactionPersistenceService {
 
 	public void create(Transaction trxn, Integer userId) throws SQLException, DaoException;
-	
+
 	public Transaction retrieve(Integer trxnId) throws SQLException, DaoException;
-	
+
 	public List<Transaction> retrieveByUser(Integer userId) throws SQLException, DaoException;
-	
-	
+
 }

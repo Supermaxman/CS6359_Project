@@ -27,29 +27,25 @@ public class InventoryDaoImpl implements InventoryDao {
 			"INSERT INTO "
 			+ "INVENTORYPRODUCT (INVNID, PRODID) "
 			+ "VALUES (?, ?) ";
-			
-	
+
 	@Override
 	public void create(Connection connection, Inventory inv, Integer userId) throws SQLException, DaoException {
-		if(inv.getInvnId() != null) {
+		if (inv.getInvnId() != null) {
 			throw new DaoException("InvnId must be null!");
 		}
-		if(userId == null) {
+		if (userId == null) {
 			throw new DaoException("UserId cannot be null!");
 		}
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		try 
-		{	
+		try {
 			statement = connection.prepareStatement(createQuery, Statement.RETURN_GENERATED_KEYS);
 			statement.setInt(1, userId);
 			statement.executeUpdate();
 			rs = statement.getGeneratedKeys();
 			rs.next();
 			inv.setInvnId(rs.getInt(1));
-		}
-		finally
-		{
+		} finally {
 			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
@@ -61,61 +57,51 @@ public class InventoryDaoImpl implements InventoryDao {
 
 	@Override
 	public Inventory retrieveByUser(Connection connection, Integer userId) throws SQLException, DaoException {
-		if(userId == null)
-		{
+		if (userId == null) {
 			throw new DaoException("UserId cannot be null!");
 		}
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		try 
-		{	
+		try {
 			statement = connection.prepareStatement(retrieveQuery);
 			statement.setInt(1, userId);
 			rs = statement.executeQuery();
 			boolean found = rs.next();
-			if(!found) {
+			if (!found) {
 				return null;
 			}
 			Inventory invn = new Inventory();
 			invn.setInvnId(rs.getInt(1));
 			return invn;
-		}
-		finally
-		{
-			if (statement != null && !statement.isClosed()) 
-			{
+		} finally {
+			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
-			if (rs != null && !rs.isClosed()) 
-			{
+			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
-		}		
+		}
 	}
-	
+
 	@Override
 	public void addProduct(Connection connection, Integer prodId, Integer invnId) throws SQLException, DaoException {
-		if(prodId == null) {
+		if (prodId == null) {
 			throw new DaoException("ProdId cannot be null!");
 		}
-		if(invnId == null) {
+		if (invnId == null) {
 			throw new DaoException("InvnId cannot be null!");
 		}
 		PreparedStatement statement = null;
-		try 
-		{	
+		try {
 			statement = connection.prepareStatement(addProductQuery);
 			statement.setInt(1, invnId);
 			statement.setInt(2, prodId);
 			statement.executeUpdate();
-		}
-		finally
-		{
+		} finally {
 			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
 		}
 	}
-
 
 }

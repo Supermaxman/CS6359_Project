@@ -68,6 +68,7 @@ public class InventoryDaoTest {
 	public void testCreateRetrieve() throws Exception {
 		testDao.create(conn, testInvn, testUser.getUserId());
 		Inventory saved = testDao.retrieveByUser(conn, testUser.getUserId());
+		saved.setProducts(testInvn.getProducts());
 		TestUtils.assertEqual(testInvn, saved);
 	}
 

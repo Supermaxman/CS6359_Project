@@ -66,18 +66,16 @@ public class ProductDaoImpl implements ProductDao {
 			+ "PRICE = ?, "
 			+ "ISSOLD = ? "
 			+ "WHERE PRODID = ? ";
-	
-	
+
 	@Override
 	public void create(Connection connection, Product product) throws SQLException, DaoException {
-		if(product.getProdId() != null) {
+		if (product.getProdId() != null) {
 			throw new DaoException("ProdId must be null!");
 		}
-		
+
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		try 
-		{	
+		try {
 			statement = connection.prepareStatement(createQuery, Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, product.getName());
 			statement.setString(2, product.getDescription());
@@ -87,9 +85,7 @@ public class ProductDaoImpl implements ProductDao {
 			rs = statement.getGeneratedKeys();
 			rs.next();
 			product.setProdId(rs.getInt(1));
-		}
-		finally
-		{
+		} finally {
 			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
@@ -101,33 +97,26 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public Product retrieve(Connection connection, Integer prodId) throws SQLException, DaoException {
-		if(prodId == null)
-		{
+		if (prodId == null) {
 			throw new DaoException("ProdId cannot be null!");
 		}
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		try 
-		{	
+		try {
 			statement = connection.prepareStatement(retrieveQuery);
 			statement.setInt(1, prodId);
 			rs = statement.executeQuery();
 			boolean found = rs.next();
-			if(!found)
-			{
+			if (!found) {
 				return null;
 			}
 			Product product = buildProduct(rs);
 			return product;
-		}
-		finally
-		{
-			if (statement != null && !statement.isClosed()) 
-			{
+		} finally {
+			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
-			if (rs != null && !rs.isClosed()) 
-			{
+			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
 		}
@@ -137,61 +126,49 @@ public class ProductDaoImpl implements ProductDao {
 	public List<Product> retrieveAll(Connection connection) throws SQLException, DaoException {
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		try 
-		{	
+		try {
 			statement = connection.prepareStatement(retrieveAllQuery);
 			rs = statement.executeQuery();
 			ArrayList<Product> products = new ArrayList<Product>();
-			
-			while(rs.next())
-			{
+
+			while (rs.next()) {
 				Product product = buildProduct(rs);
 				products.add(product);
 			}
 			return products;
-		}
-		finally
-		{
-			if (statement != null && !statement.isClosed()) 
-			{
+		} finally {
+			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
-			if (rs != null && !rs.isClosed()) 
-			{
+			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
 		}
 	}
-	
+
 	@Override
-	public List<Product> retrieveByTransaction(Connection connection, Integer trxnId) throws SQLException, DaoException {
-		if(trxnId == null)
-		{
+	public List<Product> retrieveByTransaction(Connection connection, Integer trxnId)
+			throws SQLException, DaoException {
+		if (trxnId == null) {
 			throw new DaoException("TrxnId cannot be null!");
 		}
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		try 
-		{	
+		try {
 			statement = connection.prepareStatement(retrieveByTransactionQuery);
 			statement.setInt(1, trxnId);
 			rs = statement.executeQuery();
 			ArrayList<Product> products = new ArrayList<Product>();
-			while (rs.next())
-			{
+			while (rs.next()) {
 				Product product = buildProduct(rs);
 				products.add(product);
 			}
 			return products;
-		}
-		finally
-		{
-			if (statement != null && !statement.isClosed()) 
-			{
+		} finally {
+			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
-			if (rs != null && !rs.isClosed()) 
-			{
+			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
 		}
@@ -199,33 +176,26 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public List<Product> retrieveBySeller(Connection connection, Integer sellerId) throws SQLException, DaoException {
-		if(sellerId == null)
-		{
+		if (sellerId == null) {
 			throw new DaoException("SellerId cannot be null!");
 		}
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		try 
-		{	
+		try {
 			statement = connection.prepareStatement(retrieveBySellerQuery);
 			statement.setInt(1, sellerId);
 			rs = statement.executeQuery();
 			ArrayList<Product> products = new ArrayList<Product>();
-			while (rs.next())
-			{
+			while (rs.next()) {
 				Product product = buildProduct(rs);
 				products.add(product);
 			}
 			return products;
-		}
-		finally
-		{
-			if (statement != null && !statement.isClosed()) 
-			{
+		} finally {
+			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
-			if (rs != null && !rs.isClosed()) 
-			{
+			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
 		}
@@ -233,33 +203,26 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public List<Product> retrieveByCart(Connection connection, Integer cartId) throws SQLException, DaoException {
-		if(cartId == null)
-		{
+		if (cartId == null) {
 			throw new DaoException("CartId cannot be null!");
 		}
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		try 
-		{	
+		try {
 			statement = connection.prepareStatement(retrieveByCartQuery);
 			statement.setInt(1, cartId);
 			rs = statement.executeQuery();
 			ArrayList<Product> products = new ArrayList<Product>();
-			while (rs.next())
-			{
+			while (rs.next()) {
 				Product product = buildProduct(rs);
 				products.add(product);
 			}
 			return products;
-		}
-		finally
-		{
-			if (statement != null && !statement.isClosed()) 
-			{
+		} finally {
+			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
-			if (rs != null && !rs.isClosed()) 
-			{
+			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
 		}
@@ -267,33 +230,26 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public List<Product> retrieveByInventory(Connection connection, Integer invnId) throws SQLException, DaoException {
-		if(invnId == null)
-		{
+		if (invnId == null) {
 			throw new DaoException("InvnId cannot be null!");
 		}
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		try 
-		{	
+		try {
 			statement = connection.prepareStatement(retrieveByInventoryQuery);
 			statement.setInt(1, invnId);
 			rs = statement.executeQuery();
 			ArrayList<Product> products = new ArrayList<Product>();
-			while (rs.next())
-			{
+			while (rs.next()) {
 				Product product = buildProduct(rs);
 				products.add(product);
 			}
 			return products;
-		}
-		finally
-		{
-			if (statement != null && !statement.isClosed()) 
-			{
+		} finally {
+			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
-			if (rs != null && !rs.isClosed()) 
-			{
+			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
 		}
@@ -301,14 +257,12 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public int update(Connection conn, Product prod) throws SQLException, DaoException {
-		if(prod.getProdId() == null)
-		{
+		if (prod.getProdId() == null) {
 			throw new DaoException("ProdId cannot be null!");
 		}
-		
+
 		PreparedStatement statement = null;
-		try 
-		{	
+		try {
 			statement = conn.prepareStatement(updateQuery);
 			statement.setString(1, prod.getName());
 			statement.setString(2, prod.getDescription());
@@ -316,23 +270,19 @@ public class ProductDaoImpl implements ProductDao {
 			statement.setBoolean(4, prod.isSold());
 			statement.setInt(5, prod.getProdId());
 			int result = statement.executeUpdate();
-			if(result != 1)
-			{
+			if (result != 1) {
 				throw new DaoException("Unable to update product!");
 			}
 			return result;
-		}
-		finally
-		{
-			if (statement != null && !statement.isClosed()) 
-			{
+		} finally {
+			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
 		}
 	}
-	
+
 	private static Product buildProduct(ResultSet rs) throws SQLException {
-		//p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD
+		// p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD
 		Product product = new Product();
 		product.setProdId(rs.getInt(1));
 		product.setName(rs.getString(2));
@@ -342,5 +292,4 @@ public class ProductDaoImpl implements ProductDao {
 		return product;
 	}
 
-	
 }

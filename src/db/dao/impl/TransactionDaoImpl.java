@@ -14,7 +14,7 @@ import domain.product.Product;
 import domain.transaction.Transaction;
 
 public class TransactionDaoImpl implements TransactionDao {
-		
+
 	private static final String createQuery = 
 			"INSERT INTO "
 			+ "TRANSACTION (USERID, DATE, PRICE) "
@@ -37,19 +37,18 @@ public class TransactionDaoImpl implements TransactionDao {
 			+ "FROM TRANSACTION "
 			+ "WHERE USERID = ? ";
 	
-	
 	@Override
-	public void create(Connection connection, Transaction transaction, Integer userId) throws SQLException, DaoException {
-		if(transaction.getTrxnId() != null) {
+	public void create(Connection connection, Transaction transaction, Integer userId)
+			throws SQLException, DaoException {
+		if (transaction.getTrxnId() != null) {
 			throw new DaoException("TrxnId must be null!");
 		}
-		if(userId == null) {
+		if (userId == null) {
 			throw new DaoException("UserId cannot be null!");
 		}
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		try 
-		{	
+		try {
 			statement = connection.prepareStatement(createQuery, Statement.RETURN_GENERATED_KEYS);
 			statement.setInt(1, userId);
 			statement.setDate(2, transaction.getDate());
@@ -58,9 +57,7 @@ public class TransactionDaoImpl implements TransactionDao {
 			rs = statement.getGeneratedKeys();
 			rs.next();
 			transaction.setTrxnId(rs.getInt(1));
-		}
-		finally
-		{
+		} finally {
 			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
@@ -68,56 +65,44 @@ public class TransactionDaoImpl implements TransactionDao {
 				statement.close();
 			}
 		}
-		for (Product prod : transaction.getProducts())
-		{
+		for (Product prod : transaction.getProducts()) {
 			statement = null;
-			try 
-			{	
+			try {
 				statement = connection.prepareStatement(addProductQuery);
 				statement.setInt(1, transaction.getTrxnId());
 				statement.setInt(2, prod.getProdId());
 				statement.executeUpdate();
-			}
-			finally
-			{
+			} finally {
 				if (statement != null && !statement.isClosed()) {
 					statement.close();
 				}
 			}
 		}
-		
-		
+
 	}
 
 	@Override
 	public Transaction retrieve(Connection connection, Integer trxnId) throws SQLException, DaoException {
-		if(trxnId == null)
-		{
+		if (trxnId == null) {
 			throw new DaoException("TrxnId cannot be null!");
 		}
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		try 
-		{	
+		try {
 			statement = connection.prepareStatement(retrieveQuery);
 			statement.setInt(1, trxnId);
 			rs = statement.executeQuery();
 			boolean found = rs.next();
-			if(!found)
-			{
+			if (!found) {
 				return null;
 			}
 			Transaction trxn = buildTransaction(rs);
 			return trxn;
-		}
-		finally
-		{
-			if (statement != null && !statement.isClosed()) 
-			{
+		} finally {
+			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
-			if (rs != null && !rs.isClosed()) 
-			{
+			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
 		}
@@ -125,48 +110,38 @@ public class TransactionDaoImpl implements TransactionDao {
 
 	@Override
 	public List<Transaction> retrieveByUser(Connection connection, Integer userId) throws SQLException, DaoException {
-		if(userId == null)
-		{
+		if (userId == null) {
 			throw new DaoException("UserId cannot be null!");
 		}
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		try 
-		{	
+		try {
 			statement = connection.prepareStatement(retrieveByUserQuery);
 			statement.setInt(1, userId);
 			rs = statement.executeQuery();
 			ArrayList<Transaction> transactions = new ArrayList<Transaction>();
-			while (rs.next())
-			{
+			while (rs.next()) {
 				Transaction trxn = buildTransaction(rs);
 				transactions.add(trxn);
 			}
 			return transactions;
-		}
-		finally
-		{
-			if (statement != null && !statement.isClosed()) 
-			{
+		} finally {
+			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
-			if (rs != null && !rs.isClosed()) 
-			{
+			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
 		}
 
-		
 	}
 
-	private Transaction buildTransaction(ResultSet rs) throws SQLException
-	{
+	private Transaction buildTransaction(ResultSet rs) throws SQLException {
 		Transaction trxn = new Transaction();
 		trxn.setTrxnId(rs.getInt(1));
 		trxn.setDate(rs.getDate(2));
 		trxn.setPrice(rs.getDouble(3));
 		return trxn;
 	}
-	
-	
+
 }

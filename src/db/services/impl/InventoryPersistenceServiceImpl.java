@@ -19,37 +19,29 @@ public class InventoryPersistenceServiceImpl implements InventoryPersistenceServ
 	private DbManager db = new DbManager();
 	private InventoryDao inventoryDao = new InventoryDaoImpl();
 	private ProductDao prodDao = new ProductDaoImpl();
-	
+
 	@Override
 	public Inventory retrieve(Integer userId) throws SQLException, DaoException {
 		Connection connection = db.getConnection();
-		
-		try 
-		{
+
+		try {
 			connection.setAutoCommit(false);
 			Inventory invn = inventoryDao.retrieveByUser(connection, userId);
 			List<Product> prods = prodDao.retrieveByInventory(connection, invn.getInvnId());
 			invn.setProducts(prods);
 			connection.commit();
 			return invn;
-		}
-		catch (Exception ex) 
-		{
+		} catch (Exception ex) {
 			connection.rollback();
 			throw ex;
-		}
-		finally 
-		{
-			if (connection != null) 
-			{
+		} finally {
+			if (connection != null) {
 				connection.setAutoCommit(true);
-				if (!connection.isClosed())
-				{
+				if (!connection.isClosed()) {
 					connection.close();
 				}
 			}
 		}
 	}
-
 
 }

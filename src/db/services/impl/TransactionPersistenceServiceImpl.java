@@ -19,66 +19,50 @@ public class TransactionPersistenceServiceImpl implements TransactionPersistence
 	private DbManager db = new DbManager();
 	private TransactionDao trxnDao = new TransactionDaoImpl();
 	private ProductDao prodDao = new ProductDaoImpl();
-	
-	
+
 	@Override
 	public void create(Transaction trxn, Integer userId) throws SQLException, DaoException {
 		Connection connection = db.getConnection();
-		try 
-		{
+		try {
 			connection.setAutoCommit(false);
 			trxnDao.create(connection, trxn, userId);
-			for (Product prod : trxn.getProducts())
-			{
+			for (Product prod : trxn.getProducts()) {
 				prodDao.update(connection, prod);
 			}
-			
+
 			connection.commit();
-		}
-		catch (Exception ex) 
-		{
+		} catch (Exception ex) {
 			connection.rollback();
 			throw ex;
-		}
-		finally 
-		{
-			if (connection != null) 
-			{
+		} finally {
+			if (connection != null) {
 				connection.setAutoCommit(true);
-				if (!connection.isClosed())
-				{
+				if (!connection.isClosed()) {
 					connection.close();
 				}
 			}
-		}		
+		}
 	}
 
 	@Override
 	public Transaction retrieve(Integer trxnId) throws SQLException, DaoException {
 		Connection connection = db.getConnection();
-		try 
-		{
+		try {
 			connection.setAutoCommit(false);
 			Transaction trxn = trxnDao.retrieve(connection, trxnId);
-			
+
 			List<Product> prods = prodDao.retrieveByTransaction(connection, trxnId);
 			trxn.setProducts(prods);
-			
+
 			connection.commit();
 			return trxn;
-		}
-		catch (Exception ex) 
-		{
+		} catch (Exception ex) {
 			connection.rollback();
 			throw ex;
-		}
-		finally 
-		{
-			if (connection != null) 
-			{
+		} finally {
+			if (connection != null) {
 				connection.setAutoCommit(true);
-				if (!connection.isClosed())
-				{
+				if (!connection.isClosed()) {
 					connection.close();
 				}
 			}
@@ -88,37 +72,28 @@ public class TransactionPersistenceServiceImpl implements TransactionPersistence
 	@Override
 	public List<Transaction> retrieveByUser(Integer userId) throws SQLException, DaoException {
 		Connection connection = db.getConnection();
-		try 
-		{
+		try {
 			connection.setAutoCommit(false);
 			List<Transaction> trxns = trxnDao.retrieveByUser(connection, userId);
-			
-			for (Transaction trxn : trxns)
-			{
+
+			for (Transaction trxn : trxns) {
 				List<Product> prods = prodDao.retrieveByTransaction(connection, trxn.getTrxnId());
 				trxn.setProducts(prods);
 			}
-						
+
 			connection.commit();
 			return trxns;
-		}
-		catch (Exception ex) 
-		{
+		} catch (Exception ex) {
 			connection.rollback();
 			throw ex;
-		}
-		finally 
-		{
-			if (connection != null) 
-			{
+		} finally {
+			if (connection != null) {
 				connection.setAutoCommit(true);
-				if (!connection.isClosed())
-				{
+				if (!connection.isClosed()) {
 					connection.close();
 				}
 			}
 		}
 	}
 
-	
 }

@@ -29,12 +29,20 @@
 	Integer cartId = (Integer) sess.getAttribute("cartId");
 	String name = (String) sess.getAttribute("name");
 	%>
+	<div class="menu" align = "Center">
+		<a href="home.jsp">Home</a>
+		<a href="category.jsp">Category</a>
+		<a href="cart.jsp">Cart</a>
+		<a href="inventory.jsp">Inventory</a>
+		<a href="transactions.jsp">Transactions</a>
+		<a href="logout.jsp" >Logout</a>
+ 	</div>
+ 	<hr>
 	<%
 	Integer paintId = (Integer) request.getAttribute("prodId");
 	PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
 	Painting paint = paintService.retrieve(paintId);
 	%>
-	<button type="button" Name = "Back" value="Back">Go Back</button> 
 	<h3>Product Details</h3>
 	<h4>Name: <%=paint.getName()%></h4>
 	<h5>Description: <%=paint.getDescription()%></h5>
@@ -45,5 +53,11 @@
 	<h5>Length: <%=paint.getLength()%></h5>
 	<h5>Width: <%=paint.getWidth()%></h5>
 	<br>
+	<% if (!paint.isSold()){ %>
+	<form name="addCartForm" action="CartController" method="post">
+		<input type="hidden" name="prodId" value="<%= paintId.toString() %>">
+		<input class="demo" type="submit" name="AddToCart" value = "Add to Cart" style="left: 460px;">
+	</form>
+	<% } %>
 </body>
 </html>

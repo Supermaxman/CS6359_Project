@@ -1,7 +1,7 @@
 <%@ page import="java.util.*" %>    
-<%@page import="domain.user.Inventory"%>
-<%@page import="db.services.InventoryPersistenceService"%>
-<%@page import="db.services.impl.InventoryPersistenceServiceImpl"%>
+<%@page import="domain.user.Cart"%>
+<%@page import="db.services.CartPersistenceService"%>
+<%@page import="db.services.impl.CartPersistenceServiceImpl"%>
 <%@page import="domain.product.Product"%>
 <%@page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>InventoryPage</title>
+<title>CartPage</title>
 </head>
 <style>
 .content {
@@ -42,11 +42,11 @@
  	</div>
  	<hr>
 	 <%
-	InventoryPersistenceService invnService = new InventoryPersistenceServiceImpl();
-	Inventory invn = invnService.retrieve(userId);
+	CartPersistenceService cartService = new CartPersistenceServiceImpl();
+	Cart cart = cartService.retrieve(userId);
 	
-	List<Product> prods = invn.getProducts();
-	
+	List<Product> prods = cart.getProducts();
+	double totalPrice = 0.0;
 	if (prods.size() > 0){
 	
 	%>
@@ -55,7 +55,6 @@
 			<th>Name</th>
 			<th>Description</th>
 			<th>Price</th>
-			<th>Sold</th>
 			<th>Action</th>   
 		</tr>
 	     
@@ -64,7 +63,6 @@
 				<td><%= prod.getName() %></td>
 				<td><%= prod.getDescription() %></td>
 				<td><%= prod.getPrice() %></td>
-				<td><%= prod.isSold() %></td>
 				<td>
 					<form name="detailsform" action="DetailsController" method="post">
 						<input type="hidden" name="prodId" value="<%= prod.getProdId().toString() %>">
@@ -72,12 +70,15 @@
 					</form>
 				</td>
 			</tr>
+			<% totalPrice += prod.getPrice(); %>
 		<%}%>
 	</table>
-	<br>
+	<h5>Total Price: <%= totalPrice %></h5>
+	<form name="checkoutForm" action="CheckoutController" method="post">
+		<input class="demo" type="submit" name="Checkout" value = "Check Out" style="left: 460px;">
+	</form>
 	<% } else {%>
-		<p> Your Inventory is empty. </p>
+		<p> Your Cart is empty. </p>
 	<%}%>
-	<a href="newproduct.jsp">Add a Product</a>
 </body>
-</html> 
+</html>

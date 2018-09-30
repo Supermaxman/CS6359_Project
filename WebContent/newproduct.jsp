@@ -1,10 +1,12 @@
+<%@ page import="java.util.*" %>    
+<%@page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>CategoryPage</title>
+<title>NewProductPage</title>
 </head>
 <style>
 .content {
@@ -14,7 +16,11 @@
     padding: 50px;
     line-height: 0.3;
 }
-</style>
+</style> 
+<script type="text/javascript" >
+
+</script>
+</head>
 <body>
 	<% 
 	HttpSession sess = request.getSession(true);
@@ -32,11 +38,28 @@
 		<a href="logout.jsp" >Logout</a>
  	</div>
  	<hr>
-	<h3 align="center" style="color:brown;"> Choose a category. </h3>
-	<h4 align="left"> Select from a list of product categories: </h4>
-	<hr>
-	<div class="menu" align = "Center">
-	<a href="paintings.jsp" >Paintings</a>
-	 </div>
+	<h4 align="left"> Create Painting: </h4>
+	<br>
+	<form name="paintingForm" action="PaintingController" method="post" onsubmit="return paintValidate()" >
+	<br>
+	Name: <input type="text" name="name" id="name">
+	<br>
+	Description: <input type="text" name="description" id="description">
+	<br>
+	Price: <input type="number" min="0" name="price" id="price">
+	<br>
+	Canvas Type: <input type="text" name="canvasType" id="canvasType">
+	<br>
+	Paint Type: <input type="text" name="paintType" id="paintType">
+	<br>
+	Length: <input type="number" min="0" name="length" id="length">
+	<br>
+	Width: <input type="number" min="0" name="width" id="width" >
+	<br>
+	<input type="submit" name="submit" value="create">
+	<br>
+	<a href="inventory.jsp">Inventory</a>
+	</form>
+	
 </body>
 </html> 

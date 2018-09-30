@@ -12,8 +12,6 @@ import db.dao.UserDao;
 import domain.user.Login;
 import domain.user.User;
 
-
-
 public class UserDaoImpl implements UserDao {
 
 	private static final String registerQuery = 
@@ -41,37 +39,30 @@ public class UserDaoImpl implements UserDao {
 			+ "ADDRESS = ? "
 			+ "WHERE USERID = ?";
 
-	
 	@Override
 	public void register(Connection conn, User user) throws SQLException, DaoException {
-		if(user.getUserId() != null)
-		{
+		if (user.getUserId() != null) {
 			throw new DaoException("UserId must be null on register!");
 		}
-		
+
 		PreparedStatement statement = null;
-		try
-		{
+		try {
 			statement = conn.prepareStatement(registerQuery, Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, user.getUsername());
 			statement.setString(2, user.getPassword());
 			statement.setString(3, user.getName());
 			statement.setString(4, user.getAddress());
-			
+
 			int result = statement.executeUpdate();
-			if(result != 1)
-			{
+			if (result != 1) {
 				throw new DaoException("User was unable to be created!");
 			}
-			
+
 			ResultSet key = statement.getGeneratedKeys();
 			key.next();
 			user.setUserId(key.getInt(1));
-		}
-		finally 
-		{
-			if(statement != null && !statement.isClosed()) 
-			{
+		} finally {
+			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
 		}
@@ -81,28 +72,22 @@ public class UserDaoImpl implements UserDao {
 	public User validate(Connection conn, Login login) throws SQLException, DaoException {
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		try 
-		{	
+		try {
 			statement = conn.prepareStatement(validateQuery);
 			statement.setString(1, login.getUsername());
 			statement.setString(2, login.getPassword());
 			rs = statement.executeQuery();
 			boolean found = rs.next();
-			if(!found)
-			{
+			if (!found) {
 				return null;
 			}
 			User user = buildUser(rs);
 			return user;
-		}
-		finally
-		{
-			if (statement != null && !statement.isClosed()) 
-			{
+		} finally {
+			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
-			if (rs != null && !rs.isClosed()) 
-			{
+			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
 		}
@@ -110,48 +95,39 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User retrieve(Connection conn, Integer id) throws SQLException, DaoException {
-		if(id == null)
-		{
+		if (id == null) {
 			throw new DaoException("UserId cannot be null!");
 		}
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		try 
-		{	
+		try {
 			statement = conn.prepareStatement(retrieveQuery);
 			statement.setInt(1, id);
 			rs = statement.executeQuery();
 			boolean found = rs.next();
-			if(!found)
-			{
+			if (!found) {
 				return null;
 			}
 			User user = buildUser(rs);
 			return user;
-		}
-		finally
-		{
-			if (statement != null && !statement.isClosed()) 
-			{
+		} finally {
+			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
-			if (rs != null && !rs.isClosed()) 
-			{
+			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
 		}
 	}
-	
+
 	@Override
 	public int update(Connection conn, User user) throws SQLException, DaoException {
-		if(user.getUserId() == null)
-		{
+		if (user.getUserId() == null) {
 			throw new DaoException("UserId cannot be null!");
 		}
-		
+
 		PreparedStatement statement = null;
-		try 
-		{	
+		try {
 			statement = conn.prepareStatement(updateQuery);
 			statement.setString(1, user.getUsername());
 			statement.setString(2, user.getPassword());
@@ -159,21 +135,17 @@ public class UserDaoImpl implements UserDao {
 			statement.setString(4, user.getAddress());
 			statement.setInt(5, user.getUserId());
 			int result = statement.executeUpdate();
-			if(result != 1)
-			{
+			if (result != 1) {
 				throw new DaoException("Unable to update user!");
 			}
 			return result;
-		}
-		finally
-		{
-			if (statement != null && !statement.isClosed()) 
-			{
+		} finally {
+			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
 		}
 	}
-	
+
 	private static User buildUser(ResultSet rs) throws SQLException {
 		User user = new User();
 		user.setUserId(rs.getInt(1));
@@ -183,6 +155,5 @@ public class UserDaoImpl implements UserDao {
 		user.setAddress(rs.getString(5));
 		return user;
 	}
-	
-	
+
 }

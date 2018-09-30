@@ -18,33 +18,31 @@ import db.services.impl.UserPersistenceServiceImpl;
 @WebServlet("/LoginController")
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-	private UserPersistenceService userService = new UserPersistenceServiceImpl();
 
-    public LoginController() {}
-    
+	private UserPersistenceService userService = new UserPersistenceServiceImpl();
+	
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		String username = request.getParameter("username");
 		String pass = request.getParameter("password");
 		String submitType = request.getParameter("submit");
 		Login login = new Login(username, pass);
 		User user = null;
-		try 
-		{
+		try {
 			user = userService.validate(login);
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
-		
-		if(submitType.equals("login") && user!=null && user.getName()!=null){
+
+		if (submitType.equals("login") && user != null && user.getName() != null) {
 			request.getSession().setAttribute("name", user.getName());
 			request.getSession().setAttribute("userId", user.getUserId());
 			request.getSession().setAttribute("invnId", user.getInventory().getInvnId());
 			request.getSession().setAttribute("cartId", user.getCart().getCartId());
-			request.getRequestDispatcher("homepage.jsp").forward(request, response);
-		}else if(submitType.equals("register")){
+			request.getRequestDispatcher("home.jsp").forward(request, response);
+		} else if (submitType.equals("register")) {
 			user = new User();
 			user.setUsername(request.getParameter("username"));
 			user.setPassword(request.getParameter("password"));
@@ -56,8 +54,7 @@ public class LoginController extends HttpServlet {
 			card.setCcv(request.getParameter("ccv"));
 			user.setCreditCard(card);
 			String message = "Registration done, please login!";
-			try 
-			{
+			try {
 				userService.register(user);
 			} catch (Exception ex) {
 				System.out.println(ex);
@@ -65,7 +62,7 @@ public class LoginController extends HttpServlet {
 			}
 			request.setAttribute("successMessage", message);
 			request.getRequestDispatcher("login.jsp").forward(request, response);
-		}else{
+		} else {
 			request.setAttribute("message", "Data Not Found! Please register!");
 			request.getRequestDispatcher("register.jsp").forward(request, response);
 		}

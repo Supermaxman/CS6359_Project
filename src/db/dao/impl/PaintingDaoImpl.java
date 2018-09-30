@@ -31,16 +31,14 @@ public class PaintingDaoImpl implements PaintingDao {
 			+ "FROM PRODUCT p "
 			+ "JOIN PAINTING i ON p.PRODID = i.PRODID ";
 
-	
 	@Override
 	public void create(Connection connection, Painting product) throws SQLException, DaoException {
-		if(product.getProdId() == null) {
+		if (product.getProdId() == null) {
 			throw new DaoException("ProdId cannot be null!");
 		}
-		
+
 		PreparedStatement statement = null;
-		try 
-		{	
+		try {
 			statement = connection.prepareStatement(createQuery);
 			statement.setInt(1, product.getProdId());
 			statement.setString(2, product.getCanvasType());
@@ -48,9 +46,7 @@ public class PaintingDaoImpl implements PaintingDao {
 			statement.setDouble(4, product.getLength());
 			statement.setDouble(5, product.getWidth());
 			statement.executeUpdate();
-		}
-		finally
-		{
+		} finally {
 			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
@@ -59,33 +55,26 @@ public class PaintingDaoImpl implements PaintingDao {
 
 	@Override
 	public Painting retrieve(Connection connection, Integer prodId) throws SQLException, DaoException {
-		if(prodId == null)
-		{
+		if (prodId == null) {
 			throw new DaoException("ProdId cannot be null!");
 		}
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		try 
-		{	
+		try {
 			statement = connection.prepareStatement(retrieveQuery);
 			statement.setInt(1, prodId);
 			rs = statement.executeQuery();
 			boolean found = rs.next();
-			if(!found)
-			{
+			if (!found) {
 				return null;
 			}
 			Painting painting = buildPainting(rs);
 			return painting;
-		}
-		finally
-		{
-			if (statement != null && !statement.isClosed()) 
-			{
+		} finally {
+			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
-			if (rs != null && !rs.isClosed()) 
-			{
+			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
 		}
@@ -95,34 +84,29 @@ public class PaintingDaoImpl implements PaintingDao {
 	public List<Painting> retrieveAll(Connection connection) throws SQLException, DaoException {
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		try 
-		{	
+		try {
 			statement = connection.prepareStatement(retrieveAllQuery);
 			rs = statement.executeQuery();
 			ArrayList<Painting> paintings = new ArrayList<Painting>();
-			
-			while(rs.next())
-			{
+
+			while (rs.next()) {
 				Painting painting = buildPainting(rs);
 				paintings.add(painting);
 			}
 			return paintings;
-		}
-		finally
-		{
-			if (statement != null && !statement.isClosed()) 
-			{
+		} finally {
+			if (statement != null && !statement.isClosed()) {
 				statement.close();
 			}
-			if (rs != null && !rs.isClosed()) 
-			{
+			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
 		}
 	}
-		
+
 	private static Painting buildPainting(ResultSet rs) throws SQLException {
-		//p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, i.CANVASTYPE, i.PAINTTYPE, i.LENGTH, i.WIDTH 
+		// p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, i.CANVASTYPE,
+		// i.PAINTTYPE, i.LENGTH, i.WIDTH
 		Painting painting = new Painting();
 		painting.setProdId(rs.getInt(1));
 		painting.setName(rs.getString(2));
@@ -135,6 +119,5 @@ public class PaintingDaoImpl implements PaintingDao {
 		painting.setWidth(rs.getDouble(9));
 		return painting;
 	}
-
 
 }

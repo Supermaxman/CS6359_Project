@@ -13,7 +13,7 @@ public class DbManager implements MyDB{
 	public Connection getConnection(){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection myConnection = DriverManager.getConnection(CONN_URL,USER,PASS);
+			Connection myConnection = DriverManager.getConnection(CONN_URL, USER, PASS);
 			return myConnection;
 		}catch(Exception e){
 			e.printStackTrace();

@@ -4,8 +4,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>logout page</title>
+<title>LogoutPage</title>
 </head>
+<style>
+.content {
+    max-width: 1000px;
+    margin: auto;
+    background: white;
+    padding: 50px;
+    line-height: 0.3;
+}
+</style>
 <body>
 <%
 	session.invalidate();
