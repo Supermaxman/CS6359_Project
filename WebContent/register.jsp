@@ -8,7 +8,7 @@
 <title>Register</title>
 
 </head>
-<body>
+<body align="center">
 <form name="regform" action="LoginController" method="post" onsubmit="return regValidate()">
 	<br>${message}<br>
 	
