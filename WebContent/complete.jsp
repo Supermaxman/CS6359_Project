@@ -38,5 +38,6 @@
  	<hr>
 	<h3 align="center" style="color:brown;"> Transaction Complete </h3>
 	<h4 align="left"> Thanks for shopping at ArtKart, <%=name%>!  </h4>
+	<a href="category.jsp">Continue Shopping</a>
 </body>
 </html> 

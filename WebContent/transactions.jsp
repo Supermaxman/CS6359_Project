@@ -42,7 +42,7 @@
 		<a href="logout.jsp" >Logout</a>
  	</div>
  	<hr>
-   
+   <h4>Transactions:</h4>
    <% 
    TransactionPersistenceService trxnService = new TransactionPersistenceServiceImpl();
    List<Transaction> trxns = trxnService.retrieveByUser(userId);

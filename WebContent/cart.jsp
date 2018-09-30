@@ -42,6 +42,7 @@
 		<a href="logout.jsp" >Logout</a>
  	</div>
  	<hr>
+	<h4>Cart:</h4>
 	 <%
 	CartPersistenceService cartService = new CartPersistenceServiceImpl();
 	Cart cart = cartService.retrieve(userId);

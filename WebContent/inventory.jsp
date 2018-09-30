@@ -42,6 +42,7 @@
 		<a href="logout.jsp" >Logout</a>
  	</div>
  	<hr>
+ 	<h4>Inventory:</h4>
 	 <%
 	InventoryPersistenceService invnService = new InventoryPersistenceServiceImpl();
 	Inventory invn = invnService.retrieve(userId);

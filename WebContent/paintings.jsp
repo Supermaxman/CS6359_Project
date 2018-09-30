@@ -42,7 +42,7 @@
 		<a href="logout.jsp" >Logout</a>
  	</div>
  	<hr>
-   
+	<h4>Paintings:</h4>
    <% 
    PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
    List<Painting> paintings = paintService.retrieveAll();
