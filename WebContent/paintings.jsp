@@ -10,14 +10,25 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>PaintingsPage</title>
- <script>
- </script>   
+    <title>Paintings</title>
 </head>
+<style>
+.content {
+    max-width: 1000px;
+    margin: auto;
+    background: white;
+    padding: 50px;
+    line-height: 0.3;
+}
+</style>
 <body>
 <% 
 	HttpSession sess = request.getSession(true);
 	Integer userId = (Integer) sess.getAttribute("userId");
+	if (userId == null){
+		response.sendRedirect("login.jsp");
+		return;
+	}
 	Integer invnId = (Integer) sess.getAttribute("invnId");
 	Integer cartId = (Integer) sess.getAttribute("cartId");
 	String name = (String) sess.getAttribute("name");

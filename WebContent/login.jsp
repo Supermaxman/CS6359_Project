@@ -5,8 +5,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>LoginPage</title>
+	<script type="text/javascript" src="script.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Login</title>
 </head>
 <style>
 .content {
@@ -18,10 +19,17 @@
 }
 </style>
 <body>
+	<div class="menu" align = "Center">
+		<a href="home.jsp">Home</a>
+		<a href="category.jsp">Category</a>
+		<a href="cart.jsp">Cart</a>
+		<a href="inventory.jsp">Inventory</a>
+		<a href="transactions.jsp">Transactions</a>
+		<a href="logout.jsp" >Logout</a>
+ 	</div>
+ 	<hr>
 	<h4 align="left"> Please log in to start shopping! </h4>
-	<br>
-	<form name="loginform" action="LoginController" method="post" onsubmit="return loginValidate()" >
-	<br>
+	<form name="loginform" action="LoginController" method="post" onsubmit="return loginValidate()">
 	Username: <input type="text" name="username" id="username">
 	<br>
 	Password: <input type="password" name="password" id="password">

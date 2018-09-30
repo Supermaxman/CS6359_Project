@@ -1,12 +1,13 @@
 <%@ page import="java.util.*" %>    
-<%@page import="java.sql.*"%>
+<%@ page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>NewProductPage</title>
+	<script type="text/javascript" src="script.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>New Product</title>
 </head>
 <style>
 .content {
@@ -17,14 +18,14 @@
     line-height: 0.3;
 }
 </style> 
-<script type="text/javascript" >
-
-</script>
-</head>
 <body>
 	<% 
 	HttpSession sess = request.getSession(true);
 	Integer userId = (Integer) sess.getAttribute("userId");
+	if (userId == null){
+		response.sendRedirect("login.jsp");
+		return;
+	}
 	Integer invnId = (Integer) sess.getAttribute("invnId");
 	Integer cartId = (Integer) sess.getAttribute("cartId");
 	String name = (String) sess.getAttribute("name");
@@ -39,27 +40,22 @@
  	</div>
  	<hr>
 	<h4 align="left"> Create Painting: </h4>
-	<br>
-	<form name="paintingForm" action="PaintingController" method="post" onsubmit="return paintValidate()" >
-	<br>
-	Name: <input type="text" name="name" id="name">
-	<br>
-	Description: <input type="text" name="description" id="description">
-	<br>
-	Price: <input type="number" min="0" name="price" id="price">
-	<br>
-	Canvas Type: <input type="text" name="canvasType" id="canvasType">
-	<br>
-	Paint Type: <input type="text" name="paintType" id="paintType">
-	<br>
-	Length: <input type="number" min="0" name="length" id="length">
-	<br>
-	Width: <input type="number" min="0" name="width" id="width" >
-	<br>
-	<input type="submit" name="submit" value="create">
-	<br>
-	<a href="inventory.jsp">Inventory</a>
-	</form>
-	
+	<form name="newpaintform" action="PaintingController" method="post" onsubmit="return paintValidate()">
+		Name: <input type="text" name="name" id="name">
+		<br>
+		Description: <input type="text" name="description" id="description">
+		<br>
+		Price: <input type="number" min="0" name="price" id="price">
+		<br>
+		Canvas Type: <input type="text" name="canvasType" id="canvasType">
+		<br>
+		Paint Type: <input type="text" name="paintType" id="paintType">
+		<br>
+		Length: <input type="number" min="0" name="length" id="length">
+		<br>
+		Width: <input type="number" min="0" name="width" id="width" >
+		<br>		
+		<input type="submit" name="submit" value="create" >
+	</form>	
 </body>
 </html> 

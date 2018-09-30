@@ -9,8 +9,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>InventoryPage</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Inventory</title>
 </head>
 <style>
 .content {
@@ -20,14 +20,15 @@
     padding: 50px;
     line-height: 0.3;
 }
-</style> 
-<script type="text/javascript" >
-</script>
-</head>
+</style>
 <body>
 	<% 
 	HttpSession sess = request.getSession(true);
 	Integer userId = (Integer) sess.getAttribute("userId");
+	if (userId == null){
+		response.sendRedirect("login.jsp");
+		return;
+	}
 	Integer invnId = (Integer) sess.getAttribute("invnId");
 	Integer cartId = (Integer) sess.getAttribute("cartId");
 	String name = (String) sess.getAttribute("name");

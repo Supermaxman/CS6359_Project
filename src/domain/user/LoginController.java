@@ -63,7 +63,7 @@ public class LoginController extends HttpServlet {
 			request.setAttribute("successMessage", message);
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		} else {
-			request.setAttribute("message", "Data Not Found! Please register!");
+			request.setAttribute("message", "Username not found. Please register!");
 			request.getRequestDispatcher("register.jsp").forward(request, response);
 		}
 
