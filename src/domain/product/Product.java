@@ -1,16 +1,19 @@
 package domain.product;
 
+import java.util.List;
+
 import domain.user.User;
 
 public class Product {
 	
 
-	private Integer prodId;
-	private String name;
-	private String description;
-	private double price;
-	private User seller;
-	private boolean isSold;
+	public Integer prodId;
+	public String name;
+	public String description;
+	public double price;
+	public User seller;
+	public boolean isSold;
+	
 		
 	public Integer getProdId() {
 		return prodId;
