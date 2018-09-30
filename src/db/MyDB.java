@@ -10,7 +10,7 @@ package db;
 public interface MyDB {
 
 	String USER="root";
-	String PASS="9440257142";
+	String PASS="maxwell1";
 	String CONN_URL="jdbc:mysql://127.0.0.1:3306/artkart";
 	
 	
@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `artkart`.`Transaction` (
     REFERENCES `artkart`.`User` (`userId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
--- -----------------------------------------------------
+-- -------------------------username----------------------------
 -- Table `artkart`.`TransactionProduct`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `artkart`.`TransactionProduct` (
