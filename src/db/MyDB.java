@@ -1,7 +1,7 @@
 package db;
 /**
  * 
- * @author mehra
+ * @author mehra      
  * MYSQL database schema :coursedatabase
  * user :coursedatabase_admin
  * pass :Test1234
