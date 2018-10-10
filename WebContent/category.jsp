@@ -33,6 +33,7 @@
 		<a href="cart.jsp">Cart</a>
 		<a href="inventory.jsp">Inventory</a>
 		<a href="transactions.jsp">Transactions</a>
+		<a href="faq.jsp" >FAQs</a>
 		<a href="logout.jsp" >Logout</a>
  	</div>
  	<hr>
