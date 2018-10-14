@@ -28,6 +28,11 @@ public class InventoryDaoImpl implements InventoryDao {
 			+ "INVENTORYPRODUCT (INVNID, PRODID) "
 			+ "VALUES (?, ?) ";
 
+	private static final String removeProductQuery = 
+			"DELETE FROM "
+			+ "INVENTORYPRODUCT "
+			+ "WHERE INVNID = ? AND PRODID = ? ";
+	
 	@Override
 	public void create(Connection connection, Inventory inv, Integer userId) throws SQLException, DaoException {
 		if (inv.getInvnId() != null) {
@@ -94,6 +99,27 @@ public class InventoryDaoImpl implements InventoryDao {
 		PreparedStatement statement = null;
 		try {
 			statement = connection.prepareStatement(addProductQuery);
+			statement.setInt(1, invnId);
+			statement.setInt(2, prodId);
+			statement.executeUpdate();
+		} finally {
+			if (statement != null && !statement.isClosed()) {
+				statement.close();
+			}
+		}
+	}
+
+	@Override
+	public void removeProduct(Connection connection, Integer prodId, Integer invnId) throws SQLException, DaoException {
+		if (prodId == null) {
+			throw new DaoException("ProdId cannot be null!");
+		}
+		if (invnId == null) {
+			throw new DaoException("InvnId cannot be null!");
+		}
+		PreparedStatement statement = null;
+		try {
+			statement = connection.prepareStatement(removeProductQuery);
 			statement.setInt(1, invnId);
 			statement.setInt(2, prodId);
 			statement.executeUpdate();

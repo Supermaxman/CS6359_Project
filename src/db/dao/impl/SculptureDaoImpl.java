@@ -8,42 +8,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 import db.dao.DaoException;
-import db.dao.PaintingDao;
-import domain.product.Painting;
+import db.dao.SculptureDao;
+import domain.product.Sculpture;
 
-public class PaintingDaoImpl implements PaintingDao {
+public class SculptureDaoImpl implements SculptureDao {
 
 	private static final String createQuery = 
 			"INSERT INTO "
-			+ "PAINTING (PRODID, CANVASTYPE, PAINTTYPE, LENGTH, WIDTH) "
-			+ "VALUES (?, ?, ?, ?, ?) ";
-	
+			+ "SCULPTURE (PRODID, MATERIAL, WEIGHT, LENGTH, WIDTH, HEIGHT) "
+			+ "VALUES (?, ?, ?, ?, ?, ?) ";
+
 	private static final String retrieveQuery = 
 			"SELECT "
-			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, i.CANVASTYPE, i.PAINTTYPE, i.LENGTH, i.WIDTH "
+			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, i.MATERIAL, i.WEIGHT, i.LENGTH, i.WIDTH, i.HEIGHT "
 			+ "FROM PRODUCT p "
-			+ "JOIN PAINTING i ON p.PRODID = i.PRODID "
+			+ "JOIN SCULPTURE i ON p.PRODID = i.PRODID "
 			+ "WHERE p.PRODID = ? ";
 
 	private static final String retrieveAllQuery = 
 			"SELECT "
-			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, i.CANVASTYPE, i.PAINTTYPE, i.LENGTH, i.WIDTH "
+			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, i.MATERIAL, i.WEIGHT, i.LENGTH, i.WIDTH, i.HEIGHT "
 			+ "FROM PRODUCT p "
-			+ "JOIN PAINTING i ON p.PRODID = i.PRODID ";
+			+ "JOIN SCULPTURE i ON p.PRODID = i.PRODID ";
 
 	private static final String updateQuery = 
 			"UPDATE "
-			+ "PAINTING "
-			+ "SET CANVASTYPE = ?, PAINTTYPE = ?, LENGTH = ?, WIDTH = ? "
+			+ "SCULPTURE "
+			+ "SET MATERIAL = ?, WEIGHT = ?, LENGTH = ?, WIDTH = ?, HEIGHT = ? "
 			+ "WHERE PRODID = ? ";
 
 	private static final String deleteQuery = 
 			"DELETE FROM "
-			+ "PAINTING "
+			+ "SCULPTURE "
 			+ "WHERE PRODID = ? ";
 	
 	@Override
-	public void create(Connection connection, Painting product) throws SQLException, DaoException {
+	public void create(Connection connection, Sculpture product) throws SQLException, DaoException {
 		if (product.getProdId() == null) {
 			throw new DaoException("ProdId cannot be null!");
 		}
@@ -52,10 +52,11 @@ public class PaintingDaoImpl implements PaintingDao {
 		try {
 			statement = connection.prepareStatement(createQuery);
 			statement.setInt(1, product.getProdId());
-			statement.setString(2, product.getCanvasType());
-			statement.setString(3, product.getPaintType());
+			statement.setString(2, product.getMaterial());
+			statement.setDouble(3, product.getWeight());
 			statement.setDouble(4, product.getLength());
 			statement.setDouble(5, product.getWidth());
+			statement.setDouble(6, product.getHeight());
 			statement.executeUpdate();
 		} finally {
 			if (statement != null && !statement.isClosed()) {
@@ -65,7 +66,7 @@ public class PaintingDaoImpl implements PaintingDao {
 	}
 
 	@Override
-	public Painting retrieve(Connection connection, Integer prodId) throws SQLException, DaoException {
+	public Sculpture retrieve(Connection connection, Integer prodId) throws SQLException, DaoException {
 		if (prodId == null) {
 			throw new DaoException("ProdId cannot be null!");
 		}
@@ -79,7 +80,7 @@ public class PaintingDaoImpl implements PaintingDao {
 			if (!found) {
 				return null;
 			}
-			Painting painting = buildPainting(rs);
+			Sculpture painting = buildSculpture(rs);
 			return painting;
 		} finally {
 			if (statement != null && !statement.isClosed()) {
@@ -92,16 +93,16 @@ public class PaintingDaoImpl implements PaintingDao {
 	}
 
 	@Override
-	public List<Painting> retrieveAll(Connection connection) throws SQLException, DaoException {
+	public List<Sculpture> retrieveAll(Connection connection) throws SQLException, DaoException {
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		try {
 			statement = connection.prepareStatement(retrieveAllQuery);
 			rs = statement.executeQuery();
-			ArrayList<Painting> paintings = new ArrayList<Painting>();
+			ArrayList<Sculpture> paintings = new ArrayList<Sculpture>();
 
 			while (rs.next()) {
-				Painting painting = buildPainting(rs);
+				Sculpture painting = buildSculpture(rs);
 				paintings.add(painting);
 			}
 			return paintings;
@@ -116,7 +117,7 @@ public class PaintingDaoImpl implements PaintingDao {
 	}
 
 	@Override
-	public int update(Connection connection, Painting product) throws SQLException, DaoException {
+	public int update(Connection connection, Sculpture product) throws SQLException, DaoException {
 		if (product.getProdId() == null) {
 			throw new DaoException("ProdId cannot be null!");
 		}
@@ -124,11 +125,12 @@ public class PaintingDaoImpl implements PaintingDao {
 		PreparedStatement statement = null;
 		try {
 			statement = connection.prepareStatement(updateQuery);
-			statement.setString(1, product.getCanvasType());
-			statement.setString(2, product.getPaintType());
+			statement.setString(1, product.getMaterial());
+			statement.setDouble(2, product.getWeight());
 			statement.setDouble(3, product.getLength());
 			statement.setDouble(4, product.getWidth());
-			statement.setInt(5, product.getProdId());
+			statement.setDouble(5, product.getHeight());
+			statement.setInt(6, product.getProdId());
 			int result = statement.executeUpdate();
 			if (result != 1) {
 				throw new DaoException("Unable to update product!");
@@ -142,7 +144,7 @@ public class PaintingDaoImpl implements PaintingDao {
 	}
 
 	@Override
-	public int delete(Connection connection, Painting product) throws SQLException, DaoException {
+	public int delete(Connection connection, Sculpture product) throws SQLException, DaoException {
 		if (product.getProdId() == null) {
 			throw new DaoException("ProdId cannot be null!");
 		}
@@ -163,20 +165,19 @@ public class PaintingDaoImpl implements PaintingDao {
 		}
 	}
 
-	private static Painting buildPainting(ResultSet rs) throws SQLException {
-		// p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, i.CANVASTYPE,
-		// i.PAINTTYPE, i.LENGTH, i.WIDTH
-		Painting painting = new Painting();
-		painting.setProdId(rs.getInt(1));
-		painting.setName(rs.getString(2));
-		painting.setDescription(rs.getString(3));
-		painting.setPrice(rs.getDouble(4));
-		painting.setSold(rs.getBoolean(5));
-		painting.setCanvasType(rs.getString(6));
-		painting.setPaintType(rs.getString(7));
-		painting.setLength(rs.getDouble(8));
-		painting.setWidth(rs.getDouble(9));
-		return painting;
+	private static Sculpture buildSculpture(ResultSet rs) throws SQLException {		
+		Sculpture sculpture = new Sculpture();
+		sculpture.setProdId(rs.getInt(1));
+		sculpture.setName(rs.getString(2));
+		sculpture.setDescription(rs.getString(3));
+		sculpture.setPrice(rs.getDouble(4));
+		sculpture.setSold(rs.getBoolean(5));
+		sculpture.setMaterial(rs.getString(6));
+		sculpture.setWeight(rs.getDouble(7));
+		sculpture.setLength(rs.getDouble(8));
+		sculpture.setWidth(rs.getDouble(9));
+		sculpture.setHeight(rs.getDouble(10));
+		return sculpture;
 	}
 	
 }

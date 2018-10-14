@@ -31,6 +31,11 @@ public class CartDaoImpl implements CartDao {
 			"INSERT INTO "
 			+ "CARTPRODUCT (CARTID, PRODID) "
 			+ "VALUES (?, ?) ";
+	
+	private static final String removeProductFromAllQuery = 
+			"DELETE FROM "
+			+ "CARTPRODUCT "
+			+ "WHERE PRODID = ? ";
 
 	@Override
 	public void create(Connection connection, Cart cart, Integer userId) throws SQLException, DaoException {
@@ -87,6 +92,7 @@ public class CartDaoImpl implements CartDao {
 		}
 	}
 
+	@Override
 	public int update(Connection connection, Cart cart) throws SQLException, DaoException {
 		if (cart.getCartId() == null) {
 			throw new DaoException("CartId cannot be null!");
@@ -119,6 +125,25 @@ public class CartDaoImpl implements CartDao {
 		}
 		return count;
 
+	}
+	
+	@Override
+	public int removeProductFromAllCarts(Connection connection, Integer prodId) throws SQLException, DaoException {
+		if (prodId == null) {
+			throw new DaoException("ProdId cannot be null!");
+		}
+
+		PreparedStatement statement = null;
+		try {
+			statement = connection.prepareStatement(removeProductFromAllQuery);
+			statement.setInt(1, prodId);
+			int result = statement.executeUpdate();
+			return result;
+		} finally {
+			if (statement != null && !statement.isClosed()) {
+				statement.close();
+			}
+		}
 	}
 
 }

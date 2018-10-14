@@ -66,4 +66,26 @@ public class CartPersistenceServiceImpl implements CartPersistenceService {
 		}
 	}
 
+	@Override
+	public int removeProductFromAllCarts(Product prod) throws SQLException, DaoException {
+		Connection connection = db.getConnection();
+
+		try {
+			connection.setAutoCommit(false);
+			int updatedCount = cartDao.removeProductFromAllCarts(connection, prod.getProdId());
+			connection.commit();
+			return updatedCount;
+		} catch (Exception ex) {
+			connection.rollback();
+			throw ex;
+		} finally {
+			if (connection != null) {
+				connection.setAutoCommit(true);
+				if (!connection.isClosed()) {
+					connection.close();
+				}
+			}
+		}
+	}
+
 }

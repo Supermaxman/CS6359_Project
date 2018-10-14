@@ -66,6 +66,24 @@ public class ProductDaoImpl implements ProductDao {
 			+ "PRICE = ?, "
 			+ "ISSOLD = ? "
 			+ "WHERE PRODID = ? ";
+	
+	private static final String deleteQuery = 
+			"DELETE FROM "
+			+ "PRODUCT "
+			+ "WHERE PRODID = ? ";
+	
+	private static final String retrieveInventoryIdQuery = 
+			"SELECT "
+			+ "ip.INVNID "
+			+ "FROM INVENTORYPRODUCT ip "
+			+ "WHERE ip.PRODID = ? ";
+
+	private static final String retrieveSellerIdQuery = 
+			"SELECT "
+			+ "i.USERID "
+			+ "FROM INVENTORYPRODUCT ip "
+			+ "JOIN INVENTORY i ON ip.INVNID = i.INVNID "
+			+ "WHERE ip.PRODID = ? ";
 
 	@Override
 	public void create(Connection connection, Product product) throws SQLException, DaoException {
@@ -280,6 +298,28 @@ public class ProductDaoImpl implements ProductDao {
 			}
 		}
 	}
+	
+	@Override
+	public int delete(Connection connection, Product product) throws SQLException, DaoException {
+		if (product.getProdId() == null) {
+			throw new DaoException("ProdId cannot be null!");
+		}
+
+		PreparedStatement statement = null;
+		try {
+			statement = connection.prepareStatement(deleteQuery);
+			statement.setInt(1, product.getProdId());
+			int result = statement.executeUpdate();
+			if (result != 1) {
+				throw new DaoException("Unable to delete product!");
+			}
+			return result;
+		} finally {
+			if (statement != null && !statement.isClosed()) {
+				statement.close();
+			}
+		}
+	}
 
 	private static Product buildProduct(ResultSet rs) throws SQLException {
 		// p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD
@@ -290,6 +330,64 @@ public class ProductDaoImpl implements ProductDao {
 		product.setPrice(rs.getDouble(4));
 		product.setSold(rs.getBoolean(5));
 		return product;
+	}
+
+	@Override
+	public Integer retrieveInventoryId(Connection connection, Product prod) throws SQLException, DaoException {
+		if (prod.getProdId() == null) {
+			throw new DaoException("ProdId cannot be null!");
+		}
+
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		try {
+			statement = connection.prepareStatement(retrieveInventoryIdQuery);
+			statement.setInt(1, prod.getProdId());
+			rs = statement.executeQuery();
+			boolean found = rs.next();
+			if (!found) {
+				return null;
+			}
+			Integer invnId = rs.getInt(1);
+			return invnId;
+			
+		} finally {
+			if (statement != null && !statement.isClosed()) {
+				statement.close();
+			}
+			if (rs != null && !rs.isClosed()) {
+				rs.close();
+			}
+		}
+	}
+
+	@Override
+	public Integer retrieveSellerId(Connection connection, Product prod) throws SQLException, DaoException {
+		if (prod.getProdId() == null) {
+			throw new DaoException("ProdId cannot be null!");
+		}
+
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		try {
+			statement = connection.prepareStatement(retrieveSellerIdQuery);
+			statement.setInt(1, prod.getProdId());
+			rs = statement.executeQuery();
+			boolean found = rs.next();
+			if (!found) {
+				return null;
+			}
+			Integer sellerId = rs.getInt(1);
+			return sellerId;
+			
+		} finally {
+			if (statement != null && !statement.isClosed()) {
+				statement.close();
+			}
+			if (rs != null && !rs.isClosed()) {
+				rs.close();
+			}
+		}
 	}
 
 }

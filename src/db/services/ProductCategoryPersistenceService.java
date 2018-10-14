@@ -13,5 +13,9 @@ public interface ProductCategoryPersistenceService<T extends Product> {
 	public List<T> retrieveAll() throws SQLException, DaoException;
 
 	public T retrieve(Integer prodId) throws SQLException, DaoException;
+	
+	public int update(T product) throws SQLException, DaoException;
+	
+	public int delete(T product) throws SQLException, DaoException;
 
 }

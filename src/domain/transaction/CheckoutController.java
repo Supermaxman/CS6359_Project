@@ -1,9 +1,6 @@
 package domain.transaction;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -36,20 +33,21 @@ public class CheckoutController extends HttpServlet {
 		
 		try {
 			Cart cart = cartService.retrieve(userId);
-			Transaction trxn = new Transaction();
-			double totalPrice = 0.0;
-			List<Product> trxnProds = new ArrayList<Product>();
 			for (Product prod : cart.getProducts()) {
-				prod.setSold(true);
-				trxnProds.add(prod);
-				totalPrice += prod.getPrice();
+				if (prod.isSold()) {
+					// TODO figure out how to handle this
+					throw new Exception("Cannot purchase sold product!");
+				}
 			}
-			trxn.setProducts(trxnProds);
-			trxn.setPrice(totalPrice);
-			trxn.setDate(new Date(System.currentTimeMillis()));
-			cart.setProducts(new ArrayList<Product>());
+			
+			Transaction trxn = cart.checkout();
 			cartService.update(cart);
 			trxnService.create(trxn, userId);
+			
+			// remove sold products from other user's carts.
+			for (Product prod : trxn.getProducts()) {
+				cartService.removeProductFromAllCarts(prod);
+			}
 			
 		} catch (Exception ex) {
 			System.out.println(ex);

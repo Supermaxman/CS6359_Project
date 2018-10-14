@@ -13,4 +13,6 @@ public interface CartDao {
 
 	public int update(Connection connection, Cart cart) throws SQLException, DaoException;
 
+	public int removeProductFromAllCarts(Connection connection, Integer prodId) throws SQLException, DaoException;
+	
 }

@@ -13,4 +13,6 @@ public interface InventoryDao {
 
 	public void addProduct(Connection connection, Integer prodId, Integer invnId) throws SQLException, DaoException;
 
+	public void removeProduct(Connection connection, Integer prodId, Integer invnId) throws SQLException, DaoException;
+	
 }
