@@ -16,8 +16,8 @@ public class ProductDaoImpl implements ProductDao {
 
 	private static final String createQuery = 
 			"INSERT INTO "
-			+ "PRODUCT (NAME, DESCRIPTION, PRICE, ISSOLD) "
-			+ "VALUES (?, ?, ?, ?)";
+			+ "PRODUCT (CATID, NAME, DESCRIPTION, PRICE, ISSOLD) "
+			+ "VALUES (?, ?, ?, ?, ?)";
 		
 	private static final String retrieveQuery = 
 			"SELECT "
@@ -95,10 +95,11 @@ public class ProductDaoImpl implements ProductDao {
 		ResultSet rs = null;
 		try {
 			statement = connection.prepareStatement(createQuery, Statement.RETURN_GENERATED_KEYS);
-			statement.setString(1, product.getName());
-			statement.setString(2, product.getDescription());
-			statement.setDouble(3, product.getPrice());
-			statement.setBoolean(4, product.isSold());
+			statement.setInt(1, product.getCategory().getCatId());
+			statement.setString(2, product.getName());
+			statement.setString(3, product.getDescription());
+			statement.setDouble(4, product.getPrice());
+			statement.setBoolean(5, product.isSold());
 			statement.executeUpdate();
 			rs = statement.getGeneratedKeys();
 			rs.next();

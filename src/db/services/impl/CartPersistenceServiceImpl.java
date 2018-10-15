@@ -6,11 +6,14 @@ import java.util.List;
 
 import db.DbManager;
 import db.dao.CartDao;
+import db.dao.CategoryDao;
 import db.dao.DaoException;
 import db.dao.ProductDao;
 import db.dao.impl.CartDaoImpl;
+import db.dao.impl.CategoryDaoImpl;
 import db.dao.impl.ProductDaoImpl;
 import db.services.CartPersistenceService;
+import domain.product.Category;
 import domain.product.Product;
 import domain.user.Cart;
 
@@ -19,6 +22,7 @@ public class CartPersistenceServiceImpl implements CartPersistenceService {
 	private DbManager db = new DbManager();
 	private CartDao cartDao = new CartDaoImpl();
 	private ProductDao prodDao = new ProductDaoImpl();
+	private CategoryDao catDao = new CategoryDaoImpl();
 
 	@Override
 	public Cart retrieve(Integer userId) throws SQLException, DaoException {
@@ -28,6 +32,10 @@ public class CartPersistenceServiceImpl implements CartPersistenceService {
 			connection.setAutoCommit(false);
 			Cart cart = cartDao.retrieveByUser(connection, userId);
 			List<Product> prods = prodDao.retrieveByCart(connection, cart.getCartId());
+			for (Product prod : prods) {
+				Category prodCat = catDao.retrieveByProduct(connection, prod.getProdId());
+				prod.setCategory(prodCat);
+			}
 			cart.setProducts(prods);
 			connection.commit();
 			return cart;

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import domain.product.Category;
 import domain.product.Painting;
 import domain.product.Product;
 import domain.transaction.Transaction;
@@ -16,6 +17,14 @@ import domain.user.Inventory;
 import domain.user.User;
 
 public class TestUtils {
+	
+	public static Category generateCategory() {
+		Category testCat = new Category();
+		testCat.setCatId(1);
+		testCat.setName("Painting");
+		testCat.setDescription("");
+		return testCat;
+	}
 	
 	@SuppressWarnings("deprecation")
 	public static CreditCard generateCreditCard() throws Exception {
@@ -29,6 +38,8 @@ public class TestUtils {
 	public static Product generateProduct() throws Exception {
 		Product testProd = new Product();
 		testProd.setName("Stary Night");
+		Category testCat = generateCategory();
+		testProd.setCategory(testCat);
 		testProd.setDescription("Pretty!");
 		testProd.setSold(false);
 		return testProd;
@@ -110,6 +121,7 @@ public class TestUtils {
 	
 	public static void assertEqual(Product a, Product b) throws Exception {
 		assertEquals(a.getProdId(), b.getProdId());
+		assertEqual(a.getCategory(), b.getCategory());
 		assertEquals(a.getName(), b.getName());
 		assertEquals(a.getDescription(), b.getDescription());
 		assertEquals(a.isSold(), b.isSold());
@@ -138,7 +150,7 @@ public class TestUtils {
 		assertEquals(a.getCartId(), b.getCartId());
 		List<Product> aProds = a.getProducts();
 		List<Product> bProds = b.getProducts();
-	
+		
 		assertEquals(aProds.size(), bProds.size());
 		for (int i = 0; i < aProds.size(); i++) {
 			assertEqual(aProds.get(i), bProds.get(i));
@@ -150,6 +162,13 @@ public class TestUtils {
 		assertEquals(a.getCardId(), b.getCardId());
 		assertEquals(a.getExpDate(), b.getExpDate());
 		assertEquals(a.getCcv(), b.getCcv());
+	}
+	
+	public static void assertEqual(Category a, Category b)
+	{
+		assertEquals(a.getCatId(), b.getCatId());
+		assertEquals(a.getName(), b.getName());
+		assertEquals(a.getDescription(), b.getDescription());
 	}
 
 	public static Painting generatePainting() throws Exception {

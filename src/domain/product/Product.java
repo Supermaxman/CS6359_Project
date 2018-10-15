@@ -3,6 +3,7 @@ package domain.product;
 public class Product {
 
 	private Integer prodId;
+	private Category category;
 	private String name;
 	private String description;
 	private double price;
@@ -14,6 +15,14 @@ public class Product {
 
 	public void setProdId(Integer prodId) {
 		this.prodId = prodId;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	public String getName() {
