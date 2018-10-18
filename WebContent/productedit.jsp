@@ -49,32 +49,20 @@
 	Painting paint = paintService.retrieve(prodId);
 	%>
 	<h3>Edit Product Details</h3>
-	<h4>Name: <input type="text" name="name" value=<%=paint.getName()%> ></h4>
-	<h5>Description: <input type="text" name="description" value=<%=paint.getDescription()%>></h5>
-	<h5>Price: <input type="text" name="price" value=<%=paint.getPrice()%>></h5>
-	<h5>Sold: <%=paint.isSold()%></h5>
-	<h5>Canvas Type: <input type="text" name="canvasType" value=<%=paint.getCanvasType()%>></h5>
-	<h5>Paint Type: <input type="text" name="painType" value=<%=paint.getPaintType()%>></h5>
-	<h5>Length: <input type="text" name="length" value=<%=paint.getLength()%>></h5>
-	<h5>Width: <input type="text" name="width" value=<%=paint.getWidth()%>></h5>
+	
 	
 	<br>
 	<% if (!paint.isSold()){ %>
 	<form name="saveForm" action="PaintingController" method="post" onsubmit="return paintValidate()">
-		Name: <input type="text" name="name" id="name">
-		<br>
-		Description: <input type="text" name="description" id="description">
-		<br>
-		Price: <input type="number" min="0" name="price" id="price">
-		<br>
-		Canvas Type: <input type="text" name="canvasType" id="canvasType">
-		<br>
-		Paint Type: <input type="text" name="paintType" id="paintType">
-		<br>
-		Length: <input type="number" min="0" name="length" id="length">
-		<br>
-		Width: <input type="number" min="0" name="width" id="width" >
-		<br>	
+		
+		<h4>Name: <input type="text" name="name" value=<%=paint.getName()%> ></h4>
+		<h5>Description: <input type="text" name="description" value=<%=paint.getDescription()%>></h5>
+		<h5>Price: <input type="text" name="price" value=<%=paint.getPrice()%>></h5>
+		<h5>Sold: <%=paint.isSold()%></h5>
+		<h5>Canvas Type: <input type="text" name="canvasType" value=<%=paint.getCanvasType()%>></h5>
+		<h5>Paint Type: <input type="text" name="paintType" value=<%=paint.getPaintType()%>></h5>
+		<h5>Length: <input type="text" name="length" value=<%=paint.getLength()%>></h5>
+		<h5>Width: <input type="text" name="width" value=<%=paint.getWidth()%>></h5>
 		<input type="hidden" name="prodId" value="<%= prodId.toString() %>">
 		<input class="demo" type="submit" name="SaveDetails" value = "Save Changes" style="left: 460px;">
 	</form>
