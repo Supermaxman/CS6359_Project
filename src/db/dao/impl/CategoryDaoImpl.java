@@ -22,7 +22,7 @@ public class CategoryDaoImpl implements CategoryDao {
 	private static final String retrieveByProductQuery = 
 			"SELECT "
 			+ "c.CATID, c.NAME, c.DESCRIPTION "
-			+ "FROM CREDITCARD c "
+			+ "FROM CATEGORY c "
 			+ "JOIN PRODUCT p "
 			+ "ON c.CATID = p.CATID "
 			+ "WHERE p.PRODID = ? ";

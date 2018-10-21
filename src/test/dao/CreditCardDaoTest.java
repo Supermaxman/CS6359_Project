@@ -1,7 +1,6 @@
 package test.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,26 +23,16 @@ public class CreditCardDaoTest {
 	private Connection conn;
 	private User testUser;
 	private CreditCard testCard;
-	
-	
-	@SuppressWarnings("deprecation")
+		
 	@Before
 	public void setUp() throws Exception {
 		conn = db.getConnection();
 		conn.setAutoCommit(false);
 		
-		testUser = new User();
-		testUser.setUsername("Max");
-		testUser.setPassword("123");
-		testUser.setName("Max Weinzierl");
-		testUser.setAddress("1234 Fake Ln");
-		
+		testUser = TestUtils.generateUser();
 		userDao.register(conn, testUser);
 		
-		testCard = new CreditCard();
-		testCard.setNumber("1234");
-		testCard.setExpDate(new Date(2019, 1, 1));
-		testCard.setCcv("111");
+		testCard = testUser.getCreditCard();
 		
 	}
 

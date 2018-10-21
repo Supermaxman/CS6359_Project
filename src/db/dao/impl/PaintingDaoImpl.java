@@ -1,17 +1,12 @@
 package db.dao.impl;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import db.dao.DaoException;
 import db.dao.PaintingDao;
 import domain.product.Painting;
 
-public class PaintingDaoImpl implements PaintingDao {
+public class PaintingDaoImpl extends AbstractProductCategoryDao<Painting> implements PaintingDao {
 
 	private static final String createQuery = 
 			"INSERT INTO "
@@ -41,131 +36,13 @@ public class PaintingDaoImpl implements PaintingDao {
 			"DELETE FROM "
 			+ "PAINTING "
 			+ "WHERE PRODID = ? ";
-	
-	@Override
-	public void create(Connection connection, Painting product) throws SQLException, DaoException {
-		if (product.getProdId() == null) {
-			throw new DaoException("ProdId cannot be null!");
-		}
-
-		PreparedStatement statement = null;
-		try {
-			statement = connection.prepareStatement(createQuery);
-			statement.setInt(1, product.getProdId());
-			statement.setString(2, product.getCanvasType());
-			statement.setString(3, product.getPaintType());
-			statement.setDouble(4, product.getLength());
-			statement.setDouble(5, product.getWidth());
-			statement.executeUpdate();
-		} finally {
-			if (statement != null && !statement.isClosed()) {
-				statement.close();
-			}
-		}
+		
+	public PaintingDaoImpl() {
+		super(createQuery, retrieveQuery, retrieveAllQuery, updateQuery, deleteQuery);
 	}
 
 	@Override
-	public Painting retrieve(Connection connection, Integer prodId) throws SQLException, DaoException {
-		if (prodId == null) {
-			throw new DaoException("ProdId cannot be null!");
-		}
-		PreparedStatement statement = null;
-		ResultSet rs = null;
-		try {
-			statement = connection.prepareStatement(retrieveQuery);
-			statement.setInt(1, prodId);
-			rs = statement.executeQuery();
-			boolean found = rs.next();
-			if (!found) {
-				return null;
-			}
-			Painting painting = buildPainting(rs);
-			return painting;
-		} finally {
-			if (statement != null && !statement.isClosed()) {
-				statement.close();
-			}
-			if (rs != null && !rs.isClosed()) {
-				rs.close();
-			}
-		}
-	}
-
-	@Override
-	public List<Painting> retrieveAll(Connection connection) throws SQLException, DaoException {
-		PreparedStatement statement = null;
-		ResultSet rs = null;
-		try {
-			statement = connection.prepareStatement(retrieveAllQuery);
-			rs = statement.executeQuery();
-			ArrayList<Painting> paintings = new ArrayList<Painting>();
-
-			while (rs.next()) {
-				Painting painting = buildPainting(rs);
-				paintings.add(painting);
-			}
-			return paintings;
-		} finally {
-			if (statement != null && !statement.isClosed()) {
-				statement.close();
-			}
-			if (rs != null && !rs.isClosed()) {
-				rs.close();
-			}
-		}
-	}
-
-	@Override
-	public int update(Connection connection, Painting product) throws SQLException, DaoException {
-		if (product.getProdId() == null) {
-			throw new DaoException("ProdId cannot be null!");
-		}
-
-		PreparedStatement statement = null;
-		try {
-			statement = connection.prepareStatement(updateQuery);
-			statement.setString(1, product.getCanvasType());
-			statement.setString(2, product.getPaintType());
-			statement.setDouble(3, product.getLength());
-			statement.setDouble(4, product.getWidth());
-			statement.setInt(5, product.getProdId());
-			int result = statement.executeUpdate();
-			if (result != 1) {
-				throw new DaoException("Unable to update product!");
-			}
-			return result;
-		} finally {
-			if (statement != null && !statement.isClosed()) {
-				statement.close();
-			}
-		}
-	}
-
-	@Override
-	public int delete(Connection connection, Painting product) throws SQLException, DaoException {
-		if (product.getProdId() == null) {
-			throw new DaoException("ProdId cannot be null!");
-		}
-
-		PreparedStatement statement = null;
-		try {
-			statement = connection.prepareStatement(deleteQuery);
-			statement.setInt(1, product.getProdId());
-			int result = statement.executeUpdate();
-			if (result != 1) {
-				throw new DaoException("Unable to delete product!");
-			}
-			return result;
-		} finally {
-			if (statement != null && !statement.isClosed()) {
-				statement.close();
-			}
-		}
-	}
-
-	private static Painting buildPainting(ResultSet rs) throws SQLException {
-		// p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, i.CANVASTYPE,
-		// i.PAINTTYPE, i.LENGTH, i.WIDTH
+	protected Painting build(ResultSet rs) throws SQLException {
 		Painting painting = new Painting();
 		painting.setProdId(rs.getInt(1));
 		painting.setName(rs.getString(2));
@@ -177,6 +54,15 @@ public class PaintingDaoImpl implements PaintingDao {
 		painting.setLength(rs.getDouble(8));
 		painting.setWidth(rs.getDouble(9));
 		return painting;
+	}
+
+	@Override
+	protected int createStatement(int index, PreparedStatement statement, Painting product) throws SQLException {
+		statement.setString(index++, product.getCanvasType());
+		statement.setString(index++, product.getPaintType());
+		statement.setDouble(index++, product.getLength());
+		statement.setDouble(index++, product.getWidth());
+		return index;
 	}
 	
 }

@@ -1,7 +1,6 @@
 package test.dao;
 
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
@@ -36,23 +35,13 @@ public class InventoryDaoTest {
 		conn = db.getConnection();
 		conn.setAutoCommit(false);
 
-		testProd = new Product();
-		testProd.setName("Stary Night");
-		testProd.setDescription("Pretty!");
-		testProd.setSold(false);
-
+		testProd = TestUtils.generateProduct();
 		prodDao.create(conn, testProd);
 		
-		testUser = new User();
-		testUser.setUsername("Max");
-		testUser.setPassword("123");
-		testUser.setName("Max Weinzierl");
-		testUser.setAddress("1234 Fake Ln");
-		
+		testUser = TestUtils.generateUser();
 		userDao.register(conn, testUser);
-				
-		testInvn = new Inventory();
-		testInvn.setProducts(new ArrayList<Product>());
+						
+		testInvn = testUser.getInventory();
 				
 	}
 
@@ -79,6 +68,9 @@ public class InventoryDaoTest {
 		testDao.addProduct(conn, testProd.getProdId(), testInvn.getInvnId());
 		Inventory saved = testDao.retrieveByUser(conn, testUser.getUserId());
 		List<Product> savedProds = prodDao.retrieveByInventory(conn, testInvn.getInvnId());
+		for (Product prod : savedProds) {
+			prod.setCategory(testProd.getCategory());
+		}
 		saved.setProducts(savedProds);
 		TestUtils.assertEqual(testInvn, saved);
 	}

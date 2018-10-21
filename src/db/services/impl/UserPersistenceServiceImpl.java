@@ -93,8 +93,9 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 		try {
 			connection.setAutoCommit(false);
 			User user = userDao.retrieve(connection, id);
-
-			buildUser(connection, user);
+			if (user != null) {
+				buildUser(connection, user);
+			}
 
 			connection.commit();
 			return user;

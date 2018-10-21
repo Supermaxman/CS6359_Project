@@ -3,8 +3,6 @@ package test.dao;
 import static org.junit.Assert.*;
 
 import java.sql.Connection;
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
@@ -43,55 +41,39 @@ public class ProductDaoTest {
 	private Inventory testInvn;
 	private Cart testCart;
 	private Transaction testTrxn;
+	private int initialCount;
+	private int initialCartCount;
+	private int initialInvnCount;
+	private int initialSellerCount;
 	
-	@SuppressWarnings("deprecation")
 	@Before
 	public void setUp() throws Exception {
 		conn = db.getConnection();
 		conn.setAutoCommit(false);
 
-		testProd = new Product();
-		testProd.setName("Stary Night");
-		testProd.setDescription("Pretty!");
-		testProd.setSold(false);
-
+		initialCount = testDao.retrieveAll(conn).size();
+		testProd = TestUtils.generateProduct();
 		testDao.create(conn, testProd);
 		
-		testUser = new User();
-		testUser.setUsername("Max");
-		testUser.setPassword("123");
-		testUser.setName("Max Weinzierl");
-		testUser.setAddress("1234 Fake Ln");
-		
+		testUser = TestUtils.generateUser();
 		userDao.register(conn, testUser);
-		
-		testInvn = new Inventory();
-		testInvn.setProducts(new ArrayList<Product>());
+		testInvn = testUser.getInventory();
 		invnDao.create(conn, testInvn, testUser.getUserId());
-		testInvn.addProduct(testProd);
+		testUser.getInventory().addProduct(testProd);
+		initialSellerCount = testDao.retrieveBySeller(conn, testUser.getUserId()).size();
+		initialInvnCount = testDao.retrieveByInventory(conn, testInvn.getInvnId()).size();
 		invnDao.addProduct(conn, testProd.getProdId(), testInvn.getInvnId());
-		testUser.setInventory(testInvn);
 		
-		testCart = new Cart();
-		testCart.setProducts(new ArrayList<Product>());
-		
+		testCart = testUser.getCart();
 		cartDao.create(conn, testCart, testUser.getUserId());
-		testCart.addProduct(testProd);
+		testUser.getCart().addProduct(testProd);
+		initialCartCount = testDao.retrieveByCart(conn, testCart.getCartId()).size();
 		cartDao.update(conn, testCart);
-		testUser.setCart(testCart);
 		
-		testTrxn = new Transaction();
-		testTrxn.setDate(new Date(2016, 1, 1));
-		testTrxn.setPrice(100.0);
-		testTrxn.setProducts(new ArrayList<Product>());
-		testUser.setTransactions(new ArrayList<Transaction>());
+		testTrxn = TestUtils.generateTransaction();
 		testUser.addTransaction(testTrxn);
-		
-		testTrxn.addProduct(testProd);
-		
+		testTrxn.addProduct(testProd);	
 		trxnDao.create(conn, testTrxn, testUser.getUserId());
-		
-		
 	}
 
 	@After
@@ -105,14 +87,20 @@ public class ProductDaoTest {
 	@Test
 	public void testCreateRetrieve() throws Exception {		
 		Product saved = testDao.retrieve(conn, testProd.getProdId());
+		saved.setCategory(testProd.getCategory());
 		TestUtils.assertEqual(testProd, saved);
 	}
 	
 	@Test
 	public void testRetrieveAll() throws Exception {
 		List<Product> saved = testDao.retrieveAll(conn);
-		assertEquals(saved.size(), 1);
-		TestUtils.assertEqual(testProd, saved.get(0));
+		
+		assertEquals(saved.size(), initialCount + 1);
+		int idx = TestUtils.Find(testProd, saved);
+		assertTrue(idx != -1);
+		
+		saved.get(idx).setCategory(testProd.getCategory());
+		TestUtils.assertEqual(testProd, saved.get(idx));
 	}
 	
 	@Test
@@ -123,6 +111,7 @@ public class ProductDaoTest {
 		assertEquals(count, 1);
 		
 		Product saved = testDao.retrieve(conn, testProd.getProdId());
+		saved.setCategory(testProd.getCategory());
 		TestUtils.assertEqual(testProd, saved);
 	}
 	
@@ -130,24 +119,36 @@ public class ProductDaoTest {
 	public void testRetrieveByCart() throws Exception {
 		List<Product> saved = testDao.retrieveByCart(conn, testCart.getCartId());
 
-		assertEquals(saved.size(), 1);
-		TestUtils.assertEqual(testProd, saved.get(0));
+		assertEquals(saved.size(), initialCartCount + 1);
+		int idx = TestUtils.Find(testProd, saved);
+		assertTrue(idx != -1);
+		
+		saved.get(idx).setCategory(testProd.getCategory());
+		TestUtils.assertEqual(testProd, saved.get(idx));
 	}
 
 	@Test
 	public void testRetrieveByInventory() throws Exception {
 		List<Product> saved = testDao.retrieveByInventory(conn, testInvn.getInvnId());
 		
-		assertEquals(saved.size(), 1);
-		TestUtils.assertEqual(testProd, saved.get(0));
+		assertEquals(saved.size(), initialInvnCount + 1);
+		int idx = TestUtils.Find(testProd, saved);
+		assertTrue(idx != -1);
+		
+		saved.get(idx).setCategory(testProd.getCategory());
+		TestUtils.assertEqual(testProd, saved.get(idx));
 	}
 
 	@Test
 	public void testRetrieveBySeller() throws Exception {
 		List<Product> saved = testDao.retrieveBySeller(conn, testUser.getUserId());
+
+		assertEquals(saved.size(), initialSellerCount + 1);
+		int idx = TestUtils.Find(testProd, saved);
+		assertTrue(idx != -1);
 		
-		assertEquals(saved.size(), 1);
-		TestUtils.assertEqual(testProd, saved.get(0));
+		saved.get(idx).setCategory(testProd.getCategory());
+		TestUtils.assertEqual(testProd, saved.get(idx));
 	}
 
 	@Test
@@ -155,7 +156,12 @@ public class ProductDaoTest {
 		List<Product> saved = testDao.retrieveByTransaction(conn, testTrxn.getTrxnId());
 		
 		assertEquals(saved.size(), 1);
-		TestUtils.assertEqual(testProd, saved.get(0));
+		int idx = TestUtils.Find(testProd, saved);
+		assertTrue(idx != -1);
+		
+		saved.get(idx).setCategory(testProd.getCategory());
+		
+		TestUtils.assertEqual(testProd, saved.get(idx));
 	}
 	
 }

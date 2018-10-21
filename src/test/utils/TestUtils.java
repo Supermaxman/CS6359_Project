@@ -1,6 +1,7 @@
 package test.utils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -8,8 +9,10 @@ import java.util.List;
 import java.util.UUID;
 
 import domain.product.Category;
+import domain.product.Craft;
 import domain.product.Painting;
 import domain.product.Product;
+import domain.product.Sculpture;
 import domain.transaction.Transaction;
 import domain.user.Cart;
 import domain.user.CreditCard;
@@ -17,15 +20,7 @@ import domain.user.Inventory;
 import domain.user.User;
 
 public class TestUtils {
-	
-	public static Category generateCategory() {
-		Category testCat = new Category();
-		testCat.setCatId(1);
-		testCat.setName("Painting");
-		testCat.setDescription("");
-		return testCat;
-	}
-	
+		
 	@SuppressWarnings("deprecation")
 	public static CreditCard generateCreditCard() throws Exception {
 		CreditCard testCard = new CreditCard();
@@ -38,7 +33,10 @@ public class TestUtils {
 	public static Product generateProduct() throws Exception {
 		Product testProd = new Product();
 		testProd.setName("Stary Night");
-		Category testCat = generateCategory();
+		Category testCat = new Category();
+		testCat.setCatId(1);
+		testCat.setName("Painting");
+		testCat.setDescription("");
 		testProd.setCategory(testCat);
 		testProd.setDescription("Pretty!");
 		testProd.setSold(false);
@@ -54,6 +52,61 @@ public class TestUtils {
 		testTrxn.setProducts(new ArrayList<Product>());
 		return testTrxn;
 	}
+
+	public static Painting generatePainting() throws Exception {
+		Painting test = new Painting();
+		test.setName("Stary Night");
+		test.setDescription("Pretty!");
+		test.setSold(false);
+		test.setPrice(1000.0);
+		test.setCanvasType("Paper");
+		test.setPaintType("Oil");
+		test.setLength(15.0);
+		test.setWidth(10.0);
+		Category testCat = new Category();
+		testCat.setCatId(1);
+		testCat.setName("Painting");
+		testCat.setDescription("");
+		test.setCategory(testCat);
+		return test;
+	}
+	
+	public static Sculpture generateSculpture() throws Exception {
+		Sculpture test = new Sculpture();
+		test.setName("David");
+		test.setDescription("Tall!");
+		test.setSold(false);
+		test.setPrice(2000.0);
+		test.setHeight(36.0);
+		test.setLength(12.0);
+		test.setWidth(24.0);
+		test.setMaterial("Stone");
+		test.setWeight(1000.0);
+		Category testCat = new Category();
+		testCat.setCatId(2);
+		testCat.setName("Sculpture");
+		testCat.setDescription("");
+		test.setCategory(testCat);
+		return test;
+	}
+
+	public static Craft generateCraft() throws Exception {
+		Craft test = new Craft();
+		test.setName("Bracelet");
+		test.setDescription("Cool!");
+		test.setSold(false);
+		test.setPrice(30.0);
+		test.setHeight(5.0);
+		test.setLength(6.0);
+		test.setWidth(4.0);
+		test.setUsage("Wearable");
+		Category testCat = new Category();
+		testCat.setCatId(3);
+		testCat.setName("Craft");
+		testCat.setDescription("");
+		test.setCategory(testCat);
+		return test;
+	}
 	
 	public static User generateUser() throws Exception {
 		User testUser = new User();
@@ -66,25 +119,28 @@ public class TestUtils {
 		CreditCard testCard = generateCreditCard();
 		testUser.setCreditCard(testCard);
 		
-		Product testProd = generateProduct();
 		
 		Inventory testInvn = new Inventory();
 		testInvn.setProducts(new ArrayList<Product>());
-		testInvn.addProduct(testProd);
 		testUser.setInventory(testInvn);
 		
 		Cart testCart = new Cart();
 		testCart.setProducts(new ArrayList<Product>());
-		testCart.addProduct(testProd);
 		testUser.setCart(testCart);
-		
-		Transaction testTrxn = generateTransaction();
-		testTrxn.addProduct(testProd);
-		testUser.addTransaction(testTrxn);
-		
+				
 		return testUser;
 	}
 	
+	public static boolean assertReferenceCheck(Object a, Object b) throws Exception 
+	{
+		if (a == null || b == null) {
+			assertTrue(a == b);
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
 	
 	
 	public static void assertEqual(User a, User b) throws Exception
@@ -101,10 +157,14 @@ public class TestUtils {
 		
 		List<Transaction> aTrxns = a.getTransactions();
 		List<Transaction> bTrxns = b.getTransactions();
-
-		for (int i = 0; i < aTrxns.size(); i++) {
-			assertEqual(aTrxns.get(i), bTrxns.get(i));
+		
+		if (assertReferenceCheck(aTrxns, bTrxns)) {
+			assertEquals(aTrxns.size(), bTrxns.size());
+			for (int i = 0; i < aTrxns.size(); i++) {
+				assertEqual(aTrxns.get(i), bTrxns.get(i));
+			}
 		}
+		
 	}
 
 	public static void assertEqual(Painting a, Painting b) throws Exception {
@@ -121,7 +181,9 @@ public class TestUtils {
 	
 	public static void assertEqual(Product a, Product b) throws Exception {
 		assertEquals(a.getProdId(), b.getProdId());
-		assertEqual(a.getCategory(), b.getCategory());
+		if (assertReferenceCheck(a.getCategory(), b.getCategory())) {
+			assertEqual(a.getCategory(), b.getCategory());
+		}
 		assertEquals(a.getName(), b.getName());
 		assertEquals(a.getDescription(), b.getDescription());
 		assertEquals(a.isSold(), b.isSold());
@@ -150,10 +212,11 @@ public class TestUtils {
 		assertEquals(a.getCartId(), b.getCartId());
 		List<Product> aProds = a.getProducts();
 		List<Product> bProds = b.getProducts();
-		
-		assertEquals(aProds.size(), bProds.size());
-		for (int i = 0; i < aProds.size(); i++) {
-			assertEqual(aProds.get(i), bProds.get(i));
+		if (assertReferenceCheck(aProds, bProds)) {
+			assertEquals(aProds.size(), bProds.size());
+			for (int i = 0; i < aProds.size(); i++) {
+				assertEqual(aProds.get(i), bProds.get(i));
+			}
 		}
 	}
 	
@@ -170,17 +233,16 @@ public class TestUtils {
 		assertEquals(a.getName(), b.getName());
 		assertEquals(a.getDescription(), b.getDescription());
 	}
-
-	public static Painting generatePainting() throws Exception {
-		Painting testPaint = new Painting();
-		testPaint.setName("Stary Night");
-		testPaint.setDescription("Pretty!");
-		testPaint.setSold(false);
-		testPaint.setPrice(1000.0);
-		testPaint.setCanvasType("Paper");
-		testPaint.setPaintType("Oil");
-		testPaint.setLength(15.0);
-		testPaint.setWidth(10.0);
-		return testPaint;
+	
+	public static int Find(Product prod, List<? extends Product> prods) {
+		int idx = 0;
+		for (Product p : prods) {
+			if (p.getProdId().equals(prod.getProdId())) {
+				return idx;
+			}
+			idx++;
+		}
+		return -1;
 	}
+	
 }
