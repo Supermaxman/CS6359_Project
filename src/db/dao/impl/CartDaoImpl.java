@@ -37,6 +37,8 @@ public class CartDaoImpl implements CartDao {
 			+ "CARTPRODUCT "
 			+ "WHERE PRODID = ? ";
 
+	private static final String removeProductQuery = 
+			"DELETE FROM CARTPRODUCT WHERE CARTID = ? AND PRODID = ? ";
 	@Override
 	public void create(Connection connection, Cart cart, Integer userId) throws SQLException, DaoException {
 		if (cart.getCartId() != null) {
@@ -99,6 +101,7 @@ public class CartDaoImpl implements CartDao {
 		}
 
 		PreparedStatement statement = null;
+		
 		try {
 			statement = connection.prepareStatement(deleteProductsQuery);
 			statement.setInt(1, cart.getCartId());

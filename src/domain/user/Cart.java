@@ -2,6 +2,7 @@ package domain.user;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import domain.product.Product;
@@ -29,6 +30,18 @@ public class Cart {
 
 	public void addProduct(Product product) {
 		this.products.add(product);
+	}
+	
+	public void removeProduct(int prodId)
+	{
+		Iterator<Product> prod = products.iterator();
+		while (prod.hasNext()) {
+		  Product product = prod.next();
+		  if (product.getProdId().equals(prodId)) {
+		   prod.remove();
+		  }
+		}
+		
 	}
 
 	public Transaction checkout() {
