@@ -48,9 +48,11 @@
 	Integer prodId = (Integer) request.getAttribute("prodId");
 	
 	String category = request.getAttribute("category"); 
-	if (category == "painting"){
+	Product prod;
+	if (category == "Painting"){
 		PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
-		Painting paint = paintService.retrieve(prodId); %>
+		Painting paint = paintService.retrieve(prodId);
+		prod = paint; %>
 		<table>
 			<tr><th>Product Details</th></tr>
 			<tr><td>Name: </td><td><%=paint.getName()%></td></tr>
@@ -62,32 +64,44 @@
 			<tr><td>Length: </td><td><%=paint.getLength()%></td></tr>
 			<tr><td>Width: </td><td><%=paint.getWidth()%></td></tr>
 		</table>
-	} else if (category == "craft") {
+	<%} else if (category == "Sculpture") {
+		SculpturePersistenceService sculptService = new SculpturePersistenceServiceImpl();
+		Sculpture sculpt = sculptService.retrieve(prodId); 
+		prod = sculpt; %>
+		<table>
+			<tr><th>Product Details</th></tr>
+			<tr><td>Name: </td><td><%=sculpt.getName()%></td></tr>
+			<tr><td>Description: </td><td><%=sculpt.getDescription()%></td></tr>
+			<tr><td>Price: </td><td><%=sculpt.getPrice()%></td></tr>
+			<tr><td>Sold: </td><td><%=sculpt.isSold()%></td></tr>
+			<tr><td>Length: </td><td><%=sculpt.getMaterial()%></td></tr>
+			<tr><td>Weight: </td><td><%=sculpt.getWeight()%></td></tr>
+			<tr><td>Length: </td><td><%=sculpt.getLength()%></td></tr>
+			<tr><td>Width: </td><td><%=sculpt.getWidth()%></td></tr>
+		</table>
 		
-	}
+	<% } else if (category == "Craft") {
+		CraftPersistenceService craftService = new CraftPersistenceServiceImpl();
+		Craft crafts = craftService.retrieve(prodId);
+		prod = crafts;  %>
+		<table>
+			<tr><th>Product Details</th></tr>
+			<tr><td>Name: </td><td><%=crafts.getName()%></td></tr>
+			<tr><td>Description: </td><td><%=crafts.getDescription()%></td></tr>
+			<tr><td>Price: </td><td><%=crafts.getPrice()%></td></tr>
+			<tr><td>Sold: </td><td><%=crafts.isSold()%></td></tr>
+			<tr><td>Usage: </td><td><%=crafts.getUsage()%></td></tr>
+			<tr><td>Length: </td><td><%=crafts.getLength()%></td></tr>
+			<tr><td>Width: </td><td><%=crafts.getWidth()%></td></tr>
+			<tr><td>Height: </td><td><%=crafts.getHeight()%></td></tr>
+		</table>
 	
-	PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
-	Painting paint = paintService.retrieve(prodId);
-	Product prod = null;
-	Boolean isPainting = prod instanceof Painting;
-	%>
-	<table>
-		<tr><th>Product Details</th></tr>
-		<tr><td>Name: </td><td><%=paint.getName()%></td></tr>
-		<tr><td>Description: </td><td><%=paint.getDescription()%></td></tr>
-		<tr><td>Price: </td><td><%=paint.getPrice()%></td></tr>
-		<tr><td>Sold: </td><td><%=paint.isSold()%></td></tr>
-		<% if (isPainting) {%><tr><td>Canvas Type: </td><td><%=paint.getCanvasType()%></td></tr><% } %>
-		<tr><td>Paint Type: </td><td><%=paint.getPaintType()%></td></tr>
-		<tr><td>Length: </td><td><%=paint.getLength()%></td></tr>
-		<tr><td>Width: </td><td><%=paint.getWidth()%></td></tr>
-	</table>
-	<br>
-	<% if (!paint.isSold()){ %>
+	<%} %>
+	<% if (!prod.isSold() ){ %>
 	<form name="addCartForm" action="CartController" method="post">
 		<input type="hidden" name="prodId" value="<%= prodId.toString() %>">
 		<input class="demo" type="submit" name="AddToCart" value = "Add to Cart" style="left: 460px;">
 	</form>
-	<% } %>
+	<%} %>
 </body>
 </html>
