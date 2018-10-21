@@ -53,7 +53,7 @@
 	
 	<br>
 	<% if (!paint.isSold()){ %>
-	<form name="saveForm" action="PaintingController" method="post" onsubmit="return paintValidate()">
+	<form name="saveForm" action="UpdateController" method="post" onsubmit="return paintValidate()">
 		
 		<h4>Name: <input type="text" name="name" value=<%=paint.getName()%> ></h4>
 		<h5>Description: <input type="text" name="description" value=<%=paint.getDescription()%>></h5>
