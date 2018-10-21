@@ -46,9 +46,11 @@
 	Integer prodId = (Integer) request.getAttribute("prodId");
 	
 	String category = request.getAttribute("category"); 
+	Product prod;
 	if (category == "Painting"){
 		PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
-		Painting paint = paintService.retrieve(prodId); %>
+		Painting paint = paintService.retrieve(prodId);
+		prod = paint; %>
 		<table>
 			<tr><th>Product Details</th></tr>
 			<tr><td>Name: </td><td><%=paint.getName()%></td></tr>
@@ -62,7 +64,8 @@
 		</table>
 	<%} else if (category == "Sculpture") {
 		SculpturePersistenceService sculptService = new SculpturePersistenceServiceImpl();
-		Sculpture sculpt = sculptService.retrieve(prodId); %>
+		Sculpture sculpt = sculptService.retrieve(prodId); 
+		prod = sculpt; %>
 		<table>
 			<tr><th>Product Details</th></tr>
 			<tr><td>Name: </td><td><%=sculpt.getName()%></td></tr>
@@ -77,7 +80,8 @@
 		
 	<% } else if (category == "Craft") {
 		CraftPersistenceService craftService = new CraftPersistenceServiceImpl();
-		Craft crafts = craftService.retrieve(prodId); %>
+		Craft crafts = craftService.retrieve(prodId);
+		prod = crafts;  %>
 		<table>
 			<tr><th>Product Details</th></tr>
 			<tr><td>Name: </td><td><%=crafts.getName()%></td></tr>
@@ -90,7 +94,8 @@
 			<tr><td>Height: </td><td><%=crafts.getHeight()%></td></tr>
 		</table>
 	
-	<% if (!paint.isSold() || !sculpt.isSold() || !crafts.isSold() ){ %>
+	<%} %>
+	<% if (!prod.isSold() ){ %>
 	<form name="addCartForm" action="CartController" method="post">
 		<input type="hidden" name="prodId" value="<%= prodId.toString() %>">
 		<input class="demo" type="submit" name="AddToCart" value = "Add to Cart" style="left: 460px;">
