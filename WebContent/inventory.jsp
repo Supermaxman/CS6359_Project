@@ -71,6 +71,8 @@
 					<form name="detailsform" action="DetailsController" method="post">
 						<input type="hidden" name="prodId" value="<%= prod.getProdId().toString() %>">
 						<input class="demo" type="submit" name="ViewDetails" value = "View Details" style="left: 460px;">
+						<input class="demo" type="submit" name="EditDetails" value = "Edit Details" style="left: 460px;">
+						<input class="demo" type="submit" name="DeleteItem" value = "Delete Item " style="left: 460px;">						
 					</form>
 				</td>
 			</tr>
