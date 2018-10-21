@@ -76,7 +76,7 @@
    	</table>
    	<br>
 	<% } else {%>
-		<p> We currently have no products for sale under this category. </p>
+		<p> We currently have no products for sale under this category. Bye!</p>
 	<%}%>
 </body>
 </html>
