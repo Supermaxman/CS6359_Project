@@ -46,18 +46,42 @@
  	<hr>
 	<%
 	Integer prodId = (Integer) request.getAttribute("prodId");
+	
+	String category = request.getAttribute("category"); 
+	if (category == "painting"){
+		PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
+		Painting paint = paintService.retrieve(prodId); %>
+		<table>
+			<tr><th>Product Details</th></tr>
+			<tr><td>Name: </td><td><%=paint.getName()%></td></tr>
+			<tr><td>Description: </td><td><%=paint.getDescription()%></td></tr>
+			<tr><td>Price: </td><td><%=paint.getPrice()%></td></tr>
+			<tr><td>Sold: </td><td><%=paint.isSold()%></td></tr>
+			<tr><td>Canvas Type: </td><td><%=paint.getCanvasType()%></td></tr>
+			<tr><td>Paint Type: </td><td><%=paint.getPaintType()%></td></tr>
+			<tr><td>Length: </td><td><%=paint.getLength()%></td></tr>
+			<tr><td>Width: </td><td><%=paint.getWidth()%></td></tr>
+		</table>
+	} else if (category == "craft") {
+		
+	}
+	
 	PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
 	Painting paint = paintService.retrieve(prodId);
+	Product prod = null;
+	Boolean isPainting = prod instanceof Painting;
 	%>
-	<h3>Product Details</h3>
-	<h4>Name: <%=paint.getName()%></h4>
-	<h5>Description: <%=paint.getDescription()%></h5>
-	<h5>Price: <%=paint.getPrice()%></h5>
-	<h5>Sold: <%=paint.isSold()%></h5>
-	<h5>Canvas Type: <%=paint.getCanvasType()%></h5>
-	<h5>Paint Type: <%=paint.getPaintType()%></h5>
-	<h5>Length: <%=paint.getLength()%></h5>
-	<h5>Width: <%=paint.getWidth()%></h5>
+	<table>
+		<tr><th>Product Details</th></tr>
+		<tr><td>Name: </td><td><%=paint.getName()%></td></tr>
+		<tr><td>Description: </td><td><%=paint.getDescription()%></td></tr>
+		<tr><td>Price: </td><td><%=paint.getPrice()%></td></tr>
+		<tr><td>Sold: </td><td><%=paint.isSold()%></td></tr>
+		<% if (isPainting) {%><tr><td>Canvas Type: </td><td><%=paint.getCanvasType()%></td></tr><% } %>
+		<tr><td>Paint Type: </td><td><%=paint.getPaintType()%></td></tr>
+		<tr><td>Length: </td><td><%=paint.getLength()%></td></tr>
+		<tr><td>Width: </td><td><%=paint.getWidth()%></td></tr>
+	</table>
 	<br>
 	<% if (!paint.isSold()){ %>
 	<form name="addCartForm" action="CartController" method="post">
