@@ -1,10 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>    
-<%@ page import="domain.product.Painting" %>
 <%@ page import="domain.product.Product" %>
+<%@ page import="domain.product.Painting" %>
+<%@ page import="domain.product.Sculpture" %>
+<%@ page import="domain.product.Craft" %>
 <%@page import="db.services.PaintingPersistenceService"%>
+<%@page import="db.services.SculpturePersistenceService"%>
+<%@page import="db.services.CraftPersistenceService"%>
 <%@page import="db.services.impl.PaintingPersistenceServiceImpl"%>
+<%@page import="db.services.impl.SculpturePersistenceServiceImpl"%>
+<%@page import="db.services.impl.CraftPersistenceServiceImpl"%>
 <%@ page import="javax.servlet.http.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -47,8 +53,8 @@
 	<%
 	Integer prodId = (Integer) request.getAttribute("prodId");
 	
-	String category = request.getAttribute("category"); 
-	Product prod;
+	String category = (String) request.getAttribute("category"); 
+	Product prod = null;
 	if (category == "Painting"){
 		PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
 		Painting paint = paintService.retrieve(prodId);
