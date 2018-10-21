@@ -43,6 +43,8 @@
 	<hr>
 	<div class="menu" align = "Center">
 	<a href="paintings.jsp" >Paintings</a>
+	<a href="sculptures.jsp">Sculptures</a>
+	<a href="craft.jsp">Craft</a>
 	 </div>
 </body>
 </html> 
