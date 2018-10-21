@@ -95,6 +95,6 @@
 		<input type="hidden" name="prodId" value="<%= prodId.toString() %>">
 		<input class="demo" type="submit" name="AddToCart" value = "Add to Cart" style="left: 460px;">
 	</form>
-	<% } %>
+	<%} %>
 </body>
 </html>
