@@ -10,7 +10,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Product Details</title>
+	<title>Edit Product Details</title>
 </head>
 <style>
 .content {
@@ -49,20 +49,26 @@
 	PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
 	Painting paint = paintService.retrieve(prodId);
 	%>
-	<h3>Product Details</h3>
-	<h4>Name: <%=paint.getName()%></h4>
-	<h5>Description: <%=paint.getDescription()%></h5>
-	<h5>Price: <%=paint.getPrice()%></h5>
-	<h5>Sold: <%=paint.isSold()%></h5>
-	<h5>Canvas Type: <%=paint.getCanvasType()%></h5>
-	<h5>Paint Type: <%=paint.getPaintType()%></h5>
-	<h5>Length: <%=paint.getLength()%></h5>
-	<h5>Width: <%=paint.getWidth()%></h5>
+	<h3>Edit Product Details</h3>
+	
+	
 	<br>
 	<% if (!paint.isSold()){ %>
-	<form name="addCartForm" action="CartController" method="post">
+	<form name="saveForm" action="PaintingController" method="post" onsubmit="return paintValidate()">
+		
+		<h4>Name: <input type="text" name="name" value=<%=paint.getName()%> ></h4>
+		<h5>Description: <input type="text" name="description" value=<%=paint.getDescription()%>></h5>
+		<h5>Price: <input type="text" name="price" value=<%=paint.getPrice()%>></h5>
+		<h5>Sold: <%=paint.isSold()%></h5>
+		<h5>Canvas Type: <input type="text" name="canvasType" value=<%=paint.getCanvasType()%>></h5>
+		<h5>Paint Type: <input type="text" name="paintType" value=<%=paint.getPaintType()%>></h5>
+		<h5>Length: <input type="text" name="length" value=<%=paint.getLength()%>></h5>
+		<h5>Width: <input type="text" name="width" value=<%=paint.getWidth()%>></h5>
 		<input type="hidden" name="prodId" value="<%= prodId.toString() %>">
-		<input class="demo" type="submit" name="AddToCart" value = "Add to Cart" style="left: 460px;">
+		<input class="demo" type="submit" name="SaveDetails" value = "Save Changes" style="left: 460px;">
+	</form>
+	<form name="cancelForm" action="inventory.jsp" >
+		<input class="demo" type="submit" name="CacelDetails" value = "Cancel Changes" style="left: 460px;">
 	</form>
 	<% } %>
 </body>
