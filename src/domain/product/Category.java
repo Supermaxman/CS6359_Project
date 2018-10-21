@@ -2,14 +2,14 @@ package domain.product;
 
 public class Category {
 	
-	private int catId;
+	private Integer catId;
 	private String name;
 	private String description;
 	
-	public int getCatId() {
+	public Integer getCatId() {
 		return catId;
 	}
-	public void setCatId(int catId) {
+	public void setCatId(Integer catId) {
 		this.catId = catId;
 	}
 	public String getName() {
