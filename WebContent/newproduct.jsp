@@ -39,8 +39,16 @@
 		<a href="logout.jsp" >Logout</a>
  	</div>
  	<hr>
+	
+		<% 
+	String val="";
+	if(Integer.valueOf(request.getParameter("id"))==1)
+	
+	{
+	%>
 	<h4 align="left"> Create Painting: </h4>
 	<form name="newpaintform" action="PaintingController" method="post" onsubmit="return paintValidate()">
+	
 		Name: <input type="text" name="name" id="name">
 		<br>
 		Description: <input type="text" name="description" id="description">
@@ -56,6 +64,59 @@
 		Width: <input type="number" min="0" name="width" id="width" >
 		<br>		
 		<input type="submit" name="submit" value="create" >
+		</form>
+		<% 
+	}
+	else if (Integer.valueOf(request.getParameter("id"))==2)
+	{
+		%>
+		<h4 align="left"> Create Painting: </h4>
+		<form name="newpaintform" action="SculptureController" method="post" onsubmit="return paintValidate()">
+		
+		Name: <input type="text" name="name" id="name">
+		<br>
+		Description: <input type="text" name="description" id="description">
+		<br>
+		Price: <input type="number" min="0" name="price" id="price">
+		<br>
+		Length: <input type="number" min="0" name="length" id="length">
+		<br>
+		Width: <input type="number" min="0" name="width" id="width" >
+		<br>
+		Height: <input type="number" min="0" name="height" id="height" >
+		<br>
+		Material: <input type="text"  name="material" id="material" >
+		<br>
+		Weight: <input type="number" min="0" name="weight" id="weight" >
+		<br>
+		<input type="submit" name="submit" value="create" >
+		<br>
+		</form>
+		
+		<% 
+	}
+	else if(Integer.valueOf(request.getParameter("id"))==3)
+	{
+		
+	
+	%>
+	<h4 align="left"> Create Painting: </h4>
+	<form name="newpaintform" action="CraftController" method="post" onsubmit="return paintValidate()">
+	Name: <input type="text" name="name" id="name">
+		<br>
+		Description: <input type="text" name="description" id="description">
+		<br>
+		Price: <input type="number" min="0" name="price" id="price">
+		<br>
+		Usage: <input type="text"  name="usage" id="usage">
+		<br>
+		<input type="submit" name="submit" value="create" >
+		<br>
+		
+		<% 
+	}
+	%>
+		
 	</form>	
 </body>
 </html> 

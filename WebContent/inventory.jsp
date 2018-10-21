@@ -80,6 +80,10 @@
 	<% } else {%>
 		<p> Your Inventory is empty. </p>
 	<%}%>
-	<a href="newproduct.jsp">Add a Product</a>
+	<form>
+	<a name = "Painting" href="newproduct.jsp?id=1">Add a painting</a>
+	<a name = "Sculpture" href="newproduct.jsp?id=2">Add a sculpture</a>
+	<a name = "Craft" href="newproduct.jsp?id=3">Add a craft</a>
+	</form>
 </body>
 </html> 
