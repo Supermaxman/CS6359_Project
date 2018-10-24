@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import db.services.CategoryPersistenceService;
 import db.services.PaintingPersistenceService;
+import db.services.impl.CategoryPersistenceServiceImpl;
 import db.services.impl.PaintingPersistenceServiceImpl;
 
 @WebServlet("/PaintingController")
@@ -19,12 +21,15 @@ public class PaintingController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
+	private CategoryPersistenceService catService = new CategoryPersistenceServiceImpl();
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession sess = request.getSession(true);
 		Integer invnId = (Integer) sess.getAttribute("invnId");
+		// TODO temp for now, should get this from request probably
+		Integer catId = 1; 
 		
 		String name = request.getParameter("name");
 		String description = request.getParameter("description");
@@ -33,7 +38,6 @@ public class PaintingController extends HttpServlet {
 		String paintType = request.getParameter("paintType");
 		Double length = Double.parseDouble(request.getParameter("length"));
 		Double width = Double.parseDouble(request.getParameter("width"));
-
 		Painting painting = new Painting();
 		painting.setName(name);
 		painting.setDescription(description);
@@ -45,9 +49,12 @@ public class PaintingController extends HttpServlet {
 		painting.setWidth(width);
 
 		try {
+			Category cat = catService.retrieve(catId);
+			painting.setCategory(cat);			
 			paintService.create(painting, invnId);
 		} catch (Exception ex) {
 			System.out.println(ex);
+			ex.printStackTrace(System.out);
 			// TODO return failure message
 		}
 		
