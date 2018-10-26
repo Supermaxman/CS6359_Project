@@ -20,7 +20,7 @@ import domain.product.Category;
 import domain.product.Product;
 
 public abstract class AbstractProductCategoryPersistenceService<T extends Product> implements ProductCategoryPersistenceService<T> {
-
+	
 	private DbManager db = new DbManager();
 	private InventoryDao inventoryDao = new InventoryDaoImpl();
 	private CartDao cartDao = new CartDaoImpl();
@@ -30,6 +30,35 @@ public abstract class AbstractProductCategoryPersistenceService<T extends Produc
 	
 	public AbstractProductCategoryPersistenceService(ProductCategoryDao<T> prodCatDao) {
 		this.prodCatDao = prodCatDao;
+	}
+	
+	@Override
+	public int update(T product) throws SQLException, DaoException {
+		Connection connection = db.getConnection();
+
+		try {
+			connection.setAutoCommit(false);
+
+			int count = prodCatDao.update(connection, product);
+			int prodCount = prodDao.update(connection, product);
+			
+			if (prodCount != count) {
+				throw new DaoException("Unable to update Product!");
+			}
+			
+			connection.commit();
+			return count;
+		} catch (Exception ex) {
+			connection.rollback();
+			throw ex;
+		} finally {
+			if (connection != null) {
+				connection.setAutoCommit(true);
+				if (!connection.isClosed()) {
+					connection.close();
+				}
+			}
+		}
 	}
 	
 	@Override
@@ -113,34 +142,7 @@ public abstract class AbstractProductCategoryPersistenceService<T extends Produc
 		}
 	}
 
-	@Override
-	public int update(T product) throws SQLException, DaoException {
-		Connection connection = db.getConnection();
-
-		try {
-			connection.setAutoCommit(false);
-
-			int count = prodCatDao.update(connection, product);
-			int prodCount = prodDao.update(connection, product);
-			
-			if (prodCount != count) {
-				throw new DaoException("Unable to update Product!");
-			}
-			
-			connection.commit();
-			return count;
-		} catch (Exception ex) {
-			connection.rollback();
-			throw ex;
-		} finally {
-			if (connection != null) {
-				connection.setAutoCommit(true);
-				if (!connection.isClosed()) {
-					connection.close();
-				}
-			}
-		}
-	}
+	
 
 	@Override
 	public int delete(T product) throws SQLException, DaoException {
