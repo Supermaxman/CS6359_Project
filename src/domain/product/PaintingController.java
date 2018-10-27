@@ -22,14 +22,13 @@ public class PaintingController extends HttpServlet {
 
 	private PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
 	private CategoryPersistenceService catService = new CategoryPersistenceServiceImpl();
+	private static Integer catId = 1; 
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession sess = request.getSession(true);
 		Integer invnId = (Integer) sess.getAttribute("invnId");
-		// TODO temp for now, should get this from request probably
-		Integer catId = 1; 
 		
 		String name = request.getParameter("name");
 		String description = request.getParameter("description");

@@ -44,7 +44,8 @@
 	
 		<% 
 	String val="";
-	if(Integer.valueOf(request.getParameter("id"))==1)
+	Integer catId = Integer.valueOf(request.getParameter("catId"));
+	if(catId == 1)
 	
 	{
 	%>
@@ -69,7 +70,7 @@
 		</form>
 		<% 
 	}
-	else if (Integer.valueOf(request.getParameter("id"))==2)
+	else if (catId == 2)
 	{
 		%>
 		<h4 align="left"> Create Painting: </h4>
@@ -97,7 +98,7 @@
 		
 		<% 
 	}
-	else if(Integer.valueOf(request.getParameter("id"))==3)
+	else if(catId == 3)
 	{
 		
 	

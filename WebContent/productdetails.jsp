@@ -53,9 +53,9 @@
 	<%
 	Integer prodId = (Integer) request.getAttribute("prodId");
 	
-	String category = (String) request.getAttribute("category"); 
+	Integer catId = (Integer) request.getAttribute("catId"); 
 	Product prod = null;
-	if (category == "Painting"){
+	if (catId == 1){
 		PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
 		Painting paint = paintService.retrieve(prodId);
 		prod = paint; %>
@@ -70,7 +70,7 @@
 			<tr><td>Length: </td><td><%=paint.getLength()%></td></tr>
 			<tr><td>Width: </td><td><%=paint.getWidth()%></td></tr>
 		</table>
-	<%} else if (category == "Sculpture") {
+	<%} else if (catId == 2) {
 		SculpturePersistenceService sculptService = new SculpturePersistenceServiceImpl();
 		Sculpture sculpt = sculptService.retrieve(prodId); 
 		prod = sculpt; %>
@@ -86,7 +86,7 @@
 			<tr><td>Width: </td><td><%=sculpt.getWidth()%></td></tr>
 		</table>
 		
-	<% } else if (category == "Craft") {
+	<% } else if (catId == 3) {
 		CraftPersistenceService craftService = new CraftPersistenceServiceImpl();
 		Craft crafts = craftService.retrieve(prodId);
 		prod = crafts;  %>
