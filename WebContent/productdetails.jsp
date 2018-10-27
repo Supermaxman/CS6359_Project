@@ -55,6 +55,7 @@
 	
 	Integer catId = (Integer) request.getAttribute("catId"); 
 	Product prod = null;
+
 	if (catId == 1){
 		PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
 		Painting paint = paintService.retrieve(prodId);

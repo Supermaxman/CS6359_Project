@@ -31,12 +31,16 @@ public class DetailsController extends HttpServlet {
 		HttpSession sess = request.getSession(true);
 		Integer userId = (Integer) sess.getAttribute("userId");
 		Integer prodId = Integer.parseInt(request.getParameter("prodId"));
+		Integer catId = Integer.parseInt(request.getParameter("catId"));
+		
 		if(null != request.getParameter("ViewDetails"))
 		{
 			request.setAttribute("prodId", prodId);
+			request.setAttribute("catId", catId);
 			RequestDispatcher rs = request.getRequestDispatcher("productdetails.jsp");
 			rs.forward(request, response);
 		}
+		
 		else if(null!=request.getParameter("Remove")) {
 		
 			try {
@@ -51,7 +55,7 @@ public class DetailsController extends HttpServlet {
 				System.out.println(e);
 				// TODO return error msg.
 			}
-
+			
 			//request.("prodId");
 			RequestDispatcher rs = request.getRequestDispatcher("cart.jsp");
 			rs.forward(request, response);
