@@ -110,7 +110,7 @@ public abstract class AbstractProductCategoryDao<T extends Product> implements P
 			statement.setInt(index, product.getProdId());
 			int result = statement.executeUpdate();
 			if (result != 1) {
-				throw new DaoException("Unable to update product!");
+				throw new DaoException("Unable to update product: " + result + " rows updated!");
 			}
 			return result;
 		} finally {

@@ -1,24 +1,34 @@
 package domain.product;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 
+import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
+import db.services.CategoryPersistenceService;
 import db.services.PaintingPersistenceService;
+import db.services.impl.CategoryPersistenceServiceImpl;
 import db.services.impl.PaintingPersistenceServiceImpl;
 
+@MultipartConfig
 @WebServlet("/PaintingController")
 public class PaintingController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
 	private PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
+	private CategoryPersistenceService catService = new CategoryPersistenceServiceImpl();
+	private static Integer catId = 1; 
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -33,6 +43,12 @@ public class PaintingController extends HttpServlet {
 		String paintType = request.getParameter("paintType");
 		Double length = Double.parseDouble(request.getParameter("length"));
 		Double width = Double.parseDouble(request.getParameter("width"));
+		
+        // obtains the upload file part in this multipart request
+        Part filePart = request.getPart("file");
+        // obtains input stream of the upload file
+        InputStream inputStream = filePart.getInputStream();
+        BufferedImage image = ImageIO.read(inputStream);
 
 		Painting painting = new Painting();
 		painting.setName(name);
@@ -43,11 +59,15 @@ public class PaintingController extends HttpServlet {
 		painting.setPaintType(paintType);
 		painting.setLength(length);
 		painting.setWidth(width);
+		painting.setImage(image);
 
 		try {
+			Category cat = catService.retrieve(catId);
+			painting.setCategory(cat);			
 			paintService.create(painting, invnId);
 		} catch (Exception ex) {
 			System.out.println(ex);
+			ex.printStackTrace(System.out);
 			// TODO return failure message
 		}
 		

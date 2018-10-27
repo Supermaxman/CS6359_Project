@@ -69,12 +69,17 @@
 				<td><%= prod.getDescription() %></td>
 				<td><%= prod.getPrice() %></td>
 				<td><%= prod.isSold() %></td>
+				
 				<td>
 					<form name="detailsform" action="DetailsController" method="post">
 						<input type="hidden" name="prodId" value="<%= prod.getProdId().toString() %>">
+						<input type="hidden" name="catId" value="<%= prod.getCategory().getCatId().toString() %>">
 						<input class="demo" type="submit" name="ViewDetails" value = "View Details" style="left: 460px;">
-						<input class="demo" type="submit" name="EditDetails" value = "Edit Details" style="left: 460px;">
-						<input class="demo" type="submit" name="DeleteItem" value = "Delete Item " style="left: 460px;">						
+					</form>	
+					<form name="editform" action="EditController" method="post">
+						<input type="hidden" name="prodId" value="<%= prod.getProdId().toString() %>">
+						<input type="hidden" name="catId" value="<%= prod.getCategory().getCatId().toString() %>">
+						<input class="demo" type="submit" <%=prod.isSold() ? "disabled=\"\"" : "" %> name="EditDetails" value = "Edit Details" style="left: 460px;">
 					</form>
 				</td>
 			</tr>
@@ -85,9 +90,9 @@
 		<p> Your Inventory is empty. </p>
 	<%}%>
 	<form>
-	<a name = "Painting" href="newproduct.jsp?id=1">Add a painting</a>
-	<a name = "Sculpture" href="newproduct.jsp?id=2">Add a sculpture</a>
-	<a name = "Craft" href="newproduct.jsp?id=3">Add a craft</a>
+	<a name = "Painting" href="newproduct.jsp?catId=1">Add a painting</a>
+	<a name = "Sculpture" href="newproduct.jsp?catId=2">Add a sculpture</a>
+	<a name = "Craft" href="newproduct.jsp?catId=3">Add a craft</a>
 	</form>
 </body>
 </html> 

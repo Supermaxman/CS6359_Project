@@ -44,12 +44,13 @@
 	
 		<% 
 	String val="";
-	if(Integer.valueOf(request.getParameter("id"))==1)
+	Integer catId = Integer.valueOf(request.getParameter("catId"));
+	if(catId == 1)
 	
 	{
 	%>
 	<h4 align="left"> Create Painting: </h4>
-	<form name="newpaintform" action="PaintingController" method="post" onsubmit="return paintValidate()">
+	<form name="newpaintform" enctype='multipart/form-data' action="PaintingController" method="post" onsubmit="return paintValidate()">
 	
 		Name: <input type="text" name="name" id="name">
 		<br>
@@ -65,16 +66,17 @@
 		<br>
 		Width: <input type="number" min="0" name="width" id="width" >
 		<br>		
+		Upload an Image: <input type="file" name="file" >
+		<br>
 		<input type="submit" name="submit" value="create" >
 		</form>
 		<% 
 	}
-	else if (Integer.valueOf(request.getParameter("id"))==2)
+	else if (catId == 2)
 	{
 		%>
-		<h4 align="left"> Create Painting: </h4>
-		<form name="newpaintform" action="SculptureController" method="post" onsubmit="return paintValidate()">
-		
+		<h4 align="left"> Create Sculpture: </h4>
+		<form name="newsculptform" enctype='multipart/form-data' action="SculptureController" method="post" onsubmit="return true">		
 		Name: <input type="text" name="name" id="name">
 		<br>
 		Description: <input type="text" name="description" id="description">
@@ -91,26 +93,36 @@
 		<br>
 		Weight: <input type="number" min="0" name="weight" id="weight" >
 		<br>
+		Upload an Image: <input type="file" name="file" >
+		<br>
 		<input type="submit" name="submit" value="create" >
 		<br>
 		</form>
 		
 		<% 
 	}
-	else if(Integer.valueOf(request.getParameter("id"))==3)
+	else if(catId == 3)
 	{
 		
 	
 	%>
-	<h4 align="left"> Create Painting: </h4>
-	<form name="newpaintform" action="CraftController" method="post" onsubmit="return paintValidate()">
-	Name: <input type="text" name="name" id="name">
+	<h4 align="left"> Create Craft: </h4>
+		<form name="newcraftform" enctype='multipart/form-data' action="CraftController" method="post" onsubmit="return true">		
+		Name: <input type="text" name="name" id="name">
 		<br>
 		Description: <input type="text" name="description" id="description">
 		<br>
 		Price: <input type="number" min="0" name="price" id="price">
 		<br>
+		Length: <input type="number" min="0" name="length" id="length">
+		<br>
+		Width: <input type="number" min="0" name="width" id="width" >
+		<br>
+		Height: <input type="number" min="0" name="height" id="height" >
+		<br>
 		Usage: <input type="text"  name="usage" id="usage">
+		<br>
+		Upload an Image: <input type="file" name="file" >
 		<br>
 		<input type="submit" name="submit" value="create" >
 		<br>
