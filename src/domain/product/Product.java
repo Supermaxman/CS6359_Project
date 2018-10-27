@@ -1,5 +1,7 @@
 package domain.product;
 
+import java.awt.image.BufferedImage;
+
 public class Product {
 
 	private Integer prodId;
@@ -8,6 +10,7 @@ public class Product {
 	private String description;
 	private double price;
 	private boolean isSold;
+	private BufferedImage image;
 
 	public Integer getProdId() {
 		return prodId;
@@ -55,6 +58,16 @@ public class Product {
 
 	public void setSold(boolean isSold) {
 		this.isSold = isSold;
+	}
+	
+	public void setImage(BufferedImage img)
+	{
+		this.image=img;
+	}
+	
+	public BufferedImage getImage()
+	{
+		return image;
 	}
 
 }

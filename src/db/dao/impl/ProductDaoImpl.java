@@ -1,5 +1,8 @@
 package db.dao.impl;
 
+import java.awt.image.BufferedImage;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,6 +10,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.sun.prism.Image;
 
 import db.dao.DaoException;
 import db.dao.ProductDao;
@@ -16,30 +21,30 @@ public class ProductDaoImpl implements ProductDao {
 
 	private static final String createQuery = 
 			"INSERT INTO "
-			+ "PRODUCT (CATID, NAME, DESCRIPTION, PRICE, ISSOLD) "
-			+ "VALUES (?, ?, ?, ?, ?)";
+			+ "PRODUCT (CATID, NAME, DESCRIPTION, PRICE, ISSOLD,PHOTO) "
+			+ "VALUES (?, ?, ?, ?, ?, ?)";
 		
 	private static final String retrieveQuery = 
 			"SELECT "
-			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD "
+			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD,p.PHOTO "
 			+ "FROM PRODUCT p "
 			+ "WHERE p.PRODID = ? ";
 
 	private static final String retrieveAllQuery = 
 			"SELECT "
-			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD "
+			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD,p.PHOTO "
 			+ "FROM PRODUCT p ";
 	
 	private static final String retrieveByTransactionQuery = 
 			"SELECT "
-			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD "
+			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, p.PHOTO "
 			+ "FROM PRODUCT p "
 			+ "JOIN TRANSACTIONPRODUCT tp ON p.PRODID = tp.PRODID "
 			+ "WHERE tp.TRXNID = ? ";
 	
 	private static final String retrieveBySellerQuery = 
 			"SELECT "
-			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD "
+			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, p.PHOTO "
 			+ "FROM PRODUCT p "
 			+ "JOIN INVENTORYPRODUCT ip ON p.PRODID = ip.PRODID "
 			+ "JOIN INVENTORY i ON ip.INVNID = i.INVNID "
@@ -47,14 +52,14 @@ public class ProductDaoImpl implements ProductDao {
 
 	private static final String retrieveByCartQuery = 
 			"SELECT "
-			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD "
+			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, p.PHOTO "
 			+ "FROM PRODUCT p "
 			+ "JOIN CARTPRODUCT cp ON p.PRODID = cp.PRODID "
 			+ "WHERE cp.CARTID = ? ";
 
 	private static final String retrieveByInventoryQuery = 
 			"SELECT "
-			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD "
+			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, p.PHOTO "
 			+ "FROM PRODUCT p "
 			+ "JOIN INVENTORYPRODUCT ip ON p.PRODID = ip.PRODID "
 			+ "WHERE ip.INVNID = ? ";
@@ -64,7 +69,8 @@ public class ProductDaoImpl implements ProductDao {
 			+ "SET NAME = ?, "
 			+ "DESCRIPTION = ?, "
 			+ "PRICE = ?, "
-			+ "ISSOLD = ? "
+			+ "ISSOLD = ?, "
+			+ "PHOTO = ? "
 			+ "WHERE PRODID = ? ";
 	
 	private static final String deleteQuery = 
@@ -100,6 +106,7 @@ public class ProductDaoImpl implements ProductDao {
 			statement.setString(3, product.getDescription());
 			statement.setDouble(4, product.getPrice());
 			statement.setBoolean(5, product.isSold());
+			statement.setBlob(6, (Blob) product.getImage());
 			statement.executeUpdate();
 			rs = statement.getGeneratedKeys();
 			rs.next();
@@ -288,6 +295,7 @@ public class ProductDaoImpl implements ProductDao {
 			statement.setDouble(3, prod.getPrice());
 			statement.setBoolean(4, prod.isSold());
 			statement.setInt(5, prod.getProdId());
+			statement.setBlob(6, (Blob) prod.getImage());
 			int result = statement.executeUpdate();
 			if (result != 1) {
 				throw new DaoException("Unable to update product!");
@@ -330,6 +338,9 @@ public class ProductDaoImpl implements ProductDao {
 		product.setDescription(rs.getString(3));
 		product.setPrice(rs.getDouble(4));
 		product.setSold(rs.getBoolean(5));
+		product.setImage((BufferedImage) rs.getBlob(6));
+		//InputStream is = (InputStream) rs.getBlob(6);
+		
 		return product;
 	}
 

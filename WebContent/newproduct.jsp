@@ -49,7 +49,7 @@
 	{
 	%>
 	<h4 align="left"> Create Painting: </h4>
-	<form name="newpaintform" action="PaintingController" method="post" onsubmit="return paintValidate()">
+	<form name="newpaintform" enctype='multipart/form-data' action="PaintingController" method="post" onsubmit="return paintValidate()">
 	
 		Name: <input type="text" name="name" id="name">
 		<br>
@@ -65,6 +65,8 @@
 		<br>
 		Width: <input type="number" min="0" name="width" id="width" >
 		<br>		
+		Upload an Image<input type="file" name="file" >
+		<br>
 		<input type="submit" name="submit" value="create" >
 		</form>
 		<% 
@@ -90,6 +92,8 @@
 		Material: <input type="text"  name="material" id="material" >
 		<br>
 		Weight: <input type="number" min="0" name="weight" id="weight" >
+		<br>
+		Upload an Image<input type="file" name="file" >
 		<br>
 		<input type="submit" name="submit" value="create" >
 		<br>
