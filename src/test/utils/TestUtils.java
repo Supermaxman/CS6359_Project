@@ -3,6 +3,7 @@ package test.utils;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.awt.image.BufferedImage;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,8 @@ public class TestUtils {
 		testProd.setCategory(testCat);
 		testProd.setDescription("Pretty!");
 		testProd.setSold(false);
+		BufferedImage bufimage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+		testProd.setImage(bufimage);
 		return testProd;
 	}
 
@@ -68,6 +71,8 @@ public class TestUtils {
 		testCat.setName("Painting");
 		testCat.setDescription("");
 		test.setCategory(testCat);
+		BufferedImage bufimage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+		test.setImage(bufimage);
 		return test;
 	}
 	
@@ -87,6 +92,8 @@ public class TestUtils {
 		testCat.setName("Sculpture");
 		testCat.setDescription("");
 		test.setCategory(testCat);
+		BufferedImage bufimage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+		test.setImage(bufimage);
 		return test;
 	}
 
@@ -105,6 +112,8 @@ public class TestUtils {
 		testCat.setName("Craft");
 		testCat.setDescription("");
 		test.setCategory(testCat);
+		BufferedImage bufimage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+		test.setImage(bufimage);
 		return test;
 	}
 	
