@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS `artkart`.`Product` (
   `description` VARCHAR(2000) NULL,
   `price` DOUBLE NOT NULL,
   `isSold` TINYINT NOT NULL,
+  `photo` MEDIUMBLOB NOT NULL,
   PRIMARY KEY (`prodId`),
   UNIQUE INDEX `Product_prodId_UNIQUE` (`prodId` ASC),
   CONSTRAINT `fk_Product_Category_catId`
