@@ -60,6 +60,9 @@ public void login() throws InterruptedException{
 	Thread.sleep(4000);
 	Assert.assertEquals("New Product",driver.getTitle());
 	
+	
+	
+	
 }
 
 @After 
