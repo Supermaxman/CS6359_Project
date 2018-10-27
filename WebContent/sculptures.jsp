@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>    
-<%@ page import="domain.product.Painting" %>
+<%@ page import="domain.product.Sculpture" %>
 <%@ page import="domain.product.Product" %>
-<%@page import="db.services.PaintingPersistenceService"%>
-<%@page import="db.services.impl.PaintingPersistenceServiceImpl"%>
+<%@page import="db.services.SculpturePersistenceService"%>
+<%@page import="db.services.impl.SculpturePersistenceServiceImpl"%>
 <%@ page import="javax.servlet.http.*" %>
 <!DOCTYPE html>
 <html>
@@ -44,10 +44,10 @@
  	<hr>
 	<h4>Sculptures:</h4>
    <% 
-   PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
-   List<Painting> paintings = paintService.retrieveAll();
+   SculpturePersistenceService sculptureService = new SculpturePersistenceServiceImpl();
+   List<Sculpture> sculptures = sculptureService.retrieveAll();
 
-	if (paintings.size() > 0){
+	if (sculptures.size() > 0){
 		
    	%>  
    	<table border="1" style="margin-top: 20px; margin-right: 20px; margin-left: 29px; border-top-width: 2px;">
@@ -58,7 +58,7 @@
        		<th>Action</th>   
    		</tr>
      
-     	<%for(Painting prod : paintings) {%>
+     	<%for(Sculpture prod : sculptures) {%>
 			<% if (!prod.isSold()){ %>
 			<tr>
 			<td><%= prod.getName() %></td>
