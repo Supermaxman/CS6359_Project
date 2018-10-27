@@ -32,13 +32,14 @@ public class Cart {
 		this.products.add(product);
 	}
 	
-	public void removeProduct(int prodId)
+	public void removeProduct(Product prod)
 	{
-		Iterator<Product> prod = products.iterator();
-		while (prod.hasNext()) {
-		  Product product = prod.next();
+		Integer prodId = prod.getProdId();
+		Iterator<Product> prodIter = products.iterator();
+		while (prodIter.hasNext()) {
+		  Product product = prodIter.next();
 		  if (product.getProdId().equals(prodId)) {
-		   prod.remove();
+			  prodIter.remove();
 		  }
 		}
 		

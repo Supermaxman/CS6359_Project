@@ -1,8 +1,12 @@
 package db.dao.impl;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.imageio.ImageIO;
+
 import db.dao.SculptureDao;
 import domain.product.Sculpture;
 
@@ -15,14 +19,14 @@ public class SculptureDaoImpl extends AbstractProductCategoryDao<Sculpture> impl
 
 	private static final String retrieveQuery = 
 			"SELECT "
-			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, i.MATERIAL, i.WEIGHT, i.LENGTH, i.WIDTH, i.HEIGHT "
+			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, p.PHOTO, i.MATERIAL, i.WEIGHT, i.LENGTH, i.WIDTH, i.HEIGHT "
 			+ "FROM PRODUCT p "
 			+ "JOIN SCULPTURE i ON p.PRODID = i.PRODID "
 			+ "WHERE p.PRODID = ? ";
 
 	private static final String retrieveAllQuery = 
 			"SELECT "
-			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, i.MATERIAL, i.WEIGHT, i.LENGTH, i.WIDTH, i.HEIGHT "
+			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, p.PHOTO, i.MATERIAL, i.WEIGHT, i.LENGTH, i.WIDTH, i.HEIGHT "
 			+ "FROM PRODUCT p "
 			+ "JOIN SCULPTURE i ON p.PRODID = i.PRODID ";
 
@@ -49,11 +53,16 @@ public class SculptureDaoImpl extends AbstractProductCategoryDao<Sculpture> impl
 		sculpture.setDescription(rs.getString(3));
 		sculpture.setPrice(rs.getDouble(4));
 		sculpture.setSold(rs.getBoolean(5));
-		sculpture.setMaterial(rs.getString(6));
-		sculpture.setWeight(rs.getDouble(7));
-		sculpture.setLength(rs.getDouble(8));
-		sculpture.setWidth(rs.getDouble(9));
-		sculpture.setHeight(rs.getDouble(10));
+		try {
+			sculpture.setImage(ImageIO.read(rs.getBlob(6).getBinaryStream()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		sculpture.setMaterial(rs.getString(7));
+		sculpture.setWeight(rs.getDouble(8));
+		sculpture.setLength(rs.getDouble(9));
+		sculpture.setWidth(rs.getDouble(10));
+		sculpture.setHeight(rs.getDouble(11));
 		return sculpture;
 	}
 

@@ -39,6 +39,8 @@
 		<a href="cart.jsp">Cart</a>
 		<a href="inventory.jsp">Inventory</a>
 		<a href="transactions.jsp">Transactions</a>
+		<a href="about.jsp">About</a>
+		<a href="faq.jsp" >FAQs</a>
 		<a href="logout.jsp" >Logout</a>
  	</div>
  	<hr>
@@ -46,8 +48,13 @@
    <% 
    CraftPersistenceService craftService = new CraftPersistenceServiceImpl();
    List<Craft> craft = craftService.retrieveAll();
-
-	if (craft.size() > 0){
+   int forSaleCount = 0;
+	for (Product prod : craft){
+		if (!prod.isSold()){
+			forSaleCount ++;
+		}
+	}
+	if (forSaleCount > 0){
 		
    	%>  
    	<table border="1" style="margin-top: 20px; margin-right: 20px; margin-left: 29px; border-top-width: 2px;">
@@ -67,6 +74,7 @@
 			<td>
 				<form name="detailsform" action="DetailsController" method="post">
 					<input type="hidden" name="prodId" value="<%= prod.getProdId().toString() %>">
+					<input type="hidden" name="catId" value="<%= prod.getCategory().getCatId().toString() %>">
 					<input class="demo" type="submit" name="ViewDetails" value = "View Details" style="left: 460px;">
 				</form>
 			</td>

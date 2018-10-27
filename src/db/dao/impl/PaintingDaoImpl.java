@@ -1,8 +1,12 @@
 package db.dao.impl;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.imageio.ImageIO;
+
 import db.dao.PaintingDao;
 import domain.product.Painting;
 
@@ -15,14 +19,14 @@ public class PaintingDaoImpl extends AbstractProductCategoryDao<Painting> implem
 	
 	private static final String retrieveQuery = 
 			"SELECT "
-			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, i.CANVASTYPE, i.PAINTTYPE, i.LENGTH, i.WIDTH "
+			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, p.PHOTO, i.CANVASTYPE, i.PAINTTYPE, i.LENGTH, i.WIDTH "
 			+ "FROM PRODUCT p "
 			+ "JOIN PAINTING i ON p.PRODID = i.PRODID "
 			+ "WHERE p.PRODID = ? ";
 
 	private static final String retrieveAllQuery = 
 			"SELECT "
-			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, i.CANVASTYPE, i.PAINTTYPE, i.LENGTH, i.WIDTH "
+			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, p.PHOTO, i.CANVASTYPE, i.PAINTTYPE, i.LENGTH, i.WIDTH "
 			+ "FROM PRODUCT p "
 			+ "JOIN PAINTING i ON p.PRODID = i.PRODID ";
 
@@ -49,10 +53,15 @@ public class PaintingDaoImpl extends AbstractProductCategoryDao<Painting> implem
 		painting.setDescription(rs.getString(3));
 		painting.setPrice(rs.getDouble(4));
 		painting.setSold(rs.getBoolean(5));
-		painting.setCanvasType(rs.getString(6));
-		painting.setPaintType(rs.getString(7));
-		painting.setLength(rs.getDouble(8));
-		painting.setWidth(rs.getDouble(9));
+		try {
+			painting.setImage(ImageIO.read(rs.getBlob(6).getBinaryStream()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		painting.setCanvasType(rs.getString(7));
+		painting.setPaintType(rs.getString(8));
+		painting.setLength(rs.getDouble(9));
+		painting.setWidth(rs.getDouble(10));
 		return painting;
 	}
 

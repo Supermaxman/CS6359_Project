@@ -124,7 +124,7 @@ public abstract class AbstractProductCategoryPersistenceService<T extends Produc
 			int prodCount = prodDao.update(connection, product);
 			
 			if (prodCount != count) {
-				throw new DaoException("Unable to update Product!");
+				throw new DaoException("Unable to update Product: " + count + " prodCat rows and " + prodCount + " product rows updated!");
 			}
 			
 			connection.commit();

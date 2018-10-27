@@ -11,7 +11,11 @@
 <%@page import="db.services.impl.PaintingPersistenceServiceImpl"%>
 <%@page import="db.services.impl.SculpturePersistenceServiceImpl"%>
 <%@page import="db.services.impl.CraftPersistenceServiceImpl"%>
+<%@page import="java.awt.image.BufferedImage"%>
+<%@page import="javax.imageio.ImageIO"%>
 <%@ page import="javax.servlet.http.*" %>
+<%@ page import="java.io.ByteArrayOutputStream" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -59,9 +63,16 @@
 	if (catId == 1){
 		PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
 		Painting paint = paintService.retrieve(prodId);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(paint.getImage(), "jpg", baos);
+		baos.flush();
+		byte[] imageInByteArray = baos.toByteArray();
+		baos.close();
+		String encodedImage = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
 		prod = paint; %>
 		<table>
-			<tr><th>Product Details</th></tr>
+			<tr><img src="data:image/jpeg;base64, <%=encodedImage%> " height="100" width="100" alt="bye"/></tr>
+			<tr><th>Painting Details:</th></tr>
 			<tr><td>Name: </td><td><%=paint.getName()%></td></tr>
 			<tr><td>Description: </td><td><%=paint.getDescription()%></td></tr>
 			<tr><td>Price: </td><td><%=paint.getPrice()%></td></tr>
@@ -74,14 +85,21 @@
 	<%} else if (catId == 2) {
 		SculpturePersistenceService sculptService = new SculpturePersistenceServiceImpl();
 		Sculpture sculpt = sculptService.retrieve(prodId); 
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(sculpt.getImage(), "jpg", baos);
+		baos.flush();
+		byte[] imageInByteArray = baos.toByteArray();
+		baos.close();
+		String encodedImage = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
 		prod = sculpt; %>
-		<table>
-			<tr><th>Product Details</th></tr>
+		<table>			
+			<tr><img src="data:image/jpeg;base64, <%=encodedImage%> " height="100" width="100" alt="bye"/></tr>
+			<tr><th>Sculpture Details:</th></tr>
 			<tr><td>Name: </td><td><%=sculpt.getName()%></td></tr>
 			<tr><td>Description: </td><td><%=sculpt.getDescription()%></td></tr>
 			<tr><td>Price: </td><td><%=sculpt.getPrice()%></td></tr>
 			<tr><td>Sold: </td><td><%=sculpt.isSold()%></td></tr>
-			<tr><td>Length: </td><td><%=sculpt.getMaterial()%></td></tr>
+			<tr><td>Material: </td><td><%=sculpt.getMaterial()%></td></tr>
 			<tr><td>Weight: </td><td><%=sculpt.getWeight()%></td></tr>
 			<tr><td>Length: </td><td><%=sculpt.getLength()%></td></tr>
 			<tr><td>Width: </td><td><%=sculpt.getWidth()%></td></tr>
@@ -90,9 +108,16 @@
 	<% } else if (catId == 3) {
 		CraftPersistenceService craftService = new CraftPersistenceServiceImpl();
 		Craft crafts = craftService.retrieve(prodId);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(crafts.getImage(), "jpg", baos);
+		baos.flush();
+		byte[] imageInByteArray = baos.toByteArray();
+		baos.close();
+		String encodedImage = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
 		prod = crafts;  %>
 		<table>
-			<tr><th>Product Details</th></tr>
+			<tr><img src="data:image/jpeg;base64, <%=encodedImage%> " height="100" width="100" alt="bye"/></tr>
+			<tr><th>Craft Details:</th></tr>
 			<tr><td>Name: </td><td><%=crafts.getName()%></td></tr>
 			<tr><td>Description: </td><td><%=crafts.getDescription()%></td></tr>
 			<tr><td>Price: </td><td><%=crafts.getPrice()%></td></tr>
@@ -107,6 +132,7 @@
 	<% if (!prod.isSold() ){ %>
 	<form name="addCartForm" action="CartController" method="post">
 		<input type="hidden" name="prodId" value="<%= prodId.toString() %>">
+		<input type="hidden" name="catId" value="<%= prod.getCategory().getCatId().toString() %>">
 		<input class="demo" type="submit" name="AddToCart" value = "Add to Cart" style="left: 460px;">
 	</form>
 	<%} %>

@@ -48,8 +48,13 @@
    <% 
    PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
    List<Painting> paintings = paintService.retrieveAll();
-
-	if (paintings.size() > 0){
+   int forSaleCount = 0;
+	for (Product prod : paintings){
+		if (!prod.isSold()){
+			forSaleCount ++;
+		}
+	}
+	if (forSaleCount > 0){
 		
    	%>  
    	<table border="1" style="margin-top: 20px; margin-right: 20px; margin-left: 29px; border-top-width: 2px;">
@@ -69,6 +74,7 @@
 			<td>
 				<form name="detailsform" action="DetailsController" method="post">
 					<input type="hidden" name="prodId" value="<%= prod.getProdId().toString() %>">
+					<input type="hidden" name="catId" value="<%= prod.getCategory().getCatId().toString() %>">
 					<input class="demo" type="submit" name="ViewDetails" value = "View Details" style="left: 460px;">
 				</form>
 			</td>

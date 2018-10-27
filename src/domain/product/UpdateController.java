@@ -9,8 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import db.dao.DaoException;
 import db.services.*;
 import db.services.impl.*;
@@ -28,11 +26,8 @@ public class UpdateController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession sess = request.getSession(true);
-		Integer invnId = (Integer) sess.getAttribute("invnId");
 		String removeproduct = request.getParameter("removeproduct");
 		
-		//System.out.println(removeproduct);
 		String name = request.getParameter("name");
 		String description = request.getParameter("description");
 		Integer catId = Integer.parseInt(request.getParameter("catId"));

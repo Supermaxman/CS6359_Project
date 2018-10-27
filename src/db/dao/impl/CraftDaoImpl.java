@@ -1,8 +1,12 @@
 package db.dao.impl;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.imageio.ImageIO;
+
 import db.dao.CraftDao;
 import domain.product.Craft;
 
@@ -16,14 +20,14 @@ public class CraftDaoImpl extends AbstractProductCategoryDao<Craft> implements C
 
 	private static final String retrieveQuery = 
 			"SELECT "
-			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, i.`USAGE`, i.LENGTH, i.WIDTH, i.HEIGHT "
+			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, p.PHOTO, i.`USAGE`, i.LENGTH, i.WIDTH, i.HEIGHT "
 			+ "FROM PRODUCT p "
 			+ "JOIN CRAFT i ON p.PRODID = i.PRODID "
 			+ "WHERE p.PRODID = ? ";
 
 	private static final String retrieveAllQuery = 
 			"SELECT "
-			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, i.`USAGE`, i.LENGTH, i.WIDTH, i.HEIGHT "
+			+ "p.PRODID, p.NAME, p.DESCRIPTION, p.PRICE, p.ISSOLD, p.PHOTO, i.`USAGE`, i.LENGTH, i.WIDTH, i.HEIGHT "
 			+ "FROM PRODUCT p "
 			+ "JOIN CRAFT i ON p.PRODID = i.PRODID ";
 
@@ -50,10 +54,15 @@ public class CraftDaoImpl extends AbstractProductCategoryDao<Craft> implements C
 		craft.setDescription(rs.getString(3));
 		craft.setPrice(rs.getDouble(4));
 		craft.setSold(rs.getBoolean(5));
-		craft.setUsage(rs.getString(6));
-		craft.setLength(rs.getDouble(7));
-		craft.setWidth(rs.getDouble(8));
-		craft.setHeight(rs.getDouble(9));
+		try {
+			craft.setImage(ImageIO.read(rs.getBlob(6).getBinaryStream()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		craft.setUsage(rs.getString(7));
+		craft.setLength(rs.getDouble(8));
+		craft.setWidth(rs.getDouble(9));
+		craft.setHeight(rs.getDouble(10));
 		return craft;
 	}
 

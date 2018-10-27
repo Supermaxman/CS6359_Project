@@ -1,7 +1,6 @@
 package domain.product;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,9 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import db.services.CartPersistenceService;
+import db.services.CraftPersistenceService;
 import db.services.PaintingPersistenceService;
+import db.services.SculpturePersistenceService;
 import db.services.impl.CartPersistenceServiceImpl;
+import db.services.impl.CraftPersistenceServiceImpl;
 import db.services.impl.PaintingPersistenceServiceImpl;
+import db.services.impl.SculpturePersistenceServiceImpl;
 import domain.user.Cart;
 
 @WebServlet("/DetailsController")
@@ -23,6 +26,8 @@ public class DetailsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CartPersistenceService cartService = new CartPersistenceServiceImpl();
 	private PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
+	private SculpturePersistenceService sculptService = new SculpturePersistenceServiceImpl();
+	private CraftPersistenceService craftService = new CraftPersistenceServiceImpl();
 
 
 	@Override
@@ -45,13 +50,21 @@ public class DetailsController extends HttpServlet {
 		
 			try {
 				Cart cart = cartService.retrieve(userId);
-				System.out.println(prodId);
-				Painting prod = paintService.retrieve(prodId);
-				cart.removeProduct(prodId);
-				System.out.println(cart.getProducts());
-				System.out.println(cartService.update(cart));
-				// TODO determine if count added new product.
+				Product prod = null;			
+				if (catId == 1) {
+					prod = paintService.retrieve(prodId);
+				}
+				else if (catId == 2) {
+					prod = sculptService.retrieve(prodId);
+				}
+				else if (catId == 3) {
+					prod = craftService.retrieve(prodId);
+				}
+				
+				cart.removeProduct(prod);
+				cartService.update(cart);
 			} catch (Exception e) {
+				e.printStackTrace();
 				System.out.println(e);
 				// TODO return error msg.
 			}

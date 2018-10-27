@@ -79,7 +79,7 @@
 					<form name="editform" action="EditController" method="post">
 						<input type="hidden" name="prodId" value="<%= prod.getProdId().toString() %>">
 						<input type="hidden" name="catId" value="<%= prod.getCategory().getCatId().toString() %>">
-						<input class="demo" type="submit" name="EditDetails" value = "Edit Details" style="left: 460px;">
+						<input class="demo" type="submit" <%=prod.isSold() ? "disabled=\"\"" : "" %> name="EditDetails" value = "Edit Details" style="left: 460px;">
 					</form>
 				</td>
 			</tr>

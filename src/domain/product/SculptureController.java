@@ -1,14 +1,19 @@
 package domain.product;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 
+import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import db.services.CategoryPersistenceService;
 import db.services.PaintingPersistenceService;
@@ -20,6 +25,7 @@ import db.services.impl.SculpturePersistenceServiceImpl;
 /**
  * Servlet implementation class SculptureController
  */
+@MultipartConfig
 @WebServlet("/SculptureController")
 public class SculptureController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -42,7 +48,13 @@ public class SculptureController extends HttpServlet {
 		Double height = Double.parseDouble(request.getParameter("height"));
 		Double weight = Double.parseDouble(request.getParameter("weight"));
 		String material = request.getParameter("material");
-
+		
+		// obtains the upload file part in this multipart request
+        Part filePart = request.getPart("file");
+        // obtains input stream of the upload file
+        InputStream inputStream = filePart.getInputStream();
+        BufferedImage image = ImageIO.read(inputStream);
+        
 		Sculpture sculpture = new Sculpture();
 		sculpture.setName(name);
 		sculpture.setDescription(description);
@@ -53,7 +65,8 @@ public class SculptureController extends HttpServlet {
 		sculpture.setHeight(height);
 		sculpture.setMaterial(material);
 		sculpture.setWeight(weight);
-
+		sculpture.setImage(image);
+		
 		try {
 			Category cat = catService.retrieve(catId);
 			sculpture.setCategory(cat);			
