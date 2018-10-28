@@ -68,10 +68,10 @@
 		baos.flush();
 		byte[] imageInByteArray = baos.toByteArray();
 		baos.close();
-		String b64 = Base64.getEncoder().encodeToString(imageInByteArray);
+		String encodedImage = Base64.getEncoder().encodeToString(imageInByteArray);
 		prod = paint; %>
 		<table>
-			<tr><img src="data:image/jpeg;base64, <%=b64%> " height="100" width="100" alt="bye"/></tr>
+			<tr><img src="data:image/jpeg;base64, <%=encodedImage%> " height="100" width="100" alt="bye"/></tr>
 			<tr><th>Painting Details:</th></tr>
 			<tr><td>Name: </td><td><%=paint.getName()%></td></tr>
 			<tr><td>Description: </td><td><%=paint.getDescription()%></td></tr>
@@ -90,10 +90,10 @@
 		baos.flush();
 		byte[] imageInByteArray = baos.toByteArray();
 		baos.close();
-		String b64 = Base64.getEncoder().encodeToString(imageInByteArray);
+		String encodedImage = Base64.getEncoder().encodeToString(imageInByteArray);
 		prod = sculpt; %>
 		<table>			
-			<tr><img src="data:image/jpeg;base64, <%=b64%> " height="100" width="100" alt="bye"/></tr>
+			<tr><img src="data:image/jpeg;base64, <%=encodedImage%> " height="100" width="100" alt="bye"/></tr>
 			<tr><th>Sculpture Details:</th></tr>
 			<tr><td>Name: </td><td><%=sculpt.getName()%></td></tr>
 			<tr><td>Description: </td><td><%=sculpt.getDescription()%></td></tr>
@@ -113,10 +113,10 @@
 		baos.flush();
 		byte[] imageInByteArray = baos.toByteArray();
 		baos.close();
-		String b64 = Base64.getEncoder().encodeToString(imageInByteArray);
+		String encodedImage = Base64.getEncoder().encodeToString(imageInByteArray);
 		prod = crafts;  %>
 		<table>
-			<tr><img src="data:image/jpeg;base64, <%=b64%> " height="100" width="100" alt="bye"/></tr>
+			<tr><img src="data:image/jpeg;base64, <%=encodedImage%> " height="100" width="100" alt="bye"/></tr>
 			<tr><th>Craft Details:</th></tr>
 			<tr><td>Name: </td><td><%=crafts.getName()%></td></tr>
 			<tr><td>Description: </td><td><%=crafts.getDescription()%></td></tr>
