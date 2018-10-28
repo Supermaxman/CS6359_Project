@@ -74,6 +74,8 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 
 			connection.commit();
 		} catch (Exception ex) {
+			System.out.println(ex);
+			ex.printStackTrace();
 			connection.rollback();
 			throw ex;
 		} finally {
@@ -100,6 +102,8 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 			connection.commit();
 			return user;
 		} catch (Exception ex) {
+			System.out.println(ex);
+			ex.printStackTrace();
 			connection.rollback();
 			throw ex;
 		} finally {
@@ -118,14 +122,17 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 		try {
 			connection.setAutoCommit(false);
 			User user = userDao.validate(connection, login);
-
-			buildUser(connection, user);
-
+			if (user != null) {
+				buildUser(connection, user);
+			}
+			
 			connection.commit();
 			return user;
 		} catch (Exception ex) {
+			System.out.println(ex);
+			ex.printStackTrace();
 			connection.rollback();
-			return null;
+			throw ex;
 		} finally {
 			if (connection != null) {
 				connection.setAutoCommit(true);
