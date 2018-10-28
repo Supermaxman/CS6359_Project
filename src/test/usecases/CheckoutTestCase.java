@@ -12,7 +12,7 @@ public class CheckoutTestCase {
 	WebDriver driver;
 
 	@Test
-	public void login() throws InterruptedException{ 
+	public void checkout() throws InterruptedException{ 
 		
 		System.setProperty("webdriver.chrome.driver","chromedriver.exe");
 	    driver = new ChromeDriver();

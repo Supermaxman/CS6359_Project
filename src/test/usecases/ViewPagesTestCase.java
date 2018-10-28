@@ -1,5 +1,4 @@
 package test.usecases;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -8,12 +7,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class DeleteTestCase {
-	
+
+public class ViewPagesTestCase {
 	WebDriver driver;
 
 	@Test
-	public void delete() throws InterruptedException{ 
+	public void viewPage() throws InterruptedException{ 
 		
 		System.setProperty("webdriver.chrome.driver","chromedriver.exe");
 	    driver = new ChromeDriver();
@@ -22,28 +21,27 @@ public class DeleteTestCase {
 	    WebElement password = driver.findElement(By.name("password"));
 	    WebElement button = driver.findElement(By.xpath("/html/body/form/input[3]"));         
 
-	    username.sendKeys("123");
-	    password.sendKeys("123");
+	    username.sendKeys("sushrut");
+	    password.sendKeys("patnaik");
 	    button.click();
 	    Thread.sleep(1000);
 	    Assert.assertEquals("Home", driver.getTitle());
 	    
-	    WebElement invLink = driver.findElement(By.partialLinkText("Inventory"));
-		invLink.click();
+	    WebElement transactionLink = driver.findElement(By.xpath("html/body/div/a[5]"));
+	    transactionLink.click();
 		Thread.sleep(1000);
-		Assert.assertEquals("Inventory",driver.getTitle());
+		Assert.assertEquals("Transactions",driver.getTitle());
 		
-		WebElement editLink = driver.findElement(By.name("EditDetails"));
-		editLink.click();
-		Thread.sleep(1000);
-		Assert.assertEquals("Edit Product Details",driver.getTitle());
-		
-		
-		WebElement deleteButton = driver.findElement(By.name("removeproduct1"));
-		deleteButton.click();
-		
+		WebElement faqLink = driver.findElement(By.xpath("html/body/div/a[7]"));
+		faqLink.click();
 		Thread.sleep(3000);
-		Assert.assertEquals("Inventory",driver.getTitle());
+		Assert.assertEquals("FAQ",driver.getTitle());
+			
+		WebElement aboutLink = driver.findElement(By.xpath("html/body/div/a[6]"));
+		aboutLink.click();
+		Thread.sleep(3000);
+		Assert.assertEquals("About",driver.getTitle());
+			
 		
 		WebElement logout = driver.findElement(By.xpath("html/body/div/a[8]"));
 		logout.click();
@@ -56,5 +54,4 @@ public class DeleteTestCase {
 	public void closePage(){
 	driver.quit();
 	}
-
 }
