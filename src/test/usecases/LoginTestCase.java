@@ -26,17 +26,17 @@ public void login() throws InterruptedException{
     username.sendKeys("123");
     password.sendKeys("123");
     button.click();
-    Thread.sleep(5000);
+    Thread.sleep(1000);
     Assert.assertEquals("Home", driver.getTitle());
     
     WebElement invLink = driver.findElement(By.partialLinkText("Inventory"));
 	invLink.click();
-	Thread.sleep(3000);
+	Thread.sleep(1000);
 	Assert.assertEquals("Inventory",driver.getTitle());
 	
 	WebElement paintLink = driver.findElement(By.name("Painting"));
 	paintLink.click();
-	Thread.sleep(3000);
+	Thread.sleep(1000);
 	Assert.assertEquals("New Product",driver.getTitle());
 	
 	
@@ -47,7 +47,8 @@ public void login() throws InterruptedException{
 	WebElement paintPaint = driver.findElement(By.xpath("html/body/form[1]/input[5]"));
 	WebElement paintLength = driver.findElement(By.xpath("html/body/form[1]/input[6]"));
 	WebElement paintWidth = driver.findElement(By.xpath("html/body/form[1]/input[7]"));
-	WebElement createButton = driver.findElement(By.xpath("/html/body/form[1]/input[8]")); 
+	WebElement paintImage = driver.findElement(By.xpath("html/body/form[1]/input[8]"));
+	WebElement createButton = driver.findElement(By.xpath("/html/body/form[1]/input[9]")); 
 	paintName.sendKeys("Starry Nights");
 	paintDesc.sendKeys("Masterpiece by Vincent Van Gogh");
 	paintPrice.sendKeys("150000");
@@ -55,10 +56,16 @@ public void login() throws InterruptedException{
 	paintPaint.sendKeys("Acryllic");
 	paintLength.sendKeys("15");
 	paintWidth.sendKeys("10");
+	paintImage.sendKeys("C:/A.jpg");
 	createButton.click();
 	
-	Thread.sleep(4000);
-	Assert.assertEquals("New Product",driver.getTitle());
+	Thread.sleep(3000);
+	Assert.assertEquals("Inventory",driver.getTitle());
+	
+	WebElement logout = driver.findElement(By.xpath("html/body/div/a[8]"));
+	logout.click();
+	Thread.sleep(3000);
+	Assert.assertEquals("Login",driver.getTitle());
 	
 }
 
