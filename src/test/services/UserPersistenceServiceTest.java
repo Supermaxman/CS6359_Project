@@ -32,32 +32,33 @@ public class UserPersistenceServiceTest {
 	
 	@Test
 	public void testRegisterRetrieve() throws Exception {
-		testService.register(testUser);
+		testService.create(testUser);
 		User saved = testService.retrieve(testUser.getUserId());
 		TestUtils.assertEqual(testUser, saved);
 	}
 
 	@Test
 	public void testLogin() throws Exception {
-		testService.register(testUser);
+		testService.create(testUser);
 		Login login = new Login(testUser.getUsername(), testUser.getPassword());
-		User saved = testService.validate(login);
+		User saved = testService.retrieveByUsername(login.getUsername());
+		assertTrue(saved.checkPassword(login.getPassword()));
 		TestUtils.assertEqual(testUser, saved);
 	}
 	
 	@Test
 	public void testFailedLogin() throws Exception {
-		testService.register(testUser);
+		testService.create(testUser);
 		Login login = new Login(testUser.getUsername(), testUser.getPassword().substring(0, 1));
-		User saved = testService.validate(login);
-		assertNull(saved);
+		User saved = testService.retrieveByUsername(login.getUsername());
+		assertFalse(saved.checkPassword(login.getPassword()));
 	}
 	
 	@Test(expected = SQLException.class)
 	public void testFailedRegister() throws Exception {
-		testService.register(testUser);
+		testService.create(testUser);
 		testUser.setUserId(null);
-		testService.register(testUser);
+		testService.create(testUser);
 	}
 	
 

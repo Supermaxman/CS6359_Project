@@ -11,6 +11,7 @@ public class User {
 	private String password;
 	private String name;
 	private String address;
+	private String description;
 	private Inventory inventory;
 	private Cart cart;
 	private CreditCard creditCard;
@@ -30,6 +31,10 @@ public class User {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	public boolean checkPassword(String password) {
+		return this.password.equals(password);
 	}
 
 	public String getPassword() {
@@ -90,6 +95,14 @@ public class User {
 
 	public void setCreditCard(CreditCard creditCard) {
 		this.creditCard = creditCard;
+	}
+	
+	public String getDescription() {
+		return this.description;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

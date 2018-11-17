@@ -30,7 +30,7 @@ public class CreditCardDaoTest {
 		conn.setAutoCommit(false);
 		
 		testUser = TestUtils.generateUser();
-		userDao.register(conn, testUser);
+		userDao.create(conn, testUser);
 		
 		testCard = testUser.getCreditCard();
 		

@@ -27,7 +27,7 @@ public class InventoryPersistenceServiceTest {
 	@Before
 	public void setUp() throws Exception {
 		testUser = TestUtils.generateUser();
-		userService.register(testUser);
+		userService.create(testUser);
 		testInvn = testUser.getInventory();
 		testPaint = TestUtils.generatePainting();
 	}

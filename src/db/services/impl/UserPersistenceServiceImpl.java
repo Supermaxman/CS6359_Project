@@ -28,7 +28,6 @@ import domain.transaction.Transaction;
 import domain.user.Cart;
 import domain.user.CreditCard;
 import domain.user.Inventory;
-import domain.user.Login;
 import domain.user.User;
 
 public class UserPersistenceServiceImpl implements UserPersistenceService {
@@ -43,7 +42,7 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 	private CategoryDao catDao = new CategoryDaoImpl();
 
 	@Override
-	public void register(User user) throws SQLException, DaoException {
+	public void create(User user) throws SQLException, DaoException {
 		if (user.getAddress() == null) {
 			throw new DaoException("Address cannot be null!");
 		}
@@ -54,7 +53,7 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 
 		try {
 			connection.setAutoCommit(false);
-			userDao.register(connection, user);
+			userDao.create(connection, user);
 			Integer userId = user.getUserId();
 
 			Inventory inventory = new Inventory();
@@ -116,12 +115,12 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 		}
 	}
 
-	public User validate(Login login) throws SQLException, DaoException {
+	public User retrieveByUsername(String username) throws SQLException, DaoException {
 		Connection connection = db.getConnection();
 
 		try {
 			connection.setAutoCommit(false);
-			User user = userDao.validate(connection, login);
+			User user = userDao.retrieveByUsername(connection, username);
 			if (user != null) {
 				buildUser(connection, user);
 			}
@@ -143,6 +142,32 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 		}
 	}
 
+	public User retrieveByProduct(Integer prodId) throws SQLException, DaoException {
+		Connection connection = db.getConnection();
+
+		try {
+			connection.setAutoCommit(false);
+			User user = userDao.retrieveByProduct(connection, prodId);
+			if (user != null) {
+				buildUser(connection, user);
+			}
+			
+			connection.commit();
+			return user;
+		} catch (Exception ex) {
+			System.out.println(ex);
+			ex.printStackTrace();
+			connection.rollback();
+			throw ex;
+		} finally {
+			if (connection != null) {
+				connection.setAutoCommit(true);
+				if (!connection.isClosed()) {
+					connection.close();
+				}
+			}
+		}
+	}
 	private void buildUser(Connection connection, User user) throws SQLException, DaoException {
 		int userId = user.getUserId();
 		Inventory inventory = inventoryDao.retrieveByUser(connection, userId);

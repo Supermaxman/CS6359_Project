@@ -43,7 +43,7 @@ public class CartDaoTest {
 		
 		testUser = TestUtils.generateUser();
 		
-		userDao.register(conn, testUser);
+		userDao.create(conn, testUser);
 				
 		testCart = testUser.getCart();
 				

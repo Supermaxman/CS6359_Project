@@ -31,7 +31,7 @@
  	</div>
  	<hr>
 	<h4 align="left"> ${message} </h4>
-	<form name="regform" action="LoginController" method="post" onsubmit="return regValidate()">
+	<form name="regform" action="RegisterController" method="post" onsubmit="return regValidate()">
 		Username: <input type="text" name="username"> 
 		<br>
 		<div id="username_error"></div>

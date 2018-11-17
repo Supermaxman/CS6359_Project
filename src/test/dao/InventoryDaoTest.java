@@ -39,7 +39,7 @@ public class InventoryDaoTest {
 		prodDao.create(conn, testProd);
 		
 		testUser = TestUtils.generateUser();
-		userDao.register(conn, testUser);
+		userDao.create(conn, testUser);
 						
 		testInvn = testUser.getInventory();
 				

@@ -32,7 +32,7 @@ public class TransactionPersistenceServiceTest {
 	public void setUp() throws Exception {
 		testUser = TestUtils.generateUser();
 		testTrxn = TestUtils.generateTransaction();
-		userService.register(testUser);
+		userService.create(testUser);
 		testPaint = TestUtils.generatePainting();
 		paintService.create(testPaint, testUser.getInventory().getInvnId());
 		testTrxn.addProduct(testPaint);

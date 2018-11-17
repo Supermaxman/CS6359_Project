@@ -16,10 +16,8 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import db.services.CategoryPersistenceService;
-import db.services.PaintingPersistenceService;
 import db.services.SculpturePersistenceService;
 import db.services.impl.CategoryPersistenceServiceImpl;
-import db.services.impl.PaintingPersistenceServiceImpl;
 import db.services.impl.SculpturePersistenceServiceImpl;
 
 /**

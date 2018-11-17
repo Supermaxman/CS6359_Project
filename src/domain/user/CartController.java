@@ -18,10 +18,7 @@ import db.services.impl.CartPersistenceServiceImpl;
 import db.services.impl.CraftPersistenceServiceImpl;
 import db.services.impl.PaintingPersistenceServiceImpl;
 import db.services.impl.SculpturePersistenceServiceImpl;
-import domain.product.Craft;
-import domain.product.Painting;
 import domain.product.Product;
-import domain.product.Sculpture;
 
 @WebServlet("/CartController")
 public class CartController extends HttpServlet {

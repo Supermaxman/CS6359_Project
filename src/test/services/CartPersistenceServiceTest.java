@@ -27,7 +27,7 @@ public class CartPersistenceServiceTest {
 	@Before
 	public void setUp() throws Exception {
 		testUser = TestUtils.generateUser();
-		userService.register(testUser);
+		userService.create(testUser);
 		testCart = testUser.getCart();
 		testPaint = TestUtils.generatePainting();
 		paintService.create(testPaint, testUser.getInventory().getInvnId());

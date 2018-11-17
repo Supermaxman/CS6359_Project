@@ -56,7 +56,7 @@ public class ProductDaoTest {
 		testDao.create(conn, testProd);
 		
 		testUser = TestUtils.generateUser();
-		userDao.register(conn, testUser);
+		userDao.create(conn, testUser);
 		testInvn = testUser.getInventory();
 		invnDao.create(conn, testInvn, testUser.getUserId());
 		testUser.getInventory().addProduct(testProd);

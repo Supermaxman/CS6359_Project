@@ -35,7 +35,7 @@ public abstract class AbstractProductCategoryPersistenceServiceTest<T extends Pr
 	public void setUp() throws Exception {
 		testUser = TestUtils.generateUser();
 		testObj = generate();
-		userService.register(testUser);
+		userService.create(testUser);
 	}
 
 	@After

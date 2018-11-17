@@ -34,7 +34,7 @@ public class TransactionDaoTest {
 
 		testUser = TestUtils.generateUser();
 		
-		userDao.register(conn, testUser);
+		userDao.create(conn, testUser);
 		
 		testTrxn = TestUtils.generateTransaction();
 		

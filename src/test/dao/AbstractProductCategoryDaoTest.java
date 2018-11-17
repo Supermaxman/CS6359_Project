@@ -47,7 +47,7 @@ public abstract class AbstractProductCategoryDaoTest<T extends Product> {
 		
 		testUser = TestUtils.generateUser();
 		
-		userDao.register(conn, testUser);
+		userDao.create(conn, testUser);
 		
 		testProdCat = generate();
 		initialCount = prodCatDao.retrieveAll(conn).size();
