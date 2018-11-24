@@ -18,4 +18,9 @@ public class SculpturePersistenceServiceImpl extends AbstractProductCategoryPers
 		}
 		return instance;
 	}
+
+	@Override
+	public Sculpture getProd() {
+		return new Sculpture();
+	}
 }

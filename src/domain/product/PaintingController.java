@@ -50,7 +50,7 @@ public class PaintingController extends HttpServlet {
         InputStream inputStream = filePart.getInputStream();
         BufferedImage image = ImageIO.read(inputStream);
 
-		Painting painting = new Painting();
+		Painting painting = PaintingPersistenceServiceImpl.getInstance().getProd();
 		painting.setName(name);
 		painting.setDescription(description);
 		painting.setPrice(price);

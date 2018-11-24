@@ -18,4 +18,9 @@ public class CraftPersistenceServiceImpl extends AbstractProductCategoryPersiste
 		}
 		return instance;
 	}
+
+	@Override
+	public Craft getProd() {
+		return new Craft();
+	}
 }

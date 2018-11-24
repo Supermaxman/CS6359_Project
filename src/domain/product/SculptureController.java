@@ -53,7 +53,7 @@ public class SculptureController extends HttpServlet {
         InputStream inputStream = filePart.getInputStream();
         BufferedImage image = ImageIO.read(inputStream);
         
-		Sculpture sculpture = new Sculpture();
+		Sculpture sculpture = SculpturePersistenceServiceImpl.getInstance().getProd();
 		sculpture.setName(name);
 		sculpture.setDescription(description);
 		sculpture.setPrice(price);

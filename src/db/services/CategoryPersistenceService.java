@@ -14,4 +14,6 @@ public interface CategoryPersistenceService {
 	
 	public List<Category> retrieveAll() throws SQLException, DaoException;
 	
+	public Category getCategory();
+	
 }

@@ -121,4 +121,9 @@ public class TransactionPersistenceServiceImpl implements TransactionPersistence
 		}
 	}
 
+	@Override
+	public Transaction getTransaction() {
+		return new Transaction();
+	}
+
 }

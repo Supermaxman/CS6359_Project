@@ -14,4 +14,6 @@ public interface CartPersistenceService {
 
 	public int removeProductFromAllCarts(Product prod) throws SQLException, DaoException;
 
+	public Cart getCart();
+	
 }

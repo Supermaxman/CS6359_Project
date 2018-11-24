@@ -18,4 +18,9 @@ public class PaintingPersistenceServiceImpl extends AbstractProductCategoryPersi
 		}
 		return instance;
 	}
+
+	@Override
+	public Painting getProd() {
+		return new Painting();
+	}
 }

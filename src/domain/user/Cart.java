@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import db.services.impl.TransactionPersistenceServiceImpl;
 import domain.product.Product;
 import domain.transaction.Transaction;
 
@@ -46,7 +47,7 @@ public class Cart {
 	}
 
 	public Transaction checkout() {
-		Transaction trxn = new Transaction();
+		Transaction trxn = TransactionPersistenceServiceImpl.getInstance().getTransaction();
 		double totalPrice = 0.0;
 		List<Product> trxnProds = new ArrayList<Product>();
 		for (Product prod : this.products) {

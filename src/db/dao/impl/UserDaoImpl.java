@@ -9,6 +9,7 @@ import com.mysql.jdbc.Statement;
 
 import db.dao.DaoException;
 import db.dao.UserDao;
+import db.services.impl.UserPersistenceServiceImpl;
 import domain.user.User;
 
 public class UserDaoImpl implements UserDao {
@@ -196,7 +197,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	private static User buildUser(ResultSet rs) throws SQLException {
-		User user = new User();
+		User user = UserPersistenceServiceImpl.getInstance().getUser();
 		user.setUserId(rs.getInt(1));
 		user.setUsername(rs.getString(2));
 		user.setPassword(rs.getString(3));

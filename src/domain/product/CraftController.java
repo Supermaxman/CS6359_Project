@@ -52,7 +52,7 @@ public class CraftController extends HttpServlet {
         InputStream inputStream = filePart.getInputStream();
         BufferedImage image = ImageIO.read(inputStream);
 
-		Craft craft = new Craft();
+		Craft craft = CraftPersistenceServiceImpl.getInstance().getProd();
 		craft.setName(name);
 		craft.setDescription(description);
 		craft.setPrice(price);

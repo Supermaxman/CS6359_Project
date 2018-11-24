@@ -9,6 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import db.services.impl.CartPersistenceServiceImpl;
+import db.services.impl.CategoryPersistenceServiceImpl;
+import db.services.impl.CraftPersistenceServiceImpl;
+import db.services.impl.InventoryPersistenceServiceImpl;
+import db.services.impl.PaintingPersistenceServiceImpl;
+import db.services.impl.SculpturePersistenceServiceImpl;
+import db.services.impl.TransactionPersistenceServiceImpl;
+import db.services.impl.UserPersistenceServiceImpl;
 import domain.product.Category;
 import domain.product.Craft;
 import domain.product.Painting;
@@ -34,7 +42,7 @@ public class TestUtils {
 	public static Product generateProduct() throws Exception {
 		Product testProd = new Product();
 		testProd.setName("Stary Night");
-		Category testCat = new Category();
+		Category testCat = CategoryPersistenceServiceImpl.getInstance().getCategory();
 		testCat.setCatId(1);
 		testCat.setName("Painting");
 		testCat.setDescription("");
@@ -49,7 +57,7 @@ public class TestUtils {
 	@SuppressWarnings("deprecation")
 	public static Transaction generateTransaction() throws Exception {
 
-		Transaction testTrxn = new Transaction();
+		Transaction testTrxn = TransactionPersistenceServiceImpl.getInstance().getTransaction();
 		testTrxn.setDate(new Date(2016, 1, 1));
 		testTrxn.setPrice(100.0);
 		testTrxn.setProducts(new ArrayList<Product>());
@@ -57,7 +65,7 @@ public class TestUtils {
 	}
 
 	public static Painting generatePainting() throws Exception {
-		Painting test = new Painting();
+		Painting test = PaintingPersistenceServiceImpl.getInstance().getProd();
 		test.setName("Stary Night");
 		test.setDescription("Pretty!");
 		test.setSold(false);
@@ -66,7 +74,7 @@ public class TestUtils {
 		test.setPaintType("Oil");
 		test.setLength(15.0);
 		test.setWidth(10.0);
-		Category testCat = new Category();
+		Category testCat = CategoryPersistenceServiceImpl.getInstance().getCategory();
 		testCat.setCatId(1);
 		testCat.setName("Painting");
 		testCat.setDescription("");
@@ -77,7 +85,7 @@ public class TestUtils {
 	}
 	
 	public static Sculpture generateSculpture() throws Exception {
-		Sculpture test = new Sculpture();
+		Sculpture test = SculpturePersistenceServiceImpl.getInstance().getProd();
 		test.setName("David");
 		test.setDescription("Tall!");
 		test.setSold(false);
@@ -87,7 +95,7 @@ public class TestUtils {
 		test.setWidth(24.0);
 		test.setMaterial("Stone");
 		test.setWeight(1000.0);
-		Category testCat = new Category();
+		Category testCat = CategoryPersistenceServiceImpl.getInstance().getCategory();
 		testCat.setCatId(2);
 		testCat.setName("Sculpture");
 		testCat.setDescription("");
@@ -98,7 +106,7 @@ public class TestUtils {
 	}
 
 	public static Craft generateCraft() throws Exception {
-		Craft test = new Craft();
+		Craft test = CraftPersistenceServiceImpl.getInstance().getProd();
 		test.setName("Bracelet");
 		test.setDescription("Cool!");
 		test.setSold(false);
@@ -107,7 +115,7 @@ public class TestUtils {
 		test.setLength(6.0);
 		test.setWidth(4.0);
 		test.setUsage("Wearable");
-		Category testCat = new Category();
+		Category testCat = CategoryPersistenceServiceImpl.getInstance().getCategory();
 		testCat.setCatId(3);
 		testCat.setName("Craft");
 		testCat.setDescription("");
@@ -118,7 +126,7 @@ public class TestUtils {
 	}
 	
 	public static User generateUser() throws Exception {
-		User testUser = new User();
+		User testUser = UserPersistenceServiceImpl.getInstance().getUser();
 		testUser.setUsername(UUID.randomUUID().toString().substring(0, 16));
 		testUser.setPassword(UUID.randomUUID().toString().substring(0, 10));
 		testUser.setName(UUID.randomUUID().toString().substring(0, 10));
@@ -130,11 +138,11 @@ public class TestUtils {
 		testUser.setCreditCard(testCard);
 		
 		
-		Inventory testInvn = new Inventory();
+		Inventory testInvn = InventoryPersistenceServiceImpl.getInstance().getInventory();
 		testInvn.setProducts(new ArrayList<Product>());
 		testUser.setInventory(testInvn);
 		
-		Cart testCart = new Cart();
+		Cart testCart = CartPersistenceServiceImpl.getInstance().getCart();
 		testCart.setProducts(new ArrayList<Product>());
 		testUser.setCart(testCart);
 				

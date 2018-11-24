@@ -109,4 +109,9 @@ public class CartPersistenceServiceImpl implements CartPersistenceService {
 		}
 	}
 
+	@Override
+	public Cart getCart() {
+		return new Cart();
+	}
+
 }

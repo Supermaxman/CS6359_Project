@@ -27,7 +27,7 @@ public class RegisterController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		User user = new User();
+		User user = UserPersistenceServiceImpl.getInstance().getUser();
 		user.setUsername(request.getParameter("username"));
 		user.setPassword(request.getParameter("password"));
 		user.setName(request.getParameter("name"));

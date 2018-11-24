@@ -65,4 +65,9 @@ public class InventoryPersistenceServiceImpl implements InventoryPersistenceServ
 		}
 	}
 
+	@Override
+	public Inventory getInventory() {
+		return new Inventory();
+	}
+
 }

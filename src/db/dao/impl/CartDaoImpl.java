@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import db.dao.CartDao;
 import db.dao.DaoException;
+import db.services.impl.CartPersistenceServiceImpl;
 import domain.product.Product;
 import domain.user.Cart;
 
@@ -92,7 +93,7 @@ public class CartDaoImpl implements CartDao {
 			if (!found) {
 				return null;
 			}
-			Cart cart = new Cart();
+			Cart cart = CartPersistenceServiceImpl.getInstance().getCart();
 			cart.setCartId(rs.getInt(1));
 			return cart;
 		} finally {

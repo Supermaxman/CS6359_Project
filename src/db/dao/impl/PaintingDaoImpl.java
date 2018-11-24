@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import javax.imageio.ImageIO;
 
 import db.dao.PaintingDao;
+import db.services.impl.PaintingPersistenceServiceImpl;
 import domain.product.Painting;
 
 public class PaintingDaoImpl extends AbstractProductCategoryDao<Painting> implements PaintingDao {
@@ -56,7 +57,7 @@ public class PaintingDaoImpl extends AbstractProductCategoryDao<Painting> implem
 	
 	@Override
 	protected Painting build(ResultSet rs) throws SQLException {
-		Painting painting = new Painting();
+		Painting painting = PaintingPersistenceServiceImpl.getInstance().getProd();
 		painting.setProdId(rs.getInt(1));
 		painting.setName(rs.getString(2));
 		painting.setDescription(rs.getString(3));

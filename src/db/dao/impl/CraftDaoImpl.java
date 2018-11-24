@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import javax.imageio.ImageIO;
 
 import db.dao.CraftDao;
+import db.services.impl.CraftPersistenceServiceImpl;
 import domain.product.Craft;
 
 public class CraftDaoImpl extends AbstractProductCategoryDao<Craft> implements CraftDao {
@@ -57,7 +58,7 @@ public class CraftDaoImpl extends AbstractProductCategoryDao<Craft> implements C
 	
 	@Override
 	protected Craft build(ResultSet rs) throws SQLException {
-		Craft craft = new Craft();
+		Craft craft = CraftPersistenceServiceImpl.getInstance().getProd();
 		craft.setProdId(rs.getInt(1));
 		craft.setName(rs.getString(2));
 		craft.setDescription(rs.getString(3));

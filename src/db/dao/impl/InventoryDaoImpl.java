@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import db.dao.DaoException;
 import db.dao.InventoryDao;
+import db.services.impl.InventoryPersistenceServiceImpl;
 import domain.user.Inventory;
 
 public class InventoryDaoImpl implements InventoryDao {
@@ -88,7 +89,7 @@ public class InventoryDaoImpl implements InventoryDao {
 			if (!found) {
 				return null;
 			}
-			Inventory invn = new Inventory();
+			Inventory invn = InventoryPersistenceServiceImpl.getInstance().getInventory();
 			invn.setInvnId(rs.getInt(1));
 			return invn;
 		} finally {

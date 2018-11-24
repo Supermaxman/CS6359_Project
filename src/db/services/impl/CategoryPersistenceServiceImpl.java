@@ -98,4 +98,10 @@ public class CategoryPersistenceServiceImpl implements CategoryPersistenceServic
 		}
 	}
 
+	@Override
+	public Category getCategory() {
+		return new Category();
+	}
+	
+	
 }

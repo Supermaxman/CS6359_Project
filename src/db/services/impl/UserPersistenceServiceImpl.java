@@ -69,12 +69,12 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 			userDao.create(connection, user);
 			Integer userId = user.getUserId();
 
-			Inventory inventory = new Inventory();
+			Inventory inventory = InventoryPersistenceServiceImpl.getInstance().getInventory();
 			user.setInventory(inventory);
 			inventoryDao.create(connection, inventory, userId);
 			inventory.setProducts(new ArrayList<Product>());
 
-			Cart cart = new Cart();
+			Cart cart = CartPersistenceServiceImpl.getInstance().getCart();
 			user.setCart(cart);
 			cartDao.create(connection, cart, userId);
 			cart.setProducts(new ArrayList<Product>());
@@ -216,6 +216,11 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 
 		user.setTransactions(transactions);
 
+	}
+
+	@Override
+	public User getUser() {
+		return new User();
 	}
 
 }
