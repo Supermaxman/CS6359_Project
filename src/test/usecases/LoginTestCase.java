@@ -23,7 +23,7 @@ public void login() throws InterruptedException{
     WebElement password = driver.findElement(By.name("password"));
     WebElement button = driver.findElement(By.xpath("/html/body/form/input[3]"));         
 
-    username.sendKeys("123");
+    username.sendKeys("msarma");
     password.sendKeys("123");
     button.click();
     Thread.sleep(1000);
@@ -56,7 +56,7 @@ public void login() throws InterruptedException{
 	paintPaint.sendKeys("Acryllic");
 	paintLength.sendKeys("15");
 	paintWidth.sendKeys("10");
-	paintImage.sendKeys("C:/A.jpg");
+	paintImage.sendKeys("C:/Star.jpg");
 	createButton.click();
 	
 	Thread.sleep(3000);

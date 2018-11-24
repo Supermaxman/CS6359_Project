@@ -1,16 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>    
-<%@ page import="domain.product.Painting" %>
+<%@ page import="domain.product.*" %>
 <%@ page import="domain.product.Product" %>
-<%@page import="db.services.PaintingPersistenceService"%>
-<%@page import="db.services.impl.PaintingPersistenceServiceImpl"%>
+<%@page import="db.services.*"%>
+<%@page import="db.services.impl.*"%>
+<%@page import="db.dao.impl.*"%>
 <%@ page import="javax.servlet.http.*" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Paintings</title>
+<meta charset="ISO-8859-1">
+<title>Search Results</title>
 </head>
 <style>
 .content {
@@ -33,6 +34,7 @@
 	Integer cartId = (Integer) sess.getAttribute("cartId");
 	String name = (String) sess.getAttribute("name");
 	%>
+	
 	<div class="menu" align = "Center">
 		<a href="home.jsp">Home</a>
 		<a href="category.jsp">Category</a>
@@ -41,33 +43,21 @@
 		<a href="transactions.jsp">Transactions</a>
 		<a href="about.jsp">About</a>
 		<a href="faq.jsp" >FAQs</a>
-		
 		<a href="logout.jsp" >Logout</a>
  	</div>
  	<hr>
-	<h4>Paintings:</h4>
-   <% 
-   PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
-   List<Painting> paintings = paintService.retrieveAll();
-   int forSaleCount = 0;
-	for (Product prod : paintings){
-		if (!prod.isSold()){
-			forSaleCount ++;
-		}
-	}
-	if (forSaleCount > 0){
-		
-   	%>  
-   	<table border="1" style="margin-top: 20px; margin-right: 20px; margin-left: 29px; border-top-width: 2px;">
+	<h4>Search Results:</h4>
+	
+	
+	<table border="1" style="margin-top: 20px; margin-right: 20px; margin-left: 29px; border-top-width: 2px;">
      	<tr>
        		<th>Name</th>
        		<th>Description</th>
        		<th>Price</th>
        		<th>Action</th>   
    		</tr>
-     
-     	<%for(Painting prod : paintings) {%>
-			<% if (!prod.isSold()){ %>
+   		
+     	<%for(Product prod : products) {%>
 			<tr>
 			<td><%= prod.getName() %></td>
 			<td><%= prod.getDescription() %></td>
@@ -81,11 +71,8 @@
 			</td>
 			</tr>
 			<%}%>
-		<%}%>
-   	</table>
+	</table>
    	<br>
-	<% } else {%>
-		<p> We currently have no products for sale under this category. </p>
-	<%}%>
+	
 </body>
-</html> 
+</html>

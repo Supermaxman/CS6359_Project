@@ -37,6 +37,15 @@
 		<a href="faq.jsp" >FAQs</a>
 		<a href="logout.jsp" >Logout</a>
  	</div>
+ 	<div class="searchbar" align ="Center"> 
+ 	<form method="post" action="SearchController">
+ 		<input type="text" name="searchCriteria" placeholder="Search..">
+ 		<input type="submit" name="submit" value="Go">
+ 	</form>
+ 	<!-- <br>
+ 	 <input type="text" name="searchCriteria" placeholder="Search..">
+ 	 <input type="button" value="Go" onclick=""> -->
+ 	</div>
  	<hr>
 	<h3 align="center" style="color:brown;"> <%=name%>, Welcome to ArtKart! </h3>
 	<h4 align="left"> We hope you have a great shopping experience! </h4>

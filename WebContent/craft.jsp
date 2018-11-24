@@ -41,6 +41,7 @@
 		<a href="transactions.jsp">Transactions</a>
 		<a href="about.jsp">About</a>
 		<a href="faq.jsp" >FAQs</a>
+		
 		<a href="logout.jsp" >Logout</a>
  	</div>
  	<hr>

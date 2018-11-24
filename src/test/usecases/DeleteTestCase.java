@@ -22,7 +22,7 @@ public class DeleteTestCase {
 	    WebElement password = driver.findElement(By.name("password"));
 	    WebElement button = driver.findElement(By.xpath("/html/body/form/input[3]"));         
 
-	    username.sendKeys("123");
+	    username.sendKeys("regulus");
 	    password.sendKeys("123");
 	    button.click();
 	    Thread.sleep(1000);
@@ -30,19 +30,19 @@ public class DeleteTestCase {
 	    
 	    WebElement invLink = driver.findElement(By.partialLinkText("Inventory"));
 		invLink.click();
-		Thread.sleep(1000);
+		Thread.sleep(5000);
 		Assert.assertEquals("Inventory",driver.getTitle());
 		
 		WebElement editLink = driver.findElement(By.name("EditDetails"));
 		editLink.click();
-		Thread.sleep(1000);
+		Thread.sleep(5000);
 		Assert.assertEquals("Edit Product Details",driver.getTitle());
 		
 		
 		WebElement deleteButton = driver.findElement(By.name("removeproduct1"));
 		deleteButton.click();
 		
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 		Assert.assertEquals("Inventory",driver.getTitle());
 		
 		WebElement logout = driver.findElement(By.xpath("html/body/div/a[8]"));

@@ -44,11 +44,13 @@
 		<br>
 		Address: <input type="text" name="address"> 
 		<br>
+		Description: <input type="text" name="description">
+		<br>
 		Credit Card Number: <input type="text" name="number"> 
 		<br>	
 		ExpDate: <input type="date" name="expdate" value='<%=new Date(System.currentTimeMillis())%>'> 
 		<br>	
-		CCV: <input type="text" name="ccv"> 
+		CVV: <input type="text" name="ccv"> 
 		<br>
 		<div id="password_error"></div>
 		<br>
