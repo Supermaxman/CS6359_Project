@@ -31,6 +31,7 @@ public class RegisterController extends HttpServlet {
 		user.setUsername(request.getParameter("username"));
 		user.setPassword(request.getParameter("password"));
 		user.setName(request.getParameter("name"));
+		user.setDescription(request.getParameter("description"));
 		user.setAddress(request.getParameter("address"));
 		CreditCard card = new CreditCard();
 		card.setNumber(request.getParameter("number"));

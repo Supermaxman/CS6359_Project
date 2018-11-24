@@ -14,12 +14,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 
-public class LoginTestCase 
+public class LogoutTestCase 
 {
 	WebDriver driver;
 	
 	@Test
-	public void login() throws Exception { 
+	public void logout() throws Exception { 
 		User testUser = TestUtils.generateUser();
 		UserPersistenceService userService = new UserPersistenceServiceImpl();
 		userService.create(testUser);
@@ -35,6 +35,10 @@ public class LoginTestCase
 	    password.sendKeys(testUser.getPassword());
 	    button.click();
 	    Assert.assertEquals("Home", driver.getTitle());		
+
+		WebElement logout = driver.findElement(By.xpath("html/body/div/a[8]"));
+		logout.click();
+		Assert.assertEquals("Login",driver.getTitle());
 	}
 	
 	@After 

@@ -8,11 +8,25 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import db.services.PaintingPersistenceService;
+import db.services.UserPersistenceService;
+import db.services.impl.PaintingPersistenceServiceImpl;
+import db.services.impl.UserPersistenceServiceImpl;
+import domain.product.Painting;
+import domain.user.User;
+import test.utils.TestUtils;
+
 public class CheckoutTestCase {
 	WebDriver driver;
 
 	@Test
-	public void checkout() throws InterruptedException{ 
+	public void checkout() throws Exception { 
+		User testUser = TestUtils.generateUser();
+		Painting painting = TestUtils.generatePainting();
+		UserPersistenceService userService = new UserPersistenceServiceImpl();
+		userService.create(testUser);
+		PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
+		paintService.create(painting, testUser.getInventory().getInvnId());
 		
 		System.setProperty("webdriver.chrome.driver","chromedriver.exe");
 	    driver = new ChromeDriver();
@@ -21,8 +35,8 @@ public class CheckoutTestCase {
 	    WebElement password = driver.findElement(By.name("password"));
 	    WebElement button = driver.findElement(By.xpath("/html/body/form/input[3]"));         
 
-	    username.sendKeys("sushrut");
-	    password.sendKeys("patnaik");
+	    username.sendKeys(testUser.getUsername());
+	    password.sendKeys(testUser.getPassword());
 	    button.click();
 	    Thread.sleep(1000);
 	    Assert.assertEquals("Home", driver.getTitle());
@@ -64,7 +78,7 @@ public class CheckoutTestCase {
 
 	@After 
 	public void closePage(){
-	driver.quit();
+		driver.quit();
 	}
 
 }

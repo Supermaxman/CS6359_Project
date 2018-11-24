@@ -38,6 +38,8 @@
 		<br>
 		Name: <input type="text" name="name">
 		<br>
+		Description: <input type="text" name="description">
+		<br>
 		Password: <input type="password" name="password" id="password"> 
 		<br>
 		Re-Type Password: <input type="password" name="retry-password" id="retry-password"> 

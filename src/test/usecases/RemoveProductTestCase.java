@@ -8,12 +8,26 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class DeleteTestCase {
+import db.services.PaintingPersistenceService;
+import db.services.UserPersistenceService;
+import db.services.impl.PaintingPersistenceServiceImpl;
+import db.services.impl.UserPersistenceServiceImpl;
+import domain.product.Painting;
+import domain.user.User;
+import test.utils.TestUtils;
+
+public class RemoveProductTestCase {
 	
 	WebDriver driver;
 
 	@Test
-	public void delete() throws InterruptedException{ 
+	public void removeProduct() throws Exception { 
+		User testUser = TestUtils.generateUser();
+		Painting painting = TestUtils.generatePainting();
+		UserPersistenceService userService = new UserPersistenceServiceImpl();
+		userService.create(testUser);
+		PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
+		paintService.create(painting, testUser.getInventory().getInvnId());
 		
 		System.setProperty("webdriver.chrome.driver","chromedriver.exe");
 	    driver = new ChromeDriver();
@@ -22,39 +36,34 @@ public class DeleteTestCase {
 	    WebElement password = driver.findElement(By.name("password"));
 	    WebElement button = driver.findElement(By.xpath("/html/body/form/input[3]"));         
 
-	    username.sendKeys("123");
-	    password.sendKeys("123");
+	    username.sendKeys(testUser.getUsername());
+	    password.sendKeys(testUser.getPassword());
 	    button.click();
-	    Thread.sleep(1000);
 	    Assert.assertEquals("Home", driver.getTitle());
 	    
 	    WebElement invLink = driver.findElement(By.partialLinkText("Inventory"));
 		invLink.click();
-		Thread.sleep(1000);
 		Assert.assertEquals("Inventory",driver.getTitle());
 		
 		WebElement editLink = driver.findElement(By.name("EditDetails"));
 		editLink.click();
-		Thread.sleep(1000);
 		Assert.assertEquals("Edit Product Details",driver.getTitle());
 		
 		
 		WebElement deleteButton = driver.findElement(By.name("removeproduct1"));
 		deleteButton.click();
 		
-		Thread.sleep(3000);
 		Assert.assertEquals("Inventory",driver.getTitle());
 		
 		WebElement logout = driver.findElement(By.xpath("html/body/div/a[8]"));
 		logout.click();
-		Thread.sleep(3000);
 		Assert.assertEquals("Login",driver.getTitle());
 		
 	}
 
 	@After 
 	public void closePage(){
-	driver.quit();
+		driver.quit();
 	}
 
 }
