@@ -28,8 +28,8 @@ import db.services.impl.CraftPersistenceServiceImpl;
 public class CraftController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private CraftPersistenceService craftService = new CraftPersistenceServiceImpl();
-	private CategoryPersistenceService catService = new CategoryPersistenceServiceImpl();
+	private CraftPersistenceService craftService = CraftPersistenceServiceImpl.getInstance();
+	private CategoryPersistenceService catService = CategoryPersistenceServiceImpl.getInstance();
 	private static Integer catId = 3; 
 	
 	@Override

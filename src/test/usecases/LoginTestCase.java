@@ -21,7 +21,7 @@ public class LoginTestCase
 	@Test
 	public void login() throws Exception { 
 		User testUser = TestUtils.generateUser();
-		UserPersistenceService userService = new UserPersistenceServiceImpl();
+		UserPersistenceService userService = UserPersistenceServiceImpl.getInstance();
 		userService.create(testUser);
 		
 		System.setProperty("webdriver.chrome.driver","chromedriver.exe");

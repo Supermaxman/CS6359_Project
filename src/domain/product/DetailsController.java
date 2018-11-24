@@ -24,10 +24,10 @@ import domain.user.Cart;
 public class DetailsController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private CartPersistenceService cartService = new CartPersistenceServiceImpl();
-	private PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
-	private SculpturePersistenceService sculptService = new SculpturePersistenceServiceImpl();
-	private CraftPersistenceService craftService = new CraftPersistenceServiceImpl();
+	private CartPersistenceService cartService = CartPersistenceServiceImpl.getInstance();
+	private PaintingPersistenceService paintService = PaintingPersistenceServiceImpl.getInstance();
+	private SculpturePersistenceService sculptService = SculpturePersistenceServiceImpl.getInstance();
+	private CraftPersistenceService craftService = CraftPersistenceServiceImpl.getInstance();
 
 
 	@Override

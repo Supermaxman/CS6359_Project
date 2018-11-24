@@ -46,7 +46,7 @@
  	<hr>
 	<h4>Sculptures:</h4>
    <% 
-   CraftPersistenceService craftService = new CraftPersistenceServiceImpl();
+   CraftPersistenceService craftService = CraftPersistenceServiceImpl.getInstance();
    List<Craft> craft = craftService.retrieveAll();
    int forSaleCount = 0;
 	for (Product prod : craft){

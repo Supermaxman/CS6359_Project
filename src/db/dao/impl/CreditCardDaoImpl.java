@@ -28,7 +28,20 @@ public class CreditCardDaoImpl implements CreditCardDao {
 			+ "CARDID, NUMBER, EXPDATE, CCV "
 			+ "FROM CREDITCARD "
 			+ "WHERE USERID = ? ";
+	
+	private static CreditCardDao instance;
+	
+	private CreditCardDaoImpl() {
+		
+	}
 
+	public static CreditCardDao getInstance() {
+		if (instance == null) {
+			instance = new CreditCardDaoImpl();
+		}
+		return instance;
+	}
+	
 	@Override
 	public void create(Connection connection, CreditCard creditCard, Integer userId) throws SQLException, DaoException {
 		if (creditCard.getCardId() != null) {

@@ -22,8 +22,8 @@ public class CheckoutController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private CartPersistenceService cartService = new CartPersistenceServiceImpl();
-	private TransactionPersistenceService trxnService = new TransactionPersistenceServiceImpl();
+	private CartPersistenceService cartService = CartPersistenceServiceImpl.getInstance();
+	private TransactionPersistenceService trxnService = TransactionPersistenceServiceImpl.getInstance();
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -46,7 +46,7 @@
  	<hr>
 	<h4>Paintings:</h4>
    <% 
-   PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
+   PaintingPersistenceService paintService = PaintingPersistenceServiceImpl.getInstance();
    List<Painting> paintings = paintService.retrieveAll();
    int forSaleCount = 0;
 	for (Product prod : paintings){

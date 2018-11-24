@@ -42,10 +42,19 @@ public class CraftDaoImpl extends AbstractProductCategoryDao<Craft> implements C
 			+ "CRAFT "
 			+ "WHERE PRODID = ? ";
 
-	public CraftDaoImpl() {
+	private static CraftDao instance;
+	
+	private CraftDaoImpl() {
 		super(createQuery, retrieveQuery, retrieveAllQuery, updateQuery, deleteQuery);
 	}
 
+	public static CraftDao getInstance() {
+		if (instance == null) {
+			instance = new CraftDaoImpl();
+		}
+		return instance;
+	}
+	
 	@Override
 	protected Craft build(ResultSet rs) throws SQLException {
 		Craft craft = new Craft();

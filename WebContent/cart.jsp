@@ -46,7 +46,7 @@
  	<hr>
 	<h4>Cart:</h4>
 	 <%
-	CartPersistenceService cartService = new CartPersistenceServiceImpl();
+	CartPersistenceService cartService = CartPersistenceServiceImpl.getInstance();
 	Cart cart = cartService.retrieve(userId);
 	
 	List<Product> prods = cart.getProducts();

@@ -17,9 +17,9 @@ import test.utils.TestUtils;
 
 public class CartPersistenceServiceTest {
 
-	private UserPersistenceService userService = new UserPersistenceServiceImpl();
-	private CartPersistenceService cartService = new CartPersistenceServiceImpl();
-	private PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
+	private UserPersistenceService userService = UserPersistenceServiceImpl.getInstance();
+	private CartPersistenceService cartService = CartPersistenceServiceImpl.getInstance();
+	private PaintingPersistenceService paintService = PaintingPersistenceServiceImpl.getInstance();
 	private User testUser;
 	private Cart testCart;
 	private Painting testPaint;

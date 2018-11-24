@@ -46,7 +46,7 @@
  	<hr>
    <h4>Transactions:</h4>
    <% 
-   TransactionPersistenceService trxnService = new TransactionPersistenceServiceImpl();
+   TransactionPersistenceService trxnService = TransactionPersistenceServiceImpl.getInstance();
    List<Transaction> trxns = trxnService.retrieveByUser(userId);
 
 	if (trxns.size() > 0){

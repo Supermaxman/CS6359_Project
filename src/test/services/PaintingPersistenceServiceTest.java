@@ -7,7 +7,7 @@ import test.utils.TestUtils;
 public class PaintingPersistenceServiceTest extends AbstractProductCategoryPersistenceServiceTest<Painting> {
 
 	public PaintingPersistenceServiceTest() {
-		super(new PaintingPersistenceServiceImpl());
+		super(PaintingPersistenceServiceImpl.getInstance());
 	}
 	
 	@Override

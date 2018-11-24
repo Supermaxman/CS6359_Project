@@ -21,10 +21,10 @@ import test.utils.TestUtils;
 
 public class InventoryDaoTest {
 
-	private DbManager db = new DbManager();
-	private InventoryDao testDao = new InventoryDaoImpl();
-	private UserDao userDao = new UserDaoImpl();
-	private ProductDao prodDao = new ProductDaoImpl();
+	private DbManager db = DbManager.getInstance();
+	private InventoryDao testDao = InventoryDaoImpl.getInstance();
+	private UserDao userDao = UserDaoImpl.getInstance();
+	private ProductDao prodDao = ProductDaoImpl.getInstance();
 	private Connection conn;
 	private Inventory testInvn;
 	private User testUser;

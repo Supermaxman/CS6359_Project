@@ -46,7 +46,7 @@
  	<hr>
 	<%
 	Integer trxnId = (Integer) request.getAttribute("trxnId");
-	TransactionPersistenceService trxnService = new TransactionPersistenceServiceImpl();
+	TransactionPersistenceService trxnService = TransactionPersistenceServiceImpl.getInstance();
 	Transaction trxn = trxnService.retrieve(trxnId);
 	List<Product> prods = trxn.getProducts();
 	%>

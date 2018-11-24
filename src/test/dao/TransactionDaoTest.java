@@ -19,9 +19,9 @@ import test.utils.TestUtils;
 
 public class TransactionDaoTest {
 
-	private DbManager db = new DbManager();
-	private TransactionDao testDao = new TransactionDaoImpl();
-	private UserDao userDao = new UserDaoImpl();
+	private DbManager db = DbManager.getInstance();
+	private TransactionDao testDao = TransactionDaoImpl.getInstance();
+	private UserDao userDao = UserDaoImpl.getInstance();
 	private Connection conn;
 	private Transaction testTrxn;
 	private List<Transaction> testList;

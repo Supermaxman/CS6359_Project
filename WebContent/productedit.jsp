@@ -53,9 +53,9 @@
 	<%
 	Integer prodId = (Integer) request.getAttribute("prodId");
 	Integer catId = (Integer) request.getAttribute("catId");
-	PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
-	SculpturePersistenceService sculpService = new SculpturePersistenceServiceImpl();
-	CraftPersistenceService craftService = new CraftPersistenceServiceImpl();
+	PaintingPersistenceService paintService = PaintingPersistenceServiceImpl.getInstance();
+	SculpturePersistenceService sculpService = SculpturePersistenceServiceImpl.getInstance();
+	CraftPersistenceService craftService = CraftPersistenceServiceImpl.getInstance();
 	Painting paint = paintService.retrieve(prodId);
 	Sculpture sculp = sculpService.retrieve(prodId);
 	Craft craft = craftService.retrieve(prodId);

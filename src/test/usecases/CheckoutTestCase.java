@@ -23,9 +23,9 @@ public class CheckoutTestCase {
 	public void checkout() throws Exception { 
 		User testUser = TestUtils.generateUser();
 		Painting painting = TestUtils.generatePainting();
-		UserPersistenceService userService = new UserPersistenceServiceImpl();
+		UserPersistenceService userService = UserPersistenceServiceImpl.getInstance();
 		userService.create(testUser);
-		PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
+		PaintingPersistenceService paintService = PaintingPersistenceServiceImpl.getInstance();
 		paintService.create(painting, testUser.getInventory().getInvnId());
 		
 		System.setProperty("webdriver.chrome.driver","chromedriver.exe");

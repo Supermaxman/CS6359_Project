@@ -46,7 +46,7 @@
  	<hr>
 	<h4>Sculptures:</h4>
    <% 
-   SculpturePersistenceService sculptureService = new SculpturePersistenceServiceImpl();
+   SculpturePersistenceService sculptureService = SculpturePersistenceServiceImpl.getInstance();
    List<Sculpture> sculptures = sculptureService.retrieveAll();
 
    int forSaleCount = 0;

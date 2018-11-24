@@ -46,7 +46,7 @@
  	<hr>
  	<h4>Inventory:</h4>
 	 <%
-	InventoryPersistenceService invnService = new InventoryPersistenceServiceImpl();
+	InventoryPersistenceService invnService = InventoryPersistenceServiceImpl.getInstance();
 	Inventory invn = invnService.retrieve(userId);
 	
 	List<Product> prods = invn.getProducts();

@@ -19,11 +19,24 @@ import domain.user.Inventory;
 
 public class InventoryPersistenceServiceImpl implements InventoryPersistenceService {
 
-	private DbManager db = new DbManager();
-	private InventoryDao inventoryDao = new InventoryDaoImpl();
-	private ProductDao prodDao = new ProductDaoImpl();
-	private CategoryDao catDao = new CategoryDaoImpl();
+	private DbManager db = DbManager.getInstance();
+	private InventoryDao inventoryDao = InventoryDaoImpl.getInstance();
+	private ProductDao prodDao = ProductDaoImpl.getInstance();
+	private CategoryDao catDao = CategoryDaoImpl.getInstance();
 
+	public static InventoryPersistenceService instance;
+	
+	private InventoryPersistenceServiceImpl() {
+		
+	}
+	
+	public static InventoryPersistenceService getInstance() {
+		if (instance == null) {
+			instance = new InventoryPersistenceServiceImpl();
+		}
+		return instance;
+	}
+	
 	@Override
 	public Inventory retrieve(Integer userId) throws SQLException, DaoException {
 		Connection connection = db.getConnection();

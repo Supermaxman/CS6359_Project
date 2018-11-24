@@ -21,14 +21,14 @@ import domain.product.Product;
 
 public abstract class AbstractProductCategoryPersistenceService<T extends Product> implements ProductCategoryPersistenceService<T> {
 
-	private DbManager db = new DbManager();
-	private InventoryDao inventoryDao = new InventoryDaoImpl();
-	private CartDao cartDao = new CartDaoImpl();
-	private ProductDao prodDao = new ProductDaoImpl();
-	private CategoryDao catDao = new CategoryDaoImpl();
+	private DbManager db = DbManager.getInstance();
+	private InventoryDao inventoryDao = InventoryDaoImpl.getInstance();
+	private CartDao cartDao = CartDaoImpl.getInstance();
+	private ProductDao prodDao = ProductDaoImpl.getInstance();
+	private CategoryDao catDao = CategoryDaoImpl.getInstance();
 	private ProductCategoryDao<T> prodCatDao;
 	
-	public AbstractProductCategoryPersistenceService(ProductCategoryDao<T> prodCatDao) {
+	protected AbstractProductCategoryPersistenceService(ProductCategoryDao<T> prodCatDao) {
 		this.prodCatDao = prodCatDao;
 	}
 	

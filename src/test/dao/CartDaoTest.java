@@ -23,10 +23,10 @@ import test.utils.TestUtils;
 
 public class CartDaoTest {
 
-	private DbManager db = new DbManager();
-	private CartDao testDao = new CartDaoImpl();
-	private UserDao userDao = new UserDaoImpl();
-	private ProductDao prodDao = new ProductDaoImpl();
+	private DbManager db = DbManager.getInstance();
+	private CartDao testDao = CartDaoImpl.getInstance();
+	private UserDao userDao = UserDaoImpl.getInstance();
+	private ProductDao prodDao = ProductDaoImpl.getInstance();
 	private Connection conn;
 	private Cart testCart;
 	private User testUser;

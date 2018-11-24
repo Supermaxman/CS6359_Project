@@ -32,15 +32,28 @@ import domain.user.User;
 
 public class UserPersistenceServiceImpl implements UserPersistenceService {
 
-	private DbManager db = new DbManager();
-	private UserDao userDao = new UserDaoImpl();
-	private CreditCardDao creditCardDao = new CreditCardDaoImpl();
-	private InventoryDao inventoryDao = new InventoryDaoImpl();
-	private CartDao cartDao = new CartDaoImpl();
-	private TransactionDao trxnDao = new TransactionDaoImpl();
-	private ProductDao prodDao = new ProductDaoImpl();
-	private CategoryDao catDao = new CategoryDaoImpl();
+	private DbManager db = DbManager.getInstance();
+	private UserDao userDao = UserDaoImpl.getInstance();
+	private CreditCardDao creditCardDao = CreditCardDaoImpl.getInstance();
+	private InventoryDao inventoryDao = InventoryDaoImpl.getInstance();
+	private CartDao cartDao = CartDaoImpl.getInstance();
+	private TransactionDao trxnDao = TransactionDaoImpl.getInstance();
+	private ProductDao prodDao = ProductDaoImpl.getInstance();
+	private CategoryDao catDao = CategoryDaoImpl.getInstance();
 
+	public static UserPersistenceService instance;
+	
+	private UserPersistenceServiceImpl() {
+		
+	}
+	
+	public static UserPersistenceService getInstance() {
+		if (instance == null) {
+			instance = new UserPersistenceServiceImpl();
+		}
+		return instance;
+	}
+	
 	@Override
 	public void create(User user) throws SQLException, DaoException {
 		if (user.getAddress() == null) {

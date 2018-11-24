@@ -18,7 +18,7 @@ import test.utils.TestUtils;
 
 public abstract class AbstractProductCategoryPersistenceServiceTest<T extends Product> {
 
-	private UserPersistenceService userService = new UserPersistenceServiceImpl();
+	private UserPersistenceService userService = UserPersistenceServiceImpl.getInstance();
 	private ProductCategoryPersistenceService<T> prodCatService;
 	private User testUser;
 	private T testObj;

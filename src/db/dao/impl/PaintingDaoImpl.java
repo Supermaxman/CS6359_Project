@@ -40,11 +40,20 @@ public class PaintingDaoImpl extends AbstractProductCategoryDao<Painting> implem
 			"DELETE FROM "
 			+ "PAINTING "
 			+ "WHERE PRODID = ? ";
-		
-	public PaintingDaoImpl() {
+
+	private static PaintingDao instance;
+	
+	private PaintingDaoImpl() {
 		super(createQuery, retrieveQuery, retrieveAllQuery, updateQuery, deleteQuery);
 	}
 
+	public static PaintingDao getInstance() {
+		if (instance == null) {
+			instance = new PaintingDaoImpl();
+		}
+		return instance;
+	}
+	
 	@Override
 	protected Painting build(ResultSet rs) throws SQLException {
 		Painting painting = new Painting();

@@ -36,7 +36,20 @@ public class CartDaoImpl implements CartDao {
 			"DELETE FROM "
 			+ "CARTPRODUCT "
 			+ "WHERE PRODID = ? ";
+	
+	private static CartDao instance;
+	
+	private CartDaoImpl() {
+		
+	}
 
+	public static CartDao getInstance() {
+		if (instance == null) {
+			instance = new CartDaoImpl();
+		}
+		return instance;
+	}
+	
 	@Override
 	public void create(Connection connection, Cart cart, Integer userId) throws SQLException, DaoException {
 		if (cart.getCartId() != null) {

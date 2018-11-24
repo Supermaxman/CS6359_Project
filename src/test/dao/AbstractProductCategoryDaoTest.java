@@ -23,10 +23,10 @@ import test.utils.TestUtils;
 
 public abstract class AbstractProductCategoryDaoTest<T extends Product> {
 
-	private DbManager db = new DbManager();
+	private DbManager db = DbManager.getInstance();
 	private ProductCategoryDao<T> prodCatDao;
-	private UserDao userDao = new UserDaoImpl();
-	private ProductDao prodDao = new ProductDaoImpl();
+	private UserDao userDao = UserDaoImpl.getInstance();
+	private ProductDao prodDao = ProductDaoImpl.getInstance();
 	private Connection conn;
 	private T testProdCat;
 	private User testUser;

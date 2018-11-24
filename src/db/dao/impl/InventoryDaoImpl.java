@@ -32,6 +32,19 @@ public class InventoryDaoImpl implements InventoryDao {
 			"DELETE FROM "
 			+ "INVENTORYPRODUCT "
 			+ "WHERE INVNID = ? AND PRODID = ? ";
+
+	private static InventoryDao instance;
+	
+	private InventoryDaoImpl() {
+		
+	}
+
+	public static InventoryDao getInstance() {
+		if (instance == null) {
+			instance = new InventoryDaoImpl();
+		}
+		return instance;
+	}
 	
 	@Override
 	public void create(Connection connection, Inventory inv, Integer userId) throws SQLException, DaoException {

@@ -20,7 +20,7 @@ import db.services.impl.UserPersistenceServiceImpl;
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private UserPersistenceService userService = new UserPersistenceServiceImpl();
+	private UserPersistenceService userService = UserPersistenceServiceImpl.getInstance();
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

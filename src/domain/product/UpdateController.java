@@ -18,9 +18,9 @@ public class UpdateController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
-	private SculpturePersistenceService sculptureService = new SculpturePersistenceServiceImpl();
-	private CraftPersistenceService craftService = new CraftPersistenceServiceImpl();
+	private PaintingPersistenceService paintService = PaintingPersistenceServiceImpl.getInstance();
+	private SculpturePersistenceService sculptureService = SculpturePersistenceServiceImpl.getInstance();
+	private CraftPersistenceService craftService = CraftPersistenceServiceImpl.getInstance();
 	//
 	
 	@Override

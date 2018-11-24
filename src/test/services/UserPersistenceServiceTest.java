@@ -15,7 +15,7 @@ import test.utils.TestUtils;
 
 public class UserPersistenceServiceTest {
 
-	private UserPersistenceService testService = new UserPersistenceServiceImpl();
+	private UserPersistenceService testService = UserPersistenceServiceImpl.getInstance();
 	private User testUser;
 	
 	@Before

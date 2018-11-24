@@ -49,6 +49,19 @@ public class UserDaoImpl implements UserDao {
 			+ "ON u.USERID = i.INVNID "
 			+ "WHERE ip.PRODID = ? ";
 
+	private static UserDao instance;
+	
+	private UserDaoImpl() {
+		
+	}
+
+	public static UserDao getInstance() {
+		if (instance == null) {
+			instance = new UserDaoImpl();
+		}
+		return instance;
+	}
+	
 	@Override
 	public void create(Connection conn, User user) throws SQLException, DaoException {
 		if (user.getUserId() != null) {

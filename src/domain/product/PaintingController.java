@@ -26,8 +26,8 @@ public class PaintingController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
-	private CategoryPersistenceService catService = new CategoryPersistenceServiceImpl();
+	private PaintingPersistenceService paintService = PaintingPersistenceServiceImpl.getInstance();
+	private CategoryPersistenceService catService = CategoryPersistenceServiceImpl.getInstance();
 	private static Integer catId = 1; 
 
 	@Override

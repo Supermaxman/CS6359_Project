@@ -21,9 +21,9 @@ import test.utils.TestUtils;
 
 public class TransactionPersistenceServiceTest {
 
-	private UserPersistenceService userService = new UserPersistenceServiceImpl();
-	private TransactionPersistenceService trxnService = new TransactionPersistenceServiceImpl();
-	private PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
+	private UserPersistenceService userService = UserPersistenceServiceImpl.getInstance();
+	private TransactionPersistenceService trxnService = TransactionPersistenceServiceImpl.getInstance();
+	private PaintingPersistenceService paintService = PaintingPersistenceServiceImpl.getInstance();
 	private User testUser;
 	private Transaction testTrxn;
 	private Painting testPaint;

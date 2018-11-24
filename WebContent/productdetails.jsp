@@ -61,7 +61,7 @@
 	Product prod = null;
 
 	if (catId == 1){
-		PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
+		PaintingPersistenceService paintService = PaintingPersistenceServiceImpl.getInstance();
 		Painting paint = paintService.retrieve(prodId);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ImageIO.write(paint.getImage(), "jpg", baos);
@@ -83,7 +83,7 @@
 			<tr><td>Width: </td><td><%=paint.getWidth()%></td></tr>
 		</table>
 	<%} else if (catId == 2) {
-		SculpturePersistenceService sculptService = new SculpturePersistenceServiceImpl();
+		SculpturePersistenceService sculptService = SculpturePersistenceServiceImpl.getInstance();
 		Sculpture sculpt = sculptService.retrieve(prodId); 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ImageIO.write(sculpt.getImage(), "jpg", baos);
@@ -106,7 +106,7 @@
 		</table>
 		
 	<% } else if (catId == 3) {
-		CraftPersistenceService craftService = new CraftPersistenceServiceImpl();
+		CraftPersistenceService craftService = CraftPersistenceServiceImpl.getInstance();
 		Craft crafts = craftService.retrieve(prodId);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ImageIO.write(crafts.getImage(), "jpg", baos);

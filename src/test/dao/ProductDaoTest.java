@@ -29,12 +29,12 @@ import test.utils.TestUtils;
 
 public class ProductDaoTest {
 
-	private DbManager db = new DbManager();
-	private ProductDao testDao = new ProductDaoImpl();
-	private UserDao userDao = new UserDaoImpl();
-	private InventoryDao invnDao = new InventoryDaoImpl();
-	private CartDao cartDao = new CartDaoImpl();
-	private TransactionDao trxnDao = new TransactionDaoImpl();
+	private DbManager db = DbManager.getInstance();
+	private ProductDao testDao = ProductDaoImpl.getInstance();
+	private UserDao userDao = UserDaoImpl.getInstance();
+	private InventoryDao invnDao = InventoryDaoImpl.getInstance();
+	private CartDao cartDao = CartDaoImpl.getInstance();
+	private TransactionDao trxnDao = TransactionDaoImpl.getInstance();
 	private Connection conn;
 	private Product testProd;
 	private User testUser;

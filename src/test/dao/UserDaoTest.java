@@ -15,8 +15,8 @@ import test.utils.TestUtils;
 
 public class UserDaoTest {
 
-	private DbManager db = new DbManager();
-	private UserDao testDao = new UserDaoImpl();
+	private DbManager db = DbManager.getInstance();
+	private UserDao testDao = UserDaoImpl.getInstance();
 	private Connection conn;
 	private User testUser;
 	

@@ -32,6 +32,19 @@ public class CategoryDaoImpl implements CategoryDao {
 			+ "CATID, NAME, DESCRIPTION "
 			+ "FROM CATEGORY ";
 	
+	private static CategoryDao instance;
+	
+	private CategoryDaoImpl() {
+		
+	}
+
+	public static CategoryDao getInstance() {
+		if (instance == null) {
+			instance = new CategoryDaoImpl();
+		}
+		return instance;
+	}
+	
 	@Override
 	public Category retrieve(Connection connection, Integer catId) throws SQLException, DaoException {
 		if (catId == null) {

@@ -21,7 +21,7 @@ public class CreateProductTestCase
 	@Test
 	public void createProduct() throws Exception { 
 		User testUser = TestUtils.generateUser();
-		UserPersistenceService userService = new UserPersistenceServiceImpl();
+		UserPersistenceService userService = UserPersistenceServiceImpl.getInstance();
 		userService.create(testUser);
 		
 		System.setProperty("webdriver.chrome.driver","chromedriver.exe");

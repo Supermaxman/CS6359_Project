@@ -28,8 +28,8 @@ import db.services.impl.SculpturePersistenceServiceImpl;
 public class SculptureController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private SculpturePersistenceService sculptService = new SculpturePersistenceServiceImpl();
-	private CategoryPersistenceService catService = new CategoryPersistenceServiceImpl();
+	private SculpturePersistenceService sculptService = SculpturePersistenceServiceImpl.getInstance();
+	private CategoryPersistenceService catService = CategoryPersistenceServiceImpl.getInstance();
 	private static Integer catId = 2; 
 	
 	@Override

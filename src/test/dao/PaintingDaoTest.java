@@ -7,7 +7,7 @@ import test.utils.TestUtils;
 public class PaintingDaoTest extends AbstractProductCategoryDaoTest<Painting> {
 
 	public PaintingDaoTest() {
-		super(new PaintingDaoImpl());
+		super(PaintingDaoImpl.getInstance());
 	}
 
 	@Override

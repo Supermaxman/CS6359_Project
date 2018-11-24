@@ -17,9 +17,9 @@ import test.utils.TestUtils;
 
 public class InventoryPersistenceServiceTest {
 
-	private UserPersistenceService userService = new UserPersistenceServiceImpl();
-	private InventoryPersistenceService invnService = new InventoryPersistenceServiceImpl();
-	private PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
+	private UserPersistenceService userService = UserPersistenceServiceImpl.getInstance();
+	private InventoryPersistenceService invnService = InventoryPersistenceServiceImpl.getInstance();
+	private PaintingPersistenceService paintService = PaintingPersistenceServiceImpl.getInstance();
 	private User testUser;
 	private Inventory testInvn;
 	private Painting testPaint;

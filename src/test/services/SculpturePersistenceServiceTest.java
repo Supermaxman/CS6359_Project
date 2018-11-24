@@ -7,7 +7,7 @@ import test.utils.TestUtils;
 public class SculpturePersistenceServiceTest  extends AbstractProductCategoryPersistenceServiceTest<Sculpture> {
 
 	public SculpturePersistenceServiceTest() {
-		super(new SculpturePersistenceServiceImpl());
+		super(SculpturePersistenceServiceImpl.getInstance());
 	}
 	
 	@Override

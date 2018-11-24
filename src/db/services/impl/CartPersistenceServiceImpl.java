@@ -19,11 +19,24 @@ import domain.user.Cart;
 
 public class CartPersistenceServiceImpl implements CartPersistenceService {
 
-	private DbManager db = new DbManager();
-	private CartDao cartDao = new CartDaoImpl();
-	private ProductDao prodDao = new ProductDaoImpl();
-	private CategoryDao catDao = new CategoryDaoImpl();
+	private DbManager db = DbManager.getInstance();
+	private CartDao cartDao = CartDaoImpl.getInstance();
+	private ProductDao prodDao = ProductDaoImpl.getInstance();
+	private CategoryDao catDao = CategoryDaoImpl.getInstance();
 
+	public static CartPersistenceService instance;
+	
+	private CartPersistenceServiceImpl() {
+		
+	}
+	
+	public static CartPersistenceService getInstance() {
+		if (instance == null) {
+			instance = new CartPersistenceServiceImpl();
+		}
+		return instance;
+	}
+	
 	@Override
 	public Cart retrieve(Integer userId) throws SQLException, DaoException {
 		Connection connection = db.getConnection();

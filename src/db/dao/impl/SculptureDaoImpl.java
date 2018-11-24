@@ -40,11 +40,20 @@ public class SculptureDaoImpl extends AbstractProductCategoryDao<Sculpture> impl
 			"DELETE FROM "
 			+ "SCULPTURE "
 			+ "WHERE PRODID = ? ";
+
+	private static SculptureDao instance;
 	
-	public SculptureDaoImpl() {
+	private SculptureDaoImpl() {
 		super(createQuery, retrieveQuery, retrieveAllQuery, updateQuery, deleteQuery);
 	}
 
+	public static SculptureDao getInstance() {
+		if (instance == null) {
+			instance = new SculptureDaoImpl();
+		}
+		return instance;
+	}
+	
 	@Override
 	protected Sculpture build(ResultSet rs) throws SQLException {
 		Sculpture sculpture = new Sculpture();

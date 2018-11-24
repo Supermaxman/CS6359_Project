@@ -36,6 +36,19 @@ public class TransactionDaoImpl implements TransactionDao {
 			+ "TRXNID, DATE, PRICE "
 			+ "FROM TRANSACTION "
 			+ "WHERE USERID = ? ";
+
+	private static TransactionDao instance;
+	
+	private TransactionDaoImpl() {
+		
+	}
+
+	public static TransactionDao getInstance() {
+		if (instance == null) {
+			instance = new TransactionDaoImpl();
+		}
+		return instance;
+	}
 	
 	@Override
 	public void create(Connection connection, Transaction transaction, Integer userId)
