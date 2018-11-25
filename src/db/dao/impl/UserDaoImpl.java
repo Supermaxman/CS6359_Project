@@ -16,18 +16,18 @@ public class UserDaoImpl implements UserDao {
 
 	private static final String registerQuery = 
 			"INSERT INTO "
-			+ "USER (USERNAME, PASSWORD, NAME, ADDRESS, DESCRIPTION) "
-			+ "VALUES (?, ?, ?, ?, ?) ";
+			+ "USER (USERNAME, PASSWORD, NAME, ADDRESS, DESCRIPTION, ACTIVE) "
+			+ "VALUES (?, ?, ?, ?, ?, ?) ";
 
 	private static final String retrieveQuery = 
 			"SELECT "
-			+ "USERID, USERNAME, PASSWORD, NAME, ADDRESS, DESCRIPTION "
+			+ "USERID, USERNAME, PASSWORD, NAME, ADDRESS, DESCRIPTION, ACTIVE "
 			+ "FROM USER "
 			+ "WHERE USERID = ? ";
 	
 	private static final String retrieveByUsernameQuery = 
 			"SELECT "
-			+ "USERID, USERNAME, PASSWORD, NAME, ADDRESS, DESCRIPTION "
+			+ "USERID, USERNAME, PASSWORD, NAME, ADDRESS, DESCRIPTION, ACTIVE "
 			+ "FROM USER "
 			+ "WHERE USERNAME = ? ";
 	
@@ -37,12 +37,13 @@ public class UserDaoImpl implements UserDao {
 			+ "PASSWORD = ?, "
 			+ "NAME = ?, "
 			+ "ADDRESS = ?,"
-			+ "DESCRIPTION = ? "
+			+ "DESCRIPTION = ?, "
+			+ "ACTIVE = ? "
 			+ "WHERE USERID = ?";
 	
 	private static final String retrieveByProductIdQuery = 
 			"SELECT "
-			+ "u.USERID, u.USERNAME, u.PASSWORD, u.NAME, u.ADDRESS, u.DESCRIPTION "
+			+ "u.USERID, u.USERNAME, u.PASSWORD, u.NAME, u.ADDRESS, u.DESCRIPTION, u.ACTIVE "
 			+ "FROM INVENTORYPRODUCT ip "
 			+ "JOIN INVENTORY i "
 			+ "ON i.INVNID = ip.INVNID "
@@ -77,6 +78,7 @@ public class UserDaoImpl implements UserDao {
 			statement.setString(3, user.getName());
 			statement.setString(4, user.getAddress());
 			statement.setString(5, user.getDescription());
+			statement.setBoolean(6, user.isActive());
 
 			int result = statement.executeUpdate();
 			if (result != 1) {
@@ -183,7 +185,8 @@ public class UserDaoImpl implements UserDao {
 			statement.setString(3, user.getName());
 			statement.setString(4, user.getAddress());
 			statement.setString(5, user.getDescription());
-			statement.setInt(6, user.getUserId());
+			statement.setBoolean(6, user.isActive());
+			statement.setInt(7, user.getUserId());
 			int result = statement.executeUpdate();
 			if (result != 1) {
 				throw new DaoException("Unable to update user!");
@@ -204,6 +207,7 @@ public class UserDaoImpl implements UserDao {
 		user.setName(rs.getString(4));
 		user.setAddress(rs.getString(5));
 		user.setDescription(rs.getString(6));
+		user.setActive(rs.getBoolean(7));
 		return user;
 	}
 

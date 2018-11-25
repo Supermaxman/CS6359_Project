@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS `artkart`.`User` (
   `name` VARCHAR(100) NOT NULL,
   `address` VARCHAR(255) NOT NULL,
   `description` VARCHAR(2000) NOT NULL,
+  `active` boolean NOT NULL,
   PRIMARY KEY (`userId`),
   UNIQUE INDEX `User_userId_UNIQUE` (`userId` ASC),
   UNIQUE INDEX `User_username_UNIQUE` (`username` ASC));

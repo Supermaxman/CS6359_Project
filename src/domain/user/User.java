@@ -12,6 +12,7 @@ public class User {
 	private String name;
 	private String address;
 	private String description;
+	private boolean active;
 	private Inventory inventory;
 	private Cart cart;
 	private CreditCard creditCard;
@@ -104,5 +105,13 @@ public class User {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public boolean isActive() {
+		return this.active;
+	}
 
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+	
 }

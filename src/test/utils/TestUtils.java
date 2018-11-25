@@ -132,6 +132,7 @@ public class TestUtils {
 		testUser.setName(UUID.randomUUID().toString().substring(0, 10));
 		testUser.setAddress(UUID.randomUUID().toString().substring(0, 10));
 		testUser.setDescription(UUID.randomUUID().toString());
+		testUser.setActive(true);
 		testUser.setTransactions(new ArrayList<Transaction>());
 		
 		CreditCard testCard = generateCreditCard();
