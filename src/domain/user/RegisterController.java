@@ -44,15 +44,20 @@ public class RegisterController extends HttpServlet {
 		try {
 			userService.create(user);
 		} catch (SQLException ex) {
-			System.out.println(ex);
-			ex.printStackTrace();
-			message = "Registratin failed!";
+			String msg = ex.getMessage();
+			if (msg.startsWith("Duplicate entry \'" + user.getUsername() + "\' for key")) {
+				message = "Username already exists!";
+			}
+			else {
+				ex.printStackTrace();
+				message = "Registratin failed!";
+			}
 		} catch (DaoException ex) {
 			System.out.println(ex);
 			ex.printStackTrace();
 			message = "Registratin failed!";
 		}
-		request.setAttribute("successMessage",  message);
+		request.setAttribute("message",  message);
 		request.getRequestDispatcher(redirect).forward(request, response);
 	}
 

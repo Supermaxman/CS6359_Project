@@ -37,6 +37,29 @@ public class LoginTestCase
 	    Assert.assertEquals("Home", driver.getTitle());		
 	}
 	
+
+	@Test
+	public void loginInactive() throws Exception { 
+		User testUser = TestUtils.generateUser();
+		testUser.setActive(false);
+		UserPersistenceService userService = UserPersistenceServiceImpl.getInstance();
+		userService.create(testUser);
+		
+		System.setProperty("webdriver.chrome.driver","chromedriver.exe");
+	    driver = new ChromeDriver();
+	    driver.get("http://localhost:8080/CS6359_Project/login.jsp");
+	    WebElement username = driver.findElement(By.name("username"));
+	    WebElement password = driver.findElement(By.name("password"));
+	    WebElement button = driver.findElement(By.xpath("/html/body/form/input[3]"));         
+	    
+	    username.sendKeys(testUser.getUsername());
+	    password.sendKeys(testUser.getPassword());
+	    button.click();
+	    Assert.assertEquals("Login", driver.getTitle());		
+	}
+	
+	
+	
 	@After 
 	public void closePage(){
 		driver.quit();

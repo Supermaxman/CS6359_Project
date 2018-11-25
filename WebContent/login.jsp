@@ -30,6 +30,7 @@
 		<a href="logout.jsp" >Logout</a>
  	</div>
  	<hr>
+	<h4 align="left"> ${message} </h4>
 	<h4 align="left"> Please log in to start shopping! </h4>
 	<form name="loginform" action="LoginController" method="post" onsubmit="return loginValidate()">
 	Username: <input type="text" name="username" id="username">
