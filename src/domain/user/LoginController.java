@@ -35,7 +35,7 @@ public class LoginController extends HttpServlet {
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
-
+		
 		if (submitType.equals("login") && user != null && user.getName() != null) {
 			request.getSession().setAttribute("name", user.getName());
 			request.getSession().setAttribute("userId", user.getUserId());

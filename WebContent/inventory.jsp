@@ -43,8 +43,20 @@
 		<a href="faq.jsp" >FAQs</a>
 		<a href="logout.jsp" >Logout</a>
  	</div>
+ 	
+ 	
  	<hr>
- 	<h4>Inventory:</h4>
+ 	<div class="addProd" align = "Center">
+ 	<b><h4>INVENTORY</h4></b>
+ 	<form>
+	<a name = "Painting" href="newproduct.jsp?catId=1">Add a painting</a>
+	<a name = "Sculpture" href="newproduct.jsp?catId=2">Add a sculpture</a>
+	<a name = "Craft" href="newproduct.jsp?catId=3">Add a craft</a>
+	</form>
+	</div>
+	<hr>
+	
+ 	<h4>Items in Inventory:</h4>
 	 <%
 	InventoryPersistenceService invnService = new InventoryPersistenceServiceImpl();
 	Inventory invn = invnService.retrieve(userId);
@@ -55,6 +67,11 @@
 	
 	%>
 	<table border="1" style="margin-top: 20px; margin-right: 20px; margin-left: 29px; border-top-width: 2px;">
+	<col width="100">
+ 	<col width="130">
+ 	<col width="70">
+  	<col width="70">
+  	<col width="100">	
 		<tr>
 			<th>Name</th>
 			<th>Description</th>
@@ -86,13 +103,68 @@
 		<%}%>
 	</table>
 	<br>
+	<h4>Total Earnings till date:</h4>
+	<table border="1" style="margin-top: 20px; margin-right: 20px; margin-left: 29px; border-top-width: 2px;">
+	<col width="130">
+  	<col width="80">
+  	
+	<tr>
+	<th>Sale Type</th>
+	<th>Amount</th>
+	</tr>
+	<tr>
+	<td>Painting</td>
+	<%
+	double total = 0.0;
+	double catTotal = 0.0;
+	for(Product prod : prods) {
+	if(prod.getCategory().getCatId() == 1 && prod.isSold())
+	{
+		catTotal = catTotal+prod.getPrice();
+	}
+	}
+	total = total+catTotal;
+	
+	%>
+	<td><%= catTotal %></td>
+	</tr>
+	<tr>
+	<td>Sculpture</td>
+	<%
+	catTotal = 0;
+	for(Product prod : prods) {
+	if(prod.getCategory().getCatId() == 2 && prod.isSold())
+	{
+		catTotal = catTotal+prod.getPrice();
+	}
+	}
+	total = total+catTotal;
+	
+	%>
+	<td><%= catTotal %></td>
+	</tr>
+	<tr>
+	<td>Craft</td>
+	<%
+	catTotal = 0;
+	for(Product prod : prods) {
+	if(prod.getCategory().getCatId() == 3 && prod.isSold())
+	{
+		catTotal = catTotal+prod.getPrice();
+	}
+	}
+	total = total+catTotal;
+
+	%>
+	<td><%= catTotal %></td></tr>
+	<tr>
+	<td align = "right"><b>Total</b></td>
+	<td align = "right"><b><%= total %></b></td>
+	</tr>
+	</table>
 	<% } else {%>
 		<p> Your Inventory is empty. </p>
 	<%}%>
-	<form>
-	<a name = "Painting" href="newproduct.jsp?catId=1">Add a painting</a>
-	<a name = "Sculpture" href="newproduct.jsp?catId=2">Add a sculpture</a>
-	<a name = "Craft" href="newproduct.jsp?catId=3">Add a craft</a>
-	</form>
+	
 </body>
 </html> 

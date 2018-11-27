@@ -10,8 +10,8 @@ package db;
 public interface MyDB {
 
 	String USER="root";
-	String PASS="maxwell1";
-	String CONN_URL="jdbc:mysql://localhost:3306/artkart";
+	String PASS="mamasa@94";
+	String CONN_URL="jdbc:mysql://127.0.0.1:3306/artkart";
 	
 	
 }
@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `artkart`.`Transaction` (
     REFERENCES `artkart`.`User` (`userId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
--- -----------------------------------------------------
+-- -------------------------username----------------------------
 -- Table `artkart`.`TransactionProduct`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `artkart`.`TransactionProduct` (
@@ -185,41 +185,6 @@ CREATE TABLE IF NOT EXISTS `artkart`.`Painting` (
     REFERENCES `artkart`.`Product` (`prodId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
--- -----------------------------------------------------
--- Table `artkart`.`Sculpture`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `artkart`.`Sculpture` (
-  `prodId` INT NOT NULL,
-  `material` VARCHAR(255) NOT NULL,
-  `weight` DOUBLE NOT NULL, 
-  `length` DOUBLE NOT NULL,
-  `width` DOUBLE NOT NULL,
-  `height` DOUBLE NOT NULL, 
-  PRIMARY KEY (`prodId`),
-  INDEX `Sculpture_prodId_idx` (`prodId` ASC),
-  CONSTRAINT `fk_Sculpture_Product_prodId`
-    FOREIGN KEY (`prodId`)
-    REFERENCES `artkart`.`Product` (`prodId`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
--- -----------------------------------------------------
--- Table `artkart`.`Craft`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `artkart`.`Craft` (
-  `prodId` INT NOT NULL,
-  `usage` VARCHAR(255) NOT NULL,
-  `length` DOUBLE NOT NULL,
-  `width` DOUBLE NOT NULL,
-  `height` DOUBLE NOT NULL,
-  PRIMARY KEY (`prodId`),
-  INDEX `Craft_prodId_idx` (`prodId` ASC),
-  CONSTRAINT `fk_Craft_Product_prodId`
-    FOREIGN KEY (`prodId`)
-    REFERENCES `artkart`.`Product` (`prodId`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
-    
-    
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
