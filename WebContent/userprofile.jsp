@@ -1,8 +1,11 @@
 <%@ page import="java.util.*" %>    
-<%@page import="domain.user.Cart"%>
-<%@page import="db.services.CartPersistenceService"%>
-<%@page import="db.services.impl.CartPersistenceServiceImpl"%>
+<%@page import="domain.user.Inventory"%>
+<%@page import="db.services.InventoryPersistenceService"%>
+<%@page import="db.services.impl.InventoryPersistenceServiceImpl"%>
+<%@page import="db.services.impl.UserPersistenceServiceImpl"%>
+<%@page import="domain.user.User"%>
 <%@page import="domain.product.Product"%>
+<%@page import= "db.services.UserPersistenceService"%>
 <%@page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -10,7 +13,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>CartPage</title>
+	<title>Inventory</title>
 </head>
 <style>
 .content {
@@ -24,12 +27,28 @@
 <body>
 	<% 
 	HttpSession sess = request.getSession(true);
+	
+	//String userDescription = (String) request.getAttribute("userDescription");
+	Integer userIdOrg = (Integer) request.getAttribute("userId");
 	Integer userId = (Integer) sess.getAttribute("userId");
 	if (userId == null){
 		response.sendRedirect("login.jsp");
 		return;
 	}
-	Integer invnId = (Integer) sess.getAttribute("invnId");
+	if(userIdOrg != null)
+	{
+		userId= userIdOrg;
+	}
+	
+	UserPersistenceService userService = new UserPersistenceServiceImpl();
+	User user = null;
+	user = userService.retrieve(userId);
+	
+	String userDescription = user.getDescription();
+	String userName = user.getUsername();
+	//Integer userId = null;
+	
+	
 	Integer cartId = (Integer) sess.getAttribute("cartId");
 	String name = (String) sess.getAttribute("name");
 	%>
@@ -44,22 +63,43 @@
 		<a href="userprofile.jsp" >User Profile</a>
 		<a href="logout.jsp" >Logout</a>
  	</div>
- 	<hr>
-	<h4>Cart:</h4>
 	 <%
-	CartPersistenceService cartService = new CartPersistenceServiceImpl();
-	Cart cart = cartService.retrieve(userId);
+	InventoryPersistenceService invnService = new InventoryPersistenceServiceImpl();
+	Inventory invn = invnService.retrieve(userId);
+	List<Product> prods = invn.getProducts();
+	Integer totalsold = 0;
+	if (prods.size()>0)
+	{
+		for(Product prod: prods){
+			if(prod.isSold()==true){
+			totalsold= totalsold + 1;
+			}
+		}
+	}
+	%>
+	<hr>
+	<table>
+		<tr><th>User Details:&nbsp&nbsp&nbsp&nbsp&nbsp</th><th></th></tr>
+		<tr><td>Username:</td><td><%=userName%></td></tr>
+		<tr><td>Description:</td><td><%=userDescription%></td></tr>
+		<tr><td>Products Sold:</td><td><%=totalsold%></td></tr>
+	</table>
+	<hr>
 	
-	List<Product> prods = cart.getProducts();
-	double totalPrice = 0.0;
+	<%
+	
 	if (prods.size() > 0){
 	
 	%>
+	
+ 	<h4>Inventory:</h4>
+ 	
 	<table border="1" style="margin-top: 20px; margin-right: 20px; margin-left: 29px; border-top-width: 2px;">
 		<tr>
 			<th>Name</th>
 			<th>Description</th>
 			<th>Price</th>
+			<th>Sold</th>
 			<th>Action</th>   
 		</tr>
 	     
@@ -68,24 +108,22 @@
 				<td><%= prod.getName() %></td>
 				<td><%= prod.getDescription() %></td>
 				<td><%= prod.getPrice() %></td>
+				<td><%= prod.isSold() %></td>
+				
 				<td>
 					<form name="detailsform" action="DetailsController" method="post">
 						<input type="hidden" name="prodId" value="<%= prod.getProdId().toString() %>">
 						<input type="hidden" name="catId" value="<%= prod.getCategory().getCatId().toString() %>">
 						<input class="demo" type="submit" name="ViewDetails" value = "View Details" style="left: 460px;">
-						<input class="demo" type="submit" name="Remove" value="Remove Item" style="left: 460px;">
-					</form>
+					</form>	
 				</td>
 			</tr>
-			<% totalPrice += prod.getPrice(); %>
 		<%}%>
 	</table>
-	<h5>Total Price: <%= totalPrice %></h5>
-	<form name="checkoutForm" action="CheckoutController" method="post">
-		<input class="demo" type="submit" name="Checkout" value = "Check Out" style="left: 460px;">
-	</form>
+	<br>
 	<% } else {%>
-		<p> Your Cart is empty. </p>
+		<p> Your Inventory is empty. </p>
 	<%}%>
+	
 </body>
-</html>
+</html> 

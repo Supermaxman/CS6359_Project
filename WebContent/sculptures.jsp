@@ -41,6 +41,7 @@
 		<a href="transactions.jsp">Transactions</a>
 		<a href="about.jsp">About</a>
 		<a href="faq.jsp" >FAQs</a>
+		<a href="userprofile.jsp" >User Profile</a>
 		<a href="logout.jsp" >Logout</a>
  	</div>
  	<hr>
@@ -77,6 +78,11 @@
 					<input type="hidden" name="prodId" value="<%= prod.getProdId().toString() %>">
 					<input type="hidden" name="catId" value="<%= prod.getCategory().getCatId().toString() %>">
 					<input class="demo" type="submit" name="ViewDetails" value = "View Details" style="left: 460px;">
+				</form>
+				<form name="editform" action="UserProfileController" method="post">
+						<input type="hidden" name="prodId" value="<%= prod.getProdId().toString() %>">
+						<input type="hidden" name="catId" value="<%= prod.getCategory().getCatId().toString() %>">
+						<input class="demo" type="submit" <%=prod.isSold() ? "disabled=\"\"" : "" %> name="UserProfile" value = "View User" style="left: 460px;">
 				</form>
 			</td>
 			</tr>

@@ -27,6 +27,7 @@
 		<a href="transactions.jsp">Transactions</a>
 		<a href="about.jsp">About</a>
 		<a href="faq.jsp" >FAQs</a>
+		<a href="userprofile.jsp" >User Profile</a>
 		<a href="logout.jsp" >Logout</a>
  	</div>
  	<hr>
@@ -43,6 +44,8 @@
 		Re-Type Password: <input type="password" name="retry-password" id="retry-password"> 
 		<br>
 		Address: <input type="text" name="address"> 
+		<br>
+		Description: <input type="text" name="description"> 
 		<br>
 		Credit Card Number: <input type="text" name="number"> 
 		<br>	

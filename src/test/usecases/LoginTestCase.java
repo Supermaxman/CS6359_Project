@@ -23,8 +23,8 @@ public void login() throws InterruptedException{
     WebElement password = driver.findElement(By.name("password"));
     WebElement button = driver.findElement(By.xpath("/html/body/form/input[3]"));         
 
-    username.sendKeys("123");
-    password.sendKeys("123");
+    username.sendKeys("jay");
+    password.sendKeys("jay");
     button.click();
     Thread.sleep(1000);
     Assert.assertEquals("Home", driver.getTitle());
