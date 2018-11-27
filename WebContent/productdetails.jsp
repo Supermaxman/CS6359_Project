@@ -5,16 +5,14 @@
 <%@ page import="domain.product.Painting" %>
 <%@ page import="domain.product.Sculpture" %>
 <%@ page import="domain.product.Craft" %>
+<%@ page import="domain.product.Category" %>
 <%@page import="db.services.PaintingPersistenceService"%>
 <%@page import="db.services.SculpturePersistenceService"%>
 <%@page import="db.services.CraftPersistenceService"%>
 <%@page import="db.services.impl.PaintingPersistenceServiceImpl"%>
 <%@page import="db.services.impl.SculpturePersistenceServiceImpl"%>
 <%@page import="db.services.impl.CraftPersistenceServiceImpl"%>
-<%@page import="java.awt.image.BufferedImage"%>
-<%@page import="javax.imageio.ImageIO"%>
 <%@ page import="javax.servlet.http.*" %>
-<%@ page import="java.io.ByteArrayOutputStream" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -68,18 +66,12 @@
 	Integer catId = (Integer) request.getAttribute("catId"); 
 	Product prod = null;
 
-	if (catId == 1){
+	if (catId == Category.PAINTING){
 		PaintingPersistenceService paintService = PaintingPersistenceServiceImpl.getInstance();
 		Painting paint = paintService.retrieve(prodId);
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ImageIO.write(paint.getImage(), "jpg", baos);
-		baos.flush();
-		byte[] imageInByteArray = baos.toByteArray();
-		baos.close();
-		String encodedImage = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
 		prod = paint; %>
+		<img src="data:image/jpeg;base64, <%= paint.getEncodedImage() %> " height="100" width="100" alt="bye"/>
 		<table>
-			<tr><img src="data:image/jpeg;base64, <%=encodedImage%> " height="100" width="100" alt="bye"/></tr>
 			<tr><th>Painting Details:</th></tr>
 			<tr><td>Name: </td><td><%=paint.getName()%></td></tr>
 			<tr><td>Description: </td><td><%=paint.getDescription()%></td></tr>
@@ -90,18 +82,12 @@
 			<tr><td>Length: </td><td><%=paint.getLength()%></td></tr>
 			<tr><td>Width: </td><td><%=paint.getWidth()%></td></tr>
 		</table>
-	<%} else if (catId == 2) {
+	<%} else if (catId == Category.SCULPTURE) {
 		SculpturePersistenceService sculptService = SculpturePersistenceServiceImpl.getInstance();
 		Sculpture sculpt = sculptService.retrieve(prodId); 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ImageIO.write(sculpt.getImage(), "jpg", baos);
-		baos.flush();
-		byte[] imageInByteArray = baos.toByteArray();
-		baos.close();
-		String encodedImage = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
 		prod = sculpt; %>
-		<table>			
-			<tr><img src="data:image/jpeg;base64, <%=encodedImage%> " height="100" width="100" alt="bye"/></tr>
+		<img src="data:image/jpeg;base64, <%= sculpt.getEncodedImage() %> " height="100" width="100" alt="bye"/>
+		<table>
 			<tr><th>Sculpture Details:</th></tr>
 			<tr><td>Name: </td><td><%=sculpt.getName()%></td></tr>
 			<tr><td>Description: </td><td><%=sculpt.getDescription()%></td></tr>
@@ -113,27 +99,21 @@
 			<tr><td>Width: </td><td><%=sculpt.getWidth()%></td></tr>
 		</table>
 		
-	<% } else if (catId == 3) {
+	<% } else if (catId == Category.CRAFT) {
 		CraftPersistenceService craftService = CraftPersistenceServiceImpl.getInstance();
-		Craft crafts = craftService.retrieve(prodId);
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ImageIO.write(crafts.getImage(), "jpg", baos);
-		baos.flush();
-		byte[] imageInByteArray = baos.toByteArray();
-		baos.close();
-		String encodedImage = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
-		prod = crafts;  %>
+		Craft craft = craftService.retrieve(prodId);
+		prod = craft;  %>
+		<img src="data:image/jpeg;base64, <%= craft.getEncodedImage() %> " height="100" width="100" alt="bye"/>
 		<table>
-			<tr><img src="data:image/jpeg;base64, <%=encodedImage%> " height="100" width="100" alt="bye"/></tr>
 			<tr><th>Craft Details:</th></tr>
-			<tr><td>Name: </td><td><%=crafts.getName()%></td></tr>
-			<tr><td>Description: </td><td><%=crafts.getDescription()%></td></tr>
-			<tr><td>Price: </td><td><%=crafts.getPrice()%></td></tr>
-			<tr><td>Sold: </td><td><%=crafts.isSold()%></td></tr>
-			<tr><td>Usage: </td><td><%=crafts.getUsage()%></td></tr>
-			<tr><td>Length: </td><td><%=crafts.getLength()%></td></tr>
-			<tr><td>Width: </td><td><%=crafts.getWidth()%></td></tr>
-			<tr><td>Height: </td><td><%=crafts.getHeight()%></td></tr>
+			<tr><td>Name: </td><td><%=craft.getName()%></td></tr>
+			<tr><td>Description: </td><td><%=craft.getDescription()%></td></tr>
+			<tr><td>Price: </td><td><%=craft.getPrice()%></td></tr>
+			<tr><td>Sold: </td><td><%=craft.isSold()%></td></tr>
+			<tr><td>Usage: </td><td><%=craft.getUsage()%></td></tr>
+			<tr><td>Length: </td><td><%=craft.getLength()%></td></tr>
+			<tr><td>Width: </td><td><%=craft.getWidth()%></td></tr>
+			<tr><td>Height: </td><td><%=craft.getHeight()%></td></tr>
 		</table>
 	
 	<%} %>
