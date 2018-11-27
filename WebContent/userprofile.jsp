@@ -79,7 +79,7 @@
 	%>
 	<hr>
 	<table>
-		<tr><th>User Details:&nbsp&nbsp&nbsp&nbsp&nbsp</th><th></th></tr>
+		<tr><th>User Details:&nbsp&nbsp&nbsp&nbsp&nbsp </th><th></th></tr>
 		<tr><td>Username:</td><td><%=userName%></td></tr>
 		<tr><td>Description:</td><td><%=userDescription%></td></tr>
 		<tr><td>Products Sold:</td><td><%=totalsold%></td></tr>
