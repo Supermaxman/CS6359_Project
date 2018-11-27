@@ -6,7 +6,7 @@ public class CreditCard {
 	private Integer cardId;
 	private String number;
 	private Date expDate;
-	private String ccv;
+	private String cvv;
 
 	public Integer getCardId() {
 		return cardId;
@@ -32,11 +32,11 @@ public class CreditCard {
 		this.expDate = expDate;
 	}
 
-	public String getCcv() {
-		return ccv;
+	public String getCvv() {
+		return cvv;
 	}
 
-	public void setCcv(String ccv) {
-		this.ccv = ccv;
+	public void setCvv(String cvv) {
+		this.cvv = cvv;
 	}
 }

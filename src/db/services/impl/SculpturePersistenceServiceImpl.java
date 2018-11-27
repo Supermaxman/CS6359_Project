@@ -6,9 +6,9 @@ import domain.product.Sculpture;
 
 public class SculpturePersistenceServiceImpl extends AbstractProductCategoryPersistenceService<Sculpture> implements SculpturePersistenceService {
 	
-	public static SculpturePersistenceService instance;
+	private static SculpturePersistenceService instance;
 
-	public SculpturePersistenceServiceImpl() {
+	private SculpturePersistenceServiceImpl() {
 		super(SculptureDaoImpl.getInstance());
 	}
 	

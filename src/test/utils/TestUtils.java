@@ -35,7 +35,7 @@ public class TestUtils {
 		CreditCard testCard = new CreditCard();
 		testCard.setNumber("1234");
 		testCard.setExpDate(new Date(2019, 1, 1));
-		testCard.setCcv("111");
+		testCard.setCvv("111");
 		return testCard;
 	}
 	
@@ -243,7 +243,7 @@ public class TestUtils {
 	{
 		assertEquals(a.getCardId(), b.getCardId());
 		assertEquals(a.getExpDate(), b.getExpDate());
-		assertEquals(a.getCcv(), b.getCcv());
+		assertEquals(a.getCvv(), b.getCvv());
 	}
 	
 	public static void assertEqual(Category a, Category b)

@@ -28,7 +28,6 @@ public class PaintingController extends HttpServlet {
 
 	private PaintingPersistenceService paintService = PaintingPersistenceServiceImpl.getInstance();
 	private CategoryPersistenceService catService = CategoryPersistenceServiceImpl.getInstance();
-	private static Integer catId = 1; 
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -62,7 +61,7 @@ public class PaintingController extends HttpServlet {
 		painting.setImage(image);
 
 		try {
-			Category cat = catService.retrieve(catId);
+			Category cat = catService.retrieve(Category.PAINTING);
 			painting.setCategory(cat);			
 			paintService.create(painting, invnId);
 		} catch (Exception ex) {

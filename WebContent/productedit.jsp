@@ -5,6 +5,7 @@
 <%@ page import="domain.product.Sculpture" %>
 <%@ page import="domain.product.Craft" %>
 <%@ page import="domain.product.Product" %>
+<%@ page import="domain.product.Category" %>
 <%@page import="db.services.PaintingPersistenceService"%>
 <%@page import="db.services.SculpturePersistenceService"%>
 <%@page import="db.services.CraftPersistenceService"%>
@@ -40,89 +41,129 @@
 	String name = (String) sess.getAttribute("name");
 	%>
 	<div class="menu" align = "Center">
-		<a href="home.jsp">Home</a>
-		<a href="category.jsp">Category</a>
-		<a href="cart.jsp">Cart</a>
-		<a href="inventory.jsp">Inventory</a>
-		<a href="transactions.jsp">Transactions</a>
-		<a href="about.jsp">About</a>
-		<a href="faq.jsp" >FAQs</a>
-		<a href="logout.jsp" >Logout</a>
- 	</div>
+		<a href="home.jsp" name="menuhome">Home</a>
+		<a href="category.jsp" name="menucategory">Category</a>
+		<a href="cart.jsp" name="menucart">Cart</a>
+		<a href="inventory.jsp" name="menuinventory">Inventory</a>
+		<a href="transactions.jsp" name="menutransactions">Transactions</a>
+		<a href="about.jsp" name="menuabout">About</a>
+		<a href="faq.jsp" name="menufaq">FAQs</a>
+		<a href="profile.jsp" name="menuprofile">Profile</a>
+		<a href="logout.jsp" name="menulogout">Logout</a>
+		<hr>
+		<div class="searchbar" align ="Center"> 
+			<form method="post" action="SearchController">
+				<input type="text" name="searchCriteria" placeholder="Search..">
+				<input type="submit" name="searchSubmit" value="Go">
+			</form>
+		</div>
+	</div>
  	<hr>
+	<h3>Edit Product Details</h3>
+	<br>
 	<%
 	Integer prodId = (Integer) request.getAttribute("prodId");
 	Integer catId = (Integer) request.getAttribute("catId");
-	PaintingPersistenceService paintService = PaintingPersistenceServiceImpl.getInstance();
-	SculpturePersistenceService sculpService = SculpturePersistenceServiceImpl.getInstance();
-	CraftPersistenceService craftService = CraftPersistenceServiceImpl.getInstance();
-	Painting paint = paintService.retrieve(prodId);
-	Sculpture sculp = sculpService.retrieve(prodId);
-	Craft craft = craftService.retrieve(prodId);
+	
+	if (catId == Category.PAINTING) {
+		PaintingPersistenceService paintService = PaintingPersistenceServiceImpl.getInstance();
+		Painting paint = paintService.retrieve(prodId);
+		if (!paint.isSold()) {
+			%>
+			<form name="saveForm" action="UpdateController" method="post" >
+				<h4>Name: <input type="text" name="name" value=<%=paint.getName()%> ></h4>
+				<h5>Description: <input type="text" name="description" value=<%=paint.getDescription()%>></h5>
+				<h5>Price: <input type="text" name="price" value=<%=paint.getPrice()%>></h5>
+				<h5>Sold: <%=paint.isSold()%></h5>
+				<h5>Canvas Type: <input type="text" name="canvasType" value=<%=paint.getCanvasType()%>></h5>
+				<h5>Paint Type: <input type="text" name="paintType" value=<%=paint.getPaintType()%>></h5>
+				<h5>Length: <input type="text" name="length" value=<%=paint.getLength()%>></h5>
+				<h5>Width: <input type="text" name="width" value=<%=paint.getWidth()%>></h5>
+				<input type="hidden" name="prodId" value="<%= prodId.toString() %>">
+				<input type="hidden" name="catId" value="<%= catId.toString() %>">
+				<input class="demo" type="submit" name="SaveDetails" value = "Save Changes" style="left: 460px;">
+			</form>
+			<form name="cancelForm" action="inventory.jsp" >
+				<input class="demo" type="submit" name="CacelDetails" value = "Cancel Changes" style="left: 460px;">
+			</form>
+			<form name="RemoveForm" action="DeleteController" method="post" >
+				<input type="hidden" name="prodId" value="<%= prodId.toString() %>">
+				<input type="hidden" name="catId" value="<%= catId.toString() %>">
+				<input class="demo" type="submit" name="removeproduct1" value = "Remove Product" style="left: 460px;">
+			</form>
+		<%
+		} else {
+			%> 
+			<p>Cannot edit a sold product.</p>
+			<%
+		}
+	} else if (catId == Category.SCULPTURE) {
+		SculpturePersistenceService sculpService = SculpturePersistenceServiceImpl.getInstance();
+		Sculpture sculp = sculpService.retrieve(prodId);
+		if (!sculp.isSold()) {
+			%>
+			<form name="saveForm" action="UpdateController" method="post" >
+				<h4>Name: <input type="text" name="name" value=<%=sculp.getName()%> ></h4>
+				<h5>Description: <input type="text" name="description" value=<%=sculp.getDescription()%>></h5>
+				<h5>Price: <input type="text" name="price" value=<%=sculp.getPrice()%>></h5>
+				<h5>Sold: <%=sculp.isSold()%></h5>
+				<h5>Material: <input type="text" name="material" value=<%=sculp.getMaterial()%>></h5>
+				<h5>Weight: <input type="text" name="weight" value=<%=sculp.getWeight()%>></h5>
+				<h5>Length: <input type="text" name="length" value=<%=sculp.getLength()%>></h5>
+				<h5>Width: <input type="text" name="width" value=<%=sculp.getWidth()%>></h5>
+				<h5>Height: <input type="text" name="height" value=<%=sculp.getHeight()%>></h5>
+				<input type="hidden" name="prodId" value="<%= prodId.toString() %>">
+				<input type="hidden" name="catId" value="<%= catId.toString() %>">
+				<input class="demo" type="submit" name="SaveDetails" value = "Save Changes" style="left: 460px;">
+			</form>
+			<form name="cancelForm" action="inventory.jsp" >
+				<input class="demo" type="submit" name="CacelDetails" value = "Cancel Changes" style="left: 460px;">
+			</form>
+			<form name="RemoveForm" action="DeleteController" method="post" >
+				<input type="hidden" name="prodId" value="<%= prodId.toString() %>">
+				<input type="hidden" name="catId" value="<%= catId.toString() %>">
+				<input class="demo" type="submit" name="removeproduct1" value = "Remove Product" style="left: 460px;">
+			</form>
+			<%
+		} else {
+			%> 
+			<p>Cannot edit a sold product.</p>
+			<%
+		}
+	} else if (catId == Category.CRAFT) {
+		CraftPersistenceService craftService = CraftPersistenceServiceImpl.getInstance();
+		Craft craft = craftService.retrieve(prodId);
+		if (!craft.isSold()) {
+			%>
+			<form name="saveForm" action="UpdateController" method="post">
+				<h4>Name: <input type="text" name="name" value=<%=craft.getName()%> ></h4>
+				<h5>Description: <input type="text" name="description" value=<%=craft.getDescription()%>></h5>
+				<h5>Price: <input type="text" name="price" value=<%=craft.getPrice()%>></h5>
+				<h5>Sold: <%=craft.isSold()%></h5>
+				<h5>Usage: <input type="text" name="usage" value=<%=craft.getUsage()%>></h5>
+				<h5>Length: <input type="text" name="length" value=<%=craft.getLength()%>></h5>
+				<h5>Width: <input type="text" name="width" value=<%=craft.getWidth()%>></h5>
+				<h5>Height: <input type="text" name="height" value=<%=craft.getHeight()%>></h5>
+				<input type="hidden" name="prodId" value="<%= prodId.toString() %>">
+				<input type="hidden" name="catId" value="<%= catId.toString() %>">
+				<input class="demo" type="submit" name="SaveDetails" value = "Save Changes" style="left: 460px;">
+			</form>
+			<form name="cancelForm" action="inventory.jsp" >
+				<input class="demo" type="submit" name="CacelDetails" value = "Cancel Changes" style="left: 460px;">
+			</form>
+			<form name="RemoveForm" action="DeleteController" method="post" >
+				<input type="hidden" name="prodId" value="<%= prodId.toString() %>">
+				<input type="hidden" name="catId" value="<%= catId.toString() %>">
+				<input class="demo" type="submit" name="removeproduct1" value = "Remove Product" style="left: 460px;">
+			</form>
+			<%
+		} else {
+			%> 
+			<p>Cannot edit a sold product.</p>
+			<%
+		}
+	}
 	%>
-	<h3>Edit Product Details</h3>
 	
-	
-	<br>
-	<% if (paint!=null && !paint.isSold() && catId == 1){ %>
-	<form name="saveForm" action="UpdateController" method="post" >
-		<h4>Name: <input type="text" name="name" value=<%=paint.getName()%> ></h4>
-		<h5>Description: <input type="text" name="description" value=<%=paint.getDescription()%>></h5>
-		<h5>Price: <input type="text" name="price" value=<%=paint.getPrice()%>></h5>
-		<h5>Sold: <%=paint.isSold()%></h5>
-		<h5>Canvas Type: <input type="text" name="canvasType" value=<%=paint.getCanvasType()%>></h5>
-		<h5>Paint Type: <input type="text" name="paintType" value=<%=paint.getPaintType()%>></h5>
-		<h5>Length: <input type="text" name="length" value=<%=paint.getLength()%>></h5>
-		<h5>Width: <input type="text" name="width" value=<%=paint.getWidth()%>></h5>
-		<input type="hidden" name="prodId" value="<%= prodId.toString() %>">
-		<input type="hidden" name="catId" value="<%= catId.toString() %>">
-		<input class="demo" type="submit" name="SaveDetails" value = "Save Changes" style="left: 460px;">
-	</form>
-	<form name="cancelForm" action="inventory.jsp" >
-		<input class="demo" type="submit" name="CacelDetails" value = "Cancel Changes" style="left: 460px;">
-	</form>
-	<form name="RemoveForm" action="UpdateController" method="post" >
-		<input type="hidden" name="prodId" value="<%= prodId.toString() %>">
-		<input type="hidden" name="catId" value="<%= catId.toString() %>">
-		<input type="hidden" name="removeproduct" value="removeproduct">
-		<input class="demo" type="submit" name="removeproduct1" value = "Remove Product" style="left: 460px;">
-	</form>
-	<% } %>
-	<% if ( sculp!= null && !sculp.isSold() && catId == 2){ %>
-	<form name="saveForm" action="UpdateController" method="post" >
-		<h4>Name: <input type="text" name="name" value=<%=sculp.getName()%> ></h4>
-		<h5>Description: <input type="text" name="description" value=<%=sculp.getDescription()%>></h5>
-		<h5>Price: <input type="text" name="price" value=<%=sculp.getPrice()%>></h5>
-		<h5>Sold: <%=sculp.isSold()%></h5>
-		<h5>Length: <input type="text" name="length" value=<%=sculp.getLength()%>></h5>
-		<h5>Width: <input type="text" name="width" value=<%=sculp.getWidth()%>></h5>
-		<h5>Height: <input type="text" name="height" value=<%=sculp.getHeight()%>></h5>
-		<h5>Weight: <input type="text" name="weight" value=<%=sculp.getWeight()%>></h5>
-		<input type="hidden" name="prodId" value="<%= prodId.toString() %>">
-		<input type="hidden" name="catId" value="<%= catId.toString() %>">
-		<input class="demo" type="submit" name="SaveDetails" value = "Save Changes" style="left: 460px;">
-	</form>
-	<form name="cancelForm" action="inventory.jsp" >
-		<input class="demo" type="submit" name="CacelDetails" value = "Cancel Changes" style="left: 460px;">
-	</form>
-	<% } %>
-	<% if (craft!=null && !craft.isSold() &&  catId == 3){ %>
-	<form name="saveForm" action="UpdateController" method="post">
-		<h4>Name: <input type="text" name="name" value=<%=craft.getName()%> ></h4>
-		<h5>Description: <input type="text" name="description" value=<%=craft.getDescription()%>></h5>
-		<h5>Price: <input type="text" name="price" value=<%=craft.getPrice()%>></h5>
-		<h5>Sold: <%=craft.isSold()%></h5>
-		<h5>Usage: <input type="text" name="width" value=<%=craft.getUsage()%>></h5>
-		<h5>Length: <input type="text" name="length" value=<%=craft.getLength()%>></h5>
-		<h5>Width: <input type="text" name="width" value=<%=craft.getWidth()%>></h5>
-		<h5>Height: <input type="text" name="height" value=<%=craft.getHeight()%>></h5>
-		<input type="hidden" name="prodId" value="<%= prodId.toString() %>">
-		<input type="hidden" name="catId" value="<%= catId.toString() %>">
-		<input class="demo" type="submit" name="SaveDetails" value = "Save Changes" style="left: 460px;">
-	</form>
-	<form name="cancelForm" action="inventory.jsp" >
-		<input class="demo" type="submit" name="CacelDetails" value = "Cancel Changes" style="left: 460px;">
-	</form>
-	<% } %>
 </body>
 </html>

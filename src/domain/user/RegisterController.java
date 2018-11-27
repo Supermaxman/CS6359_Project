@@ -36,7 +36,7 @@ public class RegisterController extends HttpServlet {
 		CreditCard card = new CreditCard();
 		card.setNumber(request.getParameter("number"));
 		card.setExpDate(Date.valueOf(request.getParameter("expdate")));
-		card.setCcv(request.getParameter("ccv"));
+		card.setCvv(request.getParameter("cvv"));
 		user.setCreditCard(card);
 		user.setActive(true);
 		String message = "Registration complete, please login.";

@@ -30,7 +30,6 @@ public class SculptureController extends HttpServlet {
 
 	private SculpturePersistenceService sculptService = SculpturePersistenceServiceImpl.getInstance();
 	private CategoryPersistenceService catService = CategoryPersistenceServiceImpl.getInstance();
-	private static Integer catId = 2; 
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -66,7 +65,7 @@ public class SculptureController extends HttpServlet {
 		sculpture.setImage(image);
 		
 		try {
-			Category cat = catService.retrieve(catId);
+			Category cat = catService.retrieve(Category.SCULPTURE);
 			sculpture.setCategory(cat);			
 			sculptService.create(sculpture, invnId);
 		} catch (Exception ex) {

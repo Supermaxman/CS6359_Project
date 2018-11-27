@@ -24,7 +24,7 @@ public class CartPersistenceServiceImpl implements CartPersistenceService {
 	private ProductDao prodDao = ProductDaoImpl.getInstance();
 	private CategoryDao catDao = CategoryDaoImpl.getInstance();
 
-	public static CartPersistenceService instance;
+	private static CartPersistenceService instance;
 	
 	private CartPersistenceServiceImpl() {
 		

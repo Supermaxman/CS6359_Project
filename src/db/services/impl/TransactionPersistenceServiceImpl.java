@@ -24,7 +24,7 @@ public class TransactionPersistenceServiceImpl implements TransactionPersistence
 	private ProductDao prodDao = ProductDaoImpl.getInstance();
 	private CategoryDao catDao = CategoryDaoImpl.getInstance();
 
-	public static TransactionPersistenceService instance;
+	private static TransactionPersistenceService instance;
 	
 	private TransactionPersistenceServiceImpl() {
 		

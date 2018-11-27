@@ -41,7 +41,7 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 	private ProductDao prodDao = ProductDaoImpl.getInstance();
 	private CategoryDao catDao = CategoryDaoImpl.getInstance();
 
-	public static UserPersistenceService instance;
+	private static UserPersistenceService instance;
 	
 	private UserPersistenceServiceImpl() {
 		

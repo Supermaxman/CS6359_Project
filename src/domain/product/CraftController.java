@@ -30,7 +30,6 @@ public class CraftController extends HttpServlet {
 
 	private CraftPersistenceService craftService = CraftPersistenceServiceImpl.getInstance();
 	private CategoryPersistenceService catService = CategoryPersistenceServiceImpl.getInstance();
-	private static Integer catId = 3; 
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -64,7 +63,7 @@ public class CraftController extends HttpServlet {
 		craft.setImage(image);
 
 		try {
-			Category cat = catService.retrieve(catId);
+			Category cat = catService.retrieve(Category.CRAFT);
 			craft.setCategory(cat);			
 			craftService.create(craft, invnId);
 		} catch (Exception ex) {

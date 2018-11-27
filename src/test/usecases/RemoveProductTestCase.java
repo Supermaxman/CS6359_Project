@@ -34,7 +34,7 @@ public class RemoveProductTestCase {
 	    driver.get("http://localhost:8080/CS6359_Project/login.jsp");
 	    WebElement username = driver.findElement(By.name("username"));
 	    WebElement password = driver.findElement(By.name("password"));
-	    WebElement button = driver.findElement(By.xpath("/html/body/form/input[3]"));         
+	    WebElement button = driver.findElement(By.name("submit"));         
 
 	    username.sendKeys(testUser.getUsername());
 	    password.sendKeys(testUser.getPassword());
@@ -55,7 +55,7 @@ public class RemoveProductTestCase {
 		
 		Assert.assertEquals("Inventory",driver.getTitle());
 		
-		WebElement logout = driver.findElement(By.xpath("html/body/div/a[8]"));
+		WebElement logout = driver.findElement(By.name("menulogout"));
 		logout.click();
 		Assert.assertEquals("Login",driver.getTitle());
 		

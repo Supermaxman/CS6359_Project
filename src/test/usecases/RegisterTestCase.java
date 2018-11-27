@@ -27,7 +27,7 @@ public class RegisterTestCase
 	    driver.findElement(By.name("retry-password")).sendKeys(testUser.getPassword());
 	    driver.findElement(By.name("address")).sendKeys(testUser.getAddress());
 	    driver.findElement(By.name("number")).sendKeys(testUser.getCreditCard().getNumber());	   
-	    driver.findElement(By.name("ccv")).sendKeys(testUser.getCreditCard().getCcv());
+	    driver.findElement(By.name("cvv")).sendKeys(testUser.getCreditCard().getCvv());
 	    driver.findElement(By.name("submit")).click();
 	    
 	    Assert.assertEquals("Login", driver.getTitle());

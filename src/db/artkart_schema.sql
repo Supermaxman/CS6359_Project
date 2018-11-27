@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `artkart`.`CreditCard` (
   `userId` INT NOT NULL,
   `number` VARCHAR(19) NOT NULL,
   `expDate` DATETIME NOT NULL,
-  `ccv` VARCHAR(4) NOT NULL,
+  `cvv` VARCHAR(4) NOT NULL,
   PRIMARY KEY (`cardId`),
   UNIQUE INDEX `CreditCard_cardId_UNIQUE` (`cardId` ASC),
   INDEX `CreditCard_userId_idx` (`userId` ASC),

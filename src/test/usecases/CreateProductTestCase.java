@@ -29,22 +29,19 @@ public class CreateProductTestCase
 	    driver.get("http://localhost:8080/CS6359_Project/login.jsp");
 	    WebElement username = driver.findElement(By.name("username"));
 	    WebElement password = driver.findElement(By.name("password"));
-	    WebElement button = driver.findElement(By.xpath("/html/body/form/input[3]"));         
+	    WebElement button = driver.findElement(By.name("submit"));         
 	
 	    username.sendKeys(testUser.getUsername());
 	    password.sendKeys(testUser.getPassword());
 	    button.click();
-	    Thread.sleep(1000);
 	    Assert.assertEquals("Home", driver.getTitle());
 	    
 	    WebElement invLink = driver.findElement(By.partialLinkText("Inventory"));
 		invLink.click();
-		Thread.sleep(1000);
 		Assert.assertEquals("Inventory",driver.getTitle());
 		
 		WebElement paintLink = driver.findElement(By.name("Painting"));
 		paintLink.click();
-		Thread.sleep(1000);
 		Assert.assertEquals("New Product",driver.getTitle());
 		
 		
@@ -67,12 +64,10 @@ public class CreateProductTestCase
 		paintImage.sendKeys("C:/A.jpg");
 		createButton.click();
 		
-		Thread.sleep(3000);
 		Assert.assertEquals("Inventory",driver.getTitle());
 		
-		WebElement logout = driver.findElement(By.xpath("html/body/div/a[8]"));
+		WebElement logout = driver.findElement(By.name("menulogout"));
 		logout.click();
-		Thread.sleep(3000);
 		Assert.assertEquals("Login",driver.getTitle());
 		
 	}

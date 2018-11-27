@@ -24,7 +24,7 @@ public class InventoryPersistenceServiceImpl implements InventoryPersistenceServ
 	private ProductDao prodDao = ProductDaoImpl.getInstance();
 	private CategoryDao catDao = CategoryDaoImpl.getInstance();
 
-	public static InventoryPersistenceService instance;
+	private static InventoryPersistenceService instance;
 	
 	private InventoryPersistenceServiceImpl() {
 		

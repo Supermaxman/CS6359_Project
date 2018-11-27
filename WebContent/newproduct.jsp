@@ -1,5 +1,6 @@
 <%@ page import="java.util.*" %>    
 <%@ page import="java.sql.*"%>
+<%@page import="domain.product.Category"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -31,21 +32,28 @@
 	String name = (String) sess.getAttribute("name");
 	%>
 	<div class="menu" align = "Center">
-		<a href="home.jsp">Home</a>
-		<a href="category.jsp">Category</a>
-		<a href="cart.jsp">Cart</a>
-		<a href="inventory.jsp">Inventory</a>
-		<a href="transactions.jsp">Transactions</a>
-		<a href="about.jsp">About</a>
-		<a href="faq.jsp" >FAQs</a>
-		<a href="logout.jsp" >Logout</a>
- 	</div>
+		<a href="home.jsp" name="menuhome">Home</a>
+		<a href="category.jsp" name="menucategory">Category</a>
+		<a href="cart.jsp" name="menucart">Cart</a>
+		<a href="inventory.jsp" name="menuinventory">Inventory</a>
+		<a href="transactions.jsp" name="menutransactions">Transactions</a>
+		<a href="about.jsp" name="menuabout">About</a>
+		<a href="faq.jsp" name="menufaq">FAQs</a>
+		<a href="profile.jsp" name="menuprofile">Profile</a>
+		<a href="logout.jsp" name="menulogout">Logout</a>
+		<hr>
+		<div class="searchbar" align ="Center"> 
+			<form method="post" action="SearchController">
+				<input type="text" name="searchCriteria" placeholder="Search..">
+				<input type="submit" name="searchSubmit" value="Go">
+			</form>
+		</div>
+	</div>
  	<hr>
 	
-		<% 
-	String val="";
+	<% 
 	Integer catId = Integer.valueOf(request.getParameter("catId"));
-	if(catId == 1)
+	if(catId == Category.PAINTING)
 	
 	{
 	%>
@@ -72,7 +80,7 @@
 		</form>
 		<% 
 	}
-	else if (catId == 2)
+	else if (catId == Category.SCULPTURE)
 	{
 		%>
 		<h4 align="left"> Create Sculpture: </h4>
@@ -101,7 +109,7 @@
 		
 		<% 
 	}
-	else if(catId == 3)
+	else if(catId == Category.CRAFT)
 	{
 		
 	

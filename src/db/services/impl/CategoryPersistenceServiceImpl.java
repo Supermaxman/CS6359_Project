@@ -16,7 +16,7 @@ public class CategoryPersistenceServiceImpl implements CategoryPersistenceServic
 	private DbManager db = DbManager.getInstance();
 	private CategoryDao catDao = CategoryDaoImpl.getInstance();
 
-	public static CategoryPersistenceService instance;
+	private static CategoryPersistenceService instance;
 	
 	private CategoryPersistenceServiceImpl() {
 		
