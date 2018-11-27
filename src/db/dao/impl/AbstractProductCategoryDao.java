@@ -19,7 +19,7 @@ public abstract class AbstractProductCategoryDao<T extends Product> implements P
 	private final String updateQuery;
 	private final String deleteQuery;
 	
-	public AbstractProductCategoryDao(String createQuery, String retrieveQuery, String retrieveAllQuery, String updateQuery, String deleteQuery) {
+	protected AbstractProductCategoryDao(String createQuery, String retrieveQuery, String retrieveAllQuery, String updateQuery, String deleteQuery) {
 		this.createQuery = createQuery;
 		this.retrieveQuery = retrieveQuery;
 		this.retrieveAllQuery = retrieveAllQuery;

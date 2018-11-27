@@ -15,8 +15,8 @@ import test.utils.TestUtils;
 
 public class UserDaoTest {
 
-	private DbManager db = new DbManager();
-	private UserDao testDao = new UserDaoImpl();
+	private DbManager db = DbManager.getInstance();
+	private UserDao testDao = UserDaoImpl.getInstance();
 	private Connection conn;
 	private User testUser;
 	
@@ -38,7 +38,7 @@ public class UserDaoTest {
 
 	@Test
 	public void testRegisterRetrieve() throws Exception {
-		testDao.register(conn, testUser);
+		testDao.create(conn, testUser);
 		User savedUser = testDao.retrieve(conn, testUser.getUserId());		
 		savedUser.setCreditCard(testUser.getCreditCard());
 		savedUser.setTransactions(testUser.getTransactions());
@@ -49,7 +49,7 @@ public class UserDaoTest {
 	
 	@Test
 	public void testUpdate() throws Exception {
-		testDao.register(conn, testUser);
+		testDao.create(conn, testUser);
 				
 		testUser.setName("Maxwell");
 		

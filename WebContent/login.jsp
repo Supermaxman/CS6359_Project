@@ -20,16 +20,25 @@
 </style>
 <body>
 	<div class="menu" align = "Center">
-		<a href="home.jsp">Home</a>
-		<a href="category.jsp">Category</a>
-		<a href="cart.jsp">Cart</a>
-		<a href="inventory.jsp">Inventory</a>
-		<a href="transactions.jsp">Transactions</a>
-		<a href="about.jsp">About</a>
-		<a href="faq.jsp" >FAQs</a>
-		<a href="logout.jsp" >Logout</a>
- 	</div>
+		<a href="home.jsp" name="menuhome">Home</a>
+		<a href="category.jsp" name="menucategory">Category</a>
+		<a href="cart.jsp" name="menucart">Cart</a>
+		<a href="inventory.jsp" name="menuinventory">Inventory</a>
+		<a href="transactions.jsp" name="menutransactions">Transactions</a>
+		<a href="about.jsp" name="menuabout">About</a>
+		<a href="faq.jsp" name="menufaq">FAQs</a>
+		<a href="profile.jsp" name="menuprofile">Profile</a>
+		<a href="logout.jsp" name="menulogout">Logout</a>
+		<hr>
+		<div class="searchbar" align ="Center"> 
+			<form method="post" action="SearchController">
+				<input type="text" name="searchCriteria" placeholder="Search..">
+				<input type="submit" name="searchSubmit" value="Go">
+			</form>
+		</div>
+	</div>
  	<hr>
+	<h4 align="left"> ${message} </h4>
 	<h4 align="left"> Please log in to start shopping! </h4>
 	<form name="loginform" action="LoginController" method="post" onsubmit="return loginValidate()">
 	Username: <input type="text" name="username" id="username">

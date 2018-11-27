@@ -7,7 +7,7 @@ import test.utils.TestUtils;
 public class CraftPersistenceServiceTest  extends AbstractProductCategoryPersistenceServiceTest<Craft> {
 
 	public CraftPersistenceServiceTest() {
-		super(new CraftPersistenceServiceImpl());
+		super(CraftPersistenceServiceImpl.getInstance());
 	}
 	
 	@Override

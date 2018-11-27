@@ -34,25 +34,33 @@
 	String name = (String) sess.getAttribute("name");
 	%>
 	<div class="menu" align = "Center">
-		<a href="home.jsp">Home</a>
-		<a href="category.jsp">Category</a>
-		<a href="cart.jsp">Cart</a>
-		<a href="inventory.jsp">Inventory</a>
-		<a href="transactions.jsp">Transactions</a>
-		<a href="about.jsp">About</a>
-		<a href="faq.jsp" >FAQs</a>
-		<a href="logout.jsp" >Logout</a>
- 	</div>
+		<a href="home.jsp" name="menuhome">Home</a>
+		<a href="category.jsp" name="menucategory">Category</a>
+		<a href="cart.jsp" name="menucart">Cart</a>
+		<a href="inventory.jsp" name="menuinventory">Inventory</a>
+		<a href="transactions.jsp" name="menutransactions">Transactions</a>
+		<a href="about.jsp" name="menuabout">About</a>
+		<a href="faq.jsp" name="menufaq">FAQs</a>
+		<a href="profile.jsp" name="menuprofile">Profile</a>
+		<a href="logout.jsp" name="menulogout">Logout</a>
+		<hr>
+		<div class="searchbar" align ="Center"> 
+			<form method="post" action="SearchController">
+				<input type="text" name="searchCriteria" placeholder="Search..">
+				<input type="submit" name="searchSubmit" value="Go">
+			</form>
+		</div>
+	</div>
  	<hr>
 	<h4>Sculptures:</h4>
    <% 
-   SculpturePersistenceService sculptureService = new SculpturePersistenceServiceImpl();
+   SculpturePersistenceService sculptureService = SculpturePersistenceServiceImpl.getInstance();
    List<Sculpture> sculptures = sculptureService.retrieveAll();
 
    int forSaleCount = 0;
 	for (Product prod : sculptures){
 		if (!prod.isSold()){
-			forSaleCount ++;
+			forSaleCount++;
 		}
 	}
    if (forSaleCount > 0){
@@ -85,7 +93,7 @@
    	</table>
    	<br>
 	<% } else {%>
-		<p> We currently have no products for sale under this category. Bye!</p>
+		<p> We currently have no products for sale under this category. </p>
 	<%}%>
 </body>
 </html>

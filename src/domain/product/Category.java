@@ -2,6 +2,13 @@ package domain.product;
 
 public class Category {
 	
+	// Used to keep track of the limited categories in our system.
+	// In the future this could be dynamic, but then we would need 
+	// dynamic controllers and web pages.
+	public static int PAINTING = 1;
+	public static int SCULPTURE = 2;
+	public static int CRAFT = 3;
+	
 	private Integer catId;
 	private String name;
 	private String description;

@@ -17,9 +17,9 @@ import test.utils.TestUtils;
 
 public class CartPersistenceServiceTest {
 
-	private UserPersistenceService userService = new UserPersistenceServiceImpl();
-	private CartPersistenceService cartService = new CartPersistenceServiceImpl();
-	private PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
+	private UserPersistenceService userService = UserPersistenceServiceImpl.getInstance();
+	private CartPersistenceService cartService = CartPersistenceServiceImpl.getInstance();
+	private PaintingPersistenceService paintService = PaintingPersistenceServiceImpl.getInstance();
 	private User testUser;
 	private Cart testCart;
 	private Painting testPaint;
@@ -27,7 +27,7 @@ public class CartPersistenceServiceTest {
 	@Before
 	public void setUp() throws Exception {
 		testUser = TestUtils.generateUser();
-		userService.register(testUser);
+		userService.create(testUser);
 		testCart = testUser.getCart();
 		testPaint = TestUtils.generatePainting();
 		paintService.create(testPaint, testUser.getInventory().getInvnId());

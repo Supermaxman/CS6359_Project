@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import javax.imageio.ImageIO;
 
 import db.dao.PaintingDao;
+import db.services.impl.PaintingPersistenceServiceImpl;
 import domain.product.Painting;
 
 public class PaintingDaoImpl extends AbstractProductCategoryDao<Painting> implements PaintingDao {
@@ -40,14 +41,23 @@ public class PaintingDaoImpl extends AbstractProductCategoryDao<Painting> implem
 			"DELETE FROM "
 			+ "PAINTING "
 			+ "WHERE PRODID = ? ";
-		
-	public PaintingDaoImpl() {
+
+	private static PaintingDao instance;
+	
+	private PaintingDaoImpl() {
 		super(createQuery, retrieveQuery, retrieveAllQuery, updateQuery, deleteQuery);
 	}
 
+	public static PaintingDao getInstance() {
+		if (instance == null) {
+			instance = new PaintingDaoImpl();
+		}
+		return instance;
+	}
+	
 	@Override
 	protected Painting build(ResultSet rs) throws SQLException {
-		Painting painting = new Painting();
+		Painting painting = PaintingPersistenceServiceImpl.getInstance().getProd();
 		painting.setProdId(rs.getInt(1));
 		painting.setName(rs.getString(2));
 		painting.setDescription(rs.getString(3));

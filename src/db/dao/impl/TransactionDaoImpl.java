@@ -10,6 +10,7 @@ import java.util.List;
 
 import db.dao.DaoException;
 import db.dao.TransactionDao;
+import db.services.impl.TransactionPersistenceServiceImpl;
 import domain.product.Product;
 import domain.transaction.Transaction;
 
@@ -36,6 +37,19 @@ public class TransactionDaoImpl implements TransactionDao {
 			+ "TRXNID, DATE, PRICE "
 			+ "FROM TRANSACTION "
 			+ "WHERE USERID = ? ";
+
+	private static TransactionDao instance;
+	
+	private TransactionDaoImpl() {
+		
+	}
+
+	public static TransactionDao getInstance() {
+		if (instance == null) {
+			instance = new TransactionDaoImpl();
+		}
+		return instance;
+	}
 	
 	@Override
 	public void create(Connection connection, Transaction transaction, Integer userId)
@@ -137,7 +151,7 @@ public class TransactionDaoImpl implements TransactionDao {
 	}
 
 	private Transaction buildTransaction(ResultSet rs) throws SQLException {
-		Transaction trxn = new Transaction();
+		Transaction trxn = TransactionPersistenceServiceImpl.getInstance().getTransaction();
 		trxn.setTrxnId(rs.getInt(1));
 		trxn.setDate(rs.getDate(2));
 		trxn.setPrice(rs.getDouble(3));

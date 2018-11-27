@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import db.dao.CartDao;
 import db.dao.DaoException;
+import db.services.impl.CartPersistenceServiceImpl;
 import domain.product.Product;
 import domain.user.Cart;
 
@@ -36,7 +37,20 @@ public class CartDaoImpl implements CartDao {
 			"DELETE FROM "
 			+ "CARTPRODUCT "
 			+ "WHERE PRODID = ? ";
+	
+	private static CartDao instance;
+	
+	private CartDaoImpl() {
+		
+	}
 
+	public static CartDao getInstance() {
+		if (instance == null) {
+			instance = new CartDaoImpl();
+		}
+		return instance;
+	}
+	
 	@Override
 	public void create(Connection connection, Cart cart, Integer userId) throws SQLException, DaoException {
 		if (cart.getCartId() != null) {
@@ -79,7 +93,7 @@ public class CartDaoImpl implements CartDao {
 			if (!found) {
 				return null;
 			}
-			Cart cart = new Cart();
+			Cart cart = CartPersistenceServiceImpl.getInstance().getCart();
 			cart.setCartId(rs.getInt(1));
 			return cart;
 		} finally {

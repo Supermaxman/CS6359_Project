@@ -34,20 +34,28 @@
 	String name = (String) sess.getAttribute("name");
 	%>
 	<div class="menu" align = "Center">
-		<a href="home.jsp">Home</a>
-		<a href="category.jsp">Category</a>
-		<a href="cart.jsp">Cart</a>
-		<a href="inventory.jsp">Inventory</a>
-		<a href="transactions.jsp">Transactions</a>
-		<a href="about.jsp">About</a>
-		<a href="faq.jsp" >FAQs</a>
-		<a href="logout.jsp" >Logout</a>
- 	</div>
- 	<hr>
-   <h4>Transactions:</h4>
-   <% 
-   TransactionPersistenceService trxnService = new TransactionPersistenceServiceImpl();
-   List<Transaction> trxns = trxnService.retrieveByUser(userId);
+		<a href="home.jsp" name="menuhome">Home</a>
+		<a href="category.jsp" name="menucategory">Category</a>
+		<a href="cart.jsp" name="menucart">Cart</a>
+		<a href="inventory.jsp" name="menuinventory">Inventory</a>
+		<a href="transactions.jsp" name="menutransactions">Transactions</a>
+		<a href="about.jsp" name="menuabout">About</a>
+		<a href="faq.jsp" name="menufaq">FAQs</a>
+		<a href="profile.jsp" name="menuprofile">Profile</a>
+		<a href="logout.jsp" name="menulogout">Logout</a>
+		<hr>
+		<div class="searchbar" align ="Center"> 
+			<form method="post" action="SearchController">
+				<input type="text" name="searchCriteria" placeholder="Search..">
+				<input type="submit" name="searchSubmit" value="Go">
+			</form>
+		</div>
+	</div>
+	<hr>
+	<h4>Transactions:</h4>
+	<% 
+	TransactionPersistenceService trxnService = TransactionPersistenceServiceImpl.getInstance();
+	List<Transaction> trxns = trxnService.retrieveByUser(userId);
 
 	if (trxns.size() > 0){
 	%>  

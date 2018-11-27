@@ -14,4 +14,6 @@ public interface TransactionPersistenceService {
 
 	public List<Transaction> retrieveByUser(Integer userId) throws SQLException, DaoException;
 
+	public Transaction getTransaction();
+	
 }

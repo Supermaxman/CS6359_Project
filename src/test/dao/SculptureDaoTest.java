@@ -7,7 +7,7 @@ import test.utils.TestUtils;
 public class SculptureDaoTest extends AbstractProductCategoryDaoTest<Sculpture> {
 
 	public SculptureDaoTest() {
-		super(new SculptureDaoImpl());
+		super(SculptureDaoImpl.getInstance());
 	}
 
 	@Override

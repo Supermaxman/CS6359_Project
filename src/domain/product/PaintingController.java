@@ -26,9 +26,8 @@ public class PaintingController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
-	private CategoryPersistenceService catService = new CategoryPersistenceServiceImpl();
-	private static Integer catId = 1; 
+	private PaintingPersistenceService paintService = PaintingPersistenceServiceImpl.getInstance();
+	private CategoryPersistenceService catService = CategoryPersistenceServiceImpl.getInstance();
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -50,7 +49,7 @@ public class PaintingController extends HttpServlet {
         InputStream inputStream = filePart.getInputStream();
         BufferedImage image = ImageIO.read(inputStream);
 
-		Painting painting = new Painting();
+		Painting painting = PaintingPersistenceServiceImpl.getInstance().getProd();
 		painting.setName(name);
 		painting.setDescription(description);
 		painting.setPrice(price);
@@ -62,7 +61,7 @@ public class PaintingController extends HttpServlet {
 		painting.setImage(image);
 
 		try {
-			Category cat = catService.retrieve(catId);
+			Category cat = catService.retrieve(Category.PAINTING);
 			painting.setCategory(cat);			
 			paintService.create(painting, invnId);
 		} catch (Exception ex) {

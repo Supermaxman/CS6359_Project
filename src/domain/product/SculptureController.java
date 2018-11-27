@@ -16,10 +16,8 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import db.services.CategoryPersistenceService;
-import db.services.PaintingPersistenceService;
 import db.services.SculpturePersistenceService;
 import db.services.impl.CategoryPersistenceServiceImpl;
-import db.services.impl.PaintingPersistenceServiceImpl;
 import db.services.impl.SculpturePersistenceServiceImpl;
 
 /**
@@ -30,9 +28,8 @@ import db.services.impl.SculpturePersistenceServiceImpl;
 public class SculptureController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private SculpturePersistenceService sculptService = new SculpturePersistenceServiceImpl();
-	private CategoryPersistenceService catService = new CategoryPersistenceServiceImpl();
-	private static Integer catId = 2; 
+	private SculpturePersistenceService sculptService = SculpturePersistenceServiceImpl.getInstance();
+	private CategoryPersistenceService catService = CategoryPersistenceServiceImpl.getInstance();
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -55,7 +52,7 @@ public class SculptureController extends HttpServlet {
         InputStream inputStream = filePart.getInputStream();
         BufferedImage image = ImageIO.read(inputStream);
         
-		Sculpture sculpture = new Sculpture();
+		Sculpture sculpture = SculpturePersistenceServiceImpl.getInstance().getProd();
 		sculpture.setName(name);
 		sculpture.setDescription(description);
 		sculpture.setPrice(price);
@@ -68,7 +65,7 @@ public class SculptureController extends HttpServlet {
 		sculpture.setImage(image);
 		
 		try {
-			Category cat = catService.retrieve(catId);
+			Category cat = catService.retrieve(Category.SCULPTURE);
 			sculpture.setCategory(cat);			
 			sculptService.create(sculpture, invnId);
 		} catch (Exception ex) {

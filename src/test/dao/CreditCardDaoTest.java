@@ -17,9 +17,9 @@ import test.utils.TestUtils;
 
 public class CreditCardDaoTest {
 
-	private DbManager db = new DbManager();
-	private CreditCardDao testDao = new CreditCardDaoImpl();
-	private UserDao userDao = new UserDaoImpl();
+	private DbManager db = DbManager.getInstance();
+	private CreditCardDao testDao = CreditCardDaoImpl.getInstance();
+	private UserDao userDao = UserDaoImpl.getInstance();
 	private Connection conn;
 	private User testUser;
 	private CreditCard testCard;
@@ -30,7 +30,7 @@ public class CreditCardDaoTest {
 		conn.setAutoCommit(false);
 		
 		testUser = TestUtils.generateUser();
-		userDao.register(conn, testUser);
+		userDao.create(conn, testUser);
 		
 		testCard = testUser.getCreditCard();
 		

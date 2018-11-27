@@ -7,7 +7,7 @@ import test.utils.TestUtils;
 public class CraftDaoTest extends AbstractProductCategoryDaoTest<Craft> {
 
 	public CraftDaoTest() {
-		super(new CraftDaoImpl());
+		super(CraftDaoImpl.getInstance());
 	}
 
 	@Override

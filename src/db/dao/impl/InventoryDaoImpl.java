@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import db.dao.DaoException;
 import db.dao.InventoryDao;
+import db.services.impl.InventoryPersistenceServiceImpl;
 import domain.user.Inventory;
 
 public class InventoryDaoImpl implements InventoryDao {
@@ -32,6 +33,19 @@ public class InventoryDaoImpl implements InventoryDao {
 			"DELETE FROM "
 			+ "INVENTORYPRODUCT "
 			+ "WHERE INVNID = ? AND PRODID = ? ";
+
+	private static InventoryDao instance;
+	
+	private InventoryDaoImpl() {
+		
+	}
+
+	public static InventoryDao getInstance() {
+		if (instance == null) {
+			instance = new InventoryDaoImpl();
+		}
+		return instance;
+	}
 	
 	@Override
 	public void create(Connection connection, Inventory inv, Integer userId) throws SQLException, DaoException {
@@ -75,7 +89,7 @@ public class InventoryDaoImpl implements InventoryDao {
 			if (!found) {
 				return null;
 			}
-			Inventory invn = new Inventory();
+			Inventory invn = InventoryPersistenceServiceImpl.getInstance().getInventory();
 			invn.setInvnId(rs.getInt(1));
 			return invn;
 		} finally {

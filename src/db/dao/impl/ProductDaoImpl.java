@@ -91,6 +91,19 @@ public class ProductDaoImpl implements ProductDao {
 			+ "JOIN INVENTORY i ON ip.INVNID = i.INVNID "
 			+ "WHERE ip.PRODID = ? ";
 
+	private static ProductDao instance;
+	
+	private ProductDaoImpl() {
+		
+	}
+
+	public static ProductDao getInstance() {
+		if (instance == null) {
+			instance = new ProductDaoImpl();
+		}
+		return instance;
+	}
+	
 	@Override
 	public void create(Connection connection, Product product) throws SQLException, DaoException {
 		if (product.getProdId() != null) {

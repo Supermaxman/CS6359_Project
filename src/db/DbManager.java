@@ -10,6 +10,20 @@ import java.sql.DriverManager;
  */
 public class DbManager implements MyDB{
 
+	public static DbManager instance;
+	
+	public static DbManager getInstance() {
+		if (instance == null)
+		{
+			instance = new DbManager();
+		}
+		return instance;
+	}
+	
+	private DbManager() {
+		
+	}
+	
 	public Connection getConnection(){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");

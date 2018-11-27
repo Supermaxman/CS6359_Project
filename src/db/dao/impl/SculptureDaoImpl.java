@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import javax.imageio.ImageIO;
 
 import db.dao.SculptureDao;
+import db.services.impl.SculpturePersistenceServiceImpl;
 import domain.product.Sculpture;
 
 public class SculptureDaoImpl extends AbstractProductCategoryDao<Sculpture> implements SculptureDao {
@@ -40,14 +41,23 @@ public class SculptureDaoImpl extends AbstractProductCategoryDao<Sculpture> impl
 			"DELETE FROM "
 			+ "SCULPTURE "
 			+ "WHERE PRODID = ? ";
+
+	private static SculptureDao instance;
 	
-	public SculptureDaoImpl() {
+	private SculptureDaoImpl() {
 		super(createQuery, retrieveQuery, retrieveAllQuery, updateQuery, deleteQuery);
 	}
 
+	public static SculptureDao getInstance() {
+		if (instance == null) {
+			instance = new SculptureDaoImpl();
+		}
+		return instance;
+	}
+	
 	@Override
 	protected Sculpture build(ResultSet rs) throws SQLException {
-		Sculpture sculpture = new Sculpture();
+		Sculpture sculpture = SculpturePersistenceServiceImpl.getInstance().getProd();
 		sculpture.setProdId(rs.getInt(1));
 		sculpture.setName(rs.getString(2));
 		sculpture.setDescription(rs.getString(3));

@@ -9,6 +9,7 @@ import java.util.List;
 
 import db.dao.CategoryDao;
 import db.dao.DaoException;
+import db.services.impl.CategoryPersistenceServiceImpl;
 import domain.product.Category;
 
 public class CategoryDaoImpl implements CategoryDao {
@@ -31,6 +32,19 @@ public class CategoryDaoImpl implements CategoryDao {
 			"SELECT "
 			+ "CATID, NAME, DESCRIPTION "
 			+ "FROM CATEGORY ";
+	
+	private static CategoryDao instance;
+	
+	private CategoryDaoImpl() {
+		
+	}
+
+	public static CategoryDao getInstance() {
+		if (instance == null) {
+			instance = new CategoryDaoImpl();
+		}
+		return instance;
+	}
 	
 	@Override
 	public Category retrieve(Connection connection, Integer catId) throws SQLException, DaoException {
@@ -111,7 +125,7 @@ public class CategoryDaoImpl implements CategoryDao {
 	}
 
 	private Category buildCategory(ResultSet rs) throws SQLException {
-		Category cat = new Category();
+		Category cat = CategoryPersistenceServiceImpl.getInstance().getCategory();
 		cat.setCatId(rs.getInt(1));
 		cat.setName(rs.getString(2));
 		cat.setDescription(rs.getString(3));

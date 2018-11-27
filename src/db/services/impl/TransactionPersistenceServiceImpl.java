@@ -19,11 +19,24 @@ import domain.transaction.Transaction;
 
 public class TransactionPersistenceServiceImpl implements TransactionPersistenceService {
 
-	private DbManager db = new DbManager();
-	private TransactionDao trxnDao = new TransactionDaoImpl();
-	private ProductDao prodDao = new ProductDaoImpl();
-	private CategoryDao catDao = new CategoryDaoImpl();
+	private DbManager db = DbManager.getInstance();
+	private TransactionDao trxnDao = TransactionDaoImpl.getInstance();
+	private ProductDao prodDao = ProductDaoImpl.getInstance();
+	private CategoryDao catDao = CategoryDaoImpl.getInstance();
 
+	private static TransactionPersistenceService instance;
+	
+	private TransactionPersistenceServiceImpl() {
+		
+	}
+	
+	public static TransactionPersistenceService getInstance() {
+		if (instance == null) {
+			instance = new TransactionPersistenceServiceImpl();
+		}
+		return instance;
+	}
+	
 	@Override
 	public void create(Transaction trxn, Integer userId) throws SQLException, DaoException {
 		Connection connection = db.getConnection();
@@ -106,6 +119,11 @@ public class TransactionPersistenceServiceImpl implements TransactionPersistence
 				}
 			}
 		}
+	}
+
+	@Override
+	public Transaction getTransaction() {
+		return new Transaction();
 	}
 
 }

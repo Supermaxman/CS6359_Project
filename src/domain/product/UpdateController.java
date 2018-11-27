@@ -18,164 +18,74 @@ public class UpdateController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
-	private SculpturePersistenceService sculptureService = new SculpturePersistenceServiceImpl();
-	private CraftPersistenceService craftService = new CraftPersistenceServiceImpl();
+	private PaintingPersistenceService paintService = PaintingPersistenceServiceImpl.getInstance();
+	private SculpturePersistenceService sculptureService = SculpturePersistenceServiceImpl.getInstance();
+	private CraftPersistenceService craftService = CraftPersistenceServiceImpl.getInstance();
 	//
-	
+
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String removeproduct = request.getParameter("removeproduct");
 		
-		String name = request.getParameter("name");
-		String description = request.getParameter("description");
 		Integer catId = Integer.parseInt(request.getParameter("catId"));
 		Integer prodId = Integer.parseInt(request.getParameter("prodId"));
-		Double price = null;
-		if(request.getParameter("price")!=null)
-		{
-		price = Double.parseDouble(request.getParameter("price"));
+		String name = request.getParameter("name");
+		String description = request.getParameter("description");
+		double price = Double.parseDouble(request.getParameter("price"));
 		
-		}
-		
-		// remove code here
-		
-		if(catId ==1 ) {
-		Painting painting=null;
 		try {
-			painting = paintService.retrieve(prodId);
+			if (catId == Category.PAINTING) {
+				Painting painting = paintService.retrieve(prodId);
+				String canvasType = request.getParameter("canvasType");
+				String paintType = request.getParameter("paintType");
+				Double length = Double.parseDouble(request.getParameter("length"));
+				Double width = Double.parseDouble(request.getParameter("width"));
+				painting.setName(name);
+				painting.setDescription(description);
+				painting.setPrice(price);
+				painting.setCanvasType(canvasType);
+				painting.setPaintType(paintType);
+				painting.setLength(length);
+				painting.setWidth(width);
+				paintService.update(painting);
+			}
+			else if (catId == Category.SCULPTURE) {
+				Sculpture sculpture = sculptureService.retrieve(prodId);
+				String material = request.getParameter("material");
+				Double weight = Double.parseDouble(request.getParameter("weight"));
+				Double length = Double.parseDouble(request.getParameter("length"));
+				Double width = Double.parseDouble(request.getParameter("width"));
+				Double height = Double.parseDouble(request.getParameter("height"));
+				sculpture.setName(name);
+				sculpture.setDescription(description);
+				sculpture.setPrice(price);
+				sculpture.setMaterial(material);
+				sculpture.setWeight(weight);
+				sculpture.setLength(length);
+				sculpture.setWidth(width);
+				sculpture.setHeight(height);
+				sculptureService.update(sculpture);
+			}
+			else if (catId == Category.CRAFT) {
+				Craft craft = craftService.retrieve(prodId);
+				String usage = request.getParameter("usage");
+				Double length = Double.parseDouble(request.getParameter("length"));
+				Double width = Double.parseDouble(request.getParameter("width"));
+				Double height = Double.parseDouble(request.getParameter("height"));
+				craft.setName(name);
+				craft.setDescription(description);
+				craft.setPrice(price);
+				craft.setUsage(usage);
+				craft.setLength(length);
+				craft.setWidth(width);
+				craft.setHeight(height);
+				craftService.update(craft);
+			}
 		} catch (SQLException | DaoException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		//painting = request.
-		if(removeproduct!=null)
-		{
-			try {
-				paintService.delete(painting);
-				
-			} catch (Exception ex) {
-				System.out.println(ex);
-				// TODO return failure message
-			}
-			
-		}
-		else {
-		String canvasType = request.getParameter("canvasType");
-		String paintType = request.getParameter("paintType");
-		Double length = Double.parseDouble(request.getParameter("length"));
-		Double width = Double.parseDouble(request.getParameter("width"));
-		painting.setName(name);
-		painting.setDescription(description);
-		painting.setPrice(price);
-		//painting.setSold(false);
-		painting.setCanvasType(canvasType);
-		painting.setPaintType(paintType);
-		painting.setLength(length);
-		painting.setWidth(width);
-		
-
-		try {
-			paintService.update(painting);
-		} catch (Exception ex) {
-			System.out.println(ex);
-			// TODO return failure message
-		}}}
-		
-		else if(catId ==3 ) {
-			Craft craft=null;
-			try {
-				craft = craftService.retrieve(prodId);
-			} catch (SQLException | DaoException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			if(removeproduct!=null)
-			{
-				try {
-					craftService.delete(craft);
-					
-				} catch (Exception ex) {
-					System.out.println(ex);
-					// TODO return failure message
-				}
-				
-			}
-			
-			//painting = request.
-			else {
-			String usage = request.getParameter("usage");
-			
-			Double length = Double.parseDouble(request.getParameter("length"));
-			Double width = Double.parseDouble(request.getParameter("width"));
-			Double height = Double.parseDouble(request.getParameter("height"));
-			craft.setName(name);
-			craft.setDescription(description);
-			craft.setPrice(price);
-			//painting.setSold(false);
-			craft.setUsage(usage);
-			craft.setLength(length);
-			craft.setWidth(width);
-			craft.setHeight(height);
-			
-
-			try {
-				craftService.update(craft);
-			} catch (Exception ex) {
-				System.out.println(ex);
-				// TODO return failure message
-			}}}
-		
-		else if (catId == 2 ) {
-			Sculpture sculpture=null;
-			try {
-				sculpture = sculptureService.retrieve(prodId);
-			} catch (SQLException | DaoException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			if(removeproduct!=null)
-			{
-				try {
-					sculptureService.delete(sculpture);
-					
-				} catch (Exception ex) {
-					System.out.println(ex);
-					// TODO return failure message
-				}
-				
-			}
-			//painting = request.
-			else {
-			//String canvasType = request.getParameter("canvasType");
-			String material = request.getParameter("material");
-			//String paintType = request.getParameter("paintType");
-			Double length = Double.parseDouble(request.getParameter("length"));
-			Double width = Double.parseDouble(request.getParameter("width"));
-			Double height = Double.parseDouble(request.getParameter("height"));
-			Double weight = Double.parseDouble(request.getParameter("weight"));
-			sculpture.setName(name);
-			sculpture.setDescription(description);
-			sculpture.setPrice(price);
-			//sculpture.setSold(false);
-			sculpture.setLength(length);
-			sculpture.setWidth(width);
-			sculpture.setHeight(height);
-			sculpture.setMaterial(material);
-			sculpture.setWeight(weight);
-
-			try {
-				sculptureService.update(sculpture);
-			} catch (Exception ex) {
-				System.out.println(ex);
-				// TODO return failure message
-			}}}
 		RequestDispatcher rs = request.getRequestDispatcher("inventory.jsp");
 		rs.forward(request, response);
 	}
-	
+
 }

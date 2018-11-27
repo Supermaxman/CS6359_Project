@@ -21,9 +21,9 @@ import test.utils.TestUtils;
 
 public class TransactionPersistenceServiceTest {
 
-	private UserPersistenceService userService = new UserPersistenceServiceImpl();
-	private TransactionPersistenceService trxnService = new TransactionPersistenceServiceImpl();
-	private PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
+	private UserPersistenceService userService = UserPersistenceServiceImpl.getInstance();
+	private TransactionPersistenceService trxnService = TransactionPersistenceServiceImpl.getInstance();
+	private PaintingPersistenceService paintService = PaintingPersistenceServiceImpl.getInstance();
 	private User testUser;
 	private Transaction testTrxn;
 	private Painting testPaint;
@@ -32,7 +32,7 @@ public class TransactionPersistenceServiceTest {
 	public void setUp() throws Exception {
 		testUser = TestUtils.generateUser();
 		testTrxn = TestUtils.generateTransaction();
-		userService.register(testUser);
+		userService.create(testUser);
 		testPaint = TestUtils.generatePainting();
 		paintService.create(testPaint, testUser.getInventory().getInvnId());
 		testTrxn.addProduct(testPaint);

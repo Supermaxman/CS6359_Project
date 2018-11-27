@@ -13,8 +13,21 @@ import domain.product.Category;
 
 public class CategoryPersistenceServiceImpl implements CategoryPersistenceService {
 
-	private DbManager db = new DbManager();
-	private CategoryDao catDao = new CategoryDaoImpl();
+	private DbManager db = DbManager.getInstance();
+	private CategoryDao catDao = CategoryDaoImpl.getInstance();
+
+	private static CategoryPersistenceService instance;
+	
+	private CategoryPersistenceServiceImpl() {
+		
+	}
+	
+	public static CategoryPersistenceService getInstance() {
+		if (instance == null) {
+			instance = new CategoryPersistenceServiceImpl();
+		}
+		return instance;
+	}
 	
 	@Override
 	public Category retrieve(Integer catId) throws SQLException, DaoException {
@@ -85,4 +98,10 @@ public class CategoryPersistenceServiceImpl implements CategoryPersistenceServic
 		}
 	}
 
+	@Override
+	public Category getCategory() {
+		return new Category();
+	}
+	
+	
 }

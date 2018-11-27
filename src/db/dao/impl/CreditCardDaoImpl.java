@@ -14,21 +14,34 @@ public class CreditCardDaoImpl implements CreditCardDao {
 
 	private static final String createQuery = 
 			"INSERT INTO "
-			+ "CREDITCARD (USERID, NUMBER, EXPDATE, CCV) "
+			+ "CREDITCARD (USERID, NUMBER, EXPDATE, CVV) "
 			+ "VALUES (?, ?, ?, ?) ";
 
 	private static final String retrieveQuery = 
 			"SELECT "
-			+ "CARDID, NUMBER, EXPDATE, CCV "
+			+ "CARDID, NUMBER, EXPDATE, CVV "
 			+ "FROM CREDITCARD "
 			+ "WHERE CARDID = ? ";
 	
 	private static final String retrieveByUserQuery = 
 			"SELECT "
-			+ "CARDID, NUMBER, EXPDATE, CCV "
+			+ "CARDID, NUMBER, EXPDATE, CVV "
 			+ "FROM CREDITCARD "
 			+ "WHERE USERID = ? ";
+	
+	private static CreditCardDao instance;
+	
+	private CreditCardDaoImpl() {
+		
+	}
 
+	public static CreditCardDao getInstance() {
+		if (instance == null) {
+			instance = new CreditCardDaoImpl();
+		}
+		return instance;
+	}
+	
 	@Override
 	public void create(Connection connection, CreditCard creditCard, Integer userId) throws SQLException, DaoException {
 		if (creditCard.getCardId() != null) {
@@ -42,7 +55,7 @@ public class CreditCardDaoImpl implements CreditCardDao {
 			statement.setInt(1, userId);
 			statement.setString(2, creditCard.getNumber());
 			statement.setDate(3, creditCard.getExpDate());
-			statement.setString(4, creditCard.getCcv());
+			statement.setString(4, creditCard.getCvv());
 			statement.executeUpdate();
 			rs = statement.getGeneratedKeys();
 			rs.next();
@@ -116,7 +129,7 @@ public class CreditCardDaoImpl implements CreditCardDao {
 		card.setCardId(rs.getInt(1));
 		card.setNumber(rs.getString(2));
 		card.setExpDate(rs.getDate(3));
-		card.setCcv(rs.getString(4));
+		card.setCvv(rs.getString(4));
 		return card;
 	}
 

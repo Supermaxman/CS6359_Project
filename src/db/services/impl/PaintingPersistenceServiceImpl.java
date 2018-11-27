@@ -6,8 +6,21 @@ import domain.product.Painting;
 
 public class PaintingPersistenceServiceImpl extends AbstractProductCategoryPersistenceService<Painting> implements PaintingPersistenceService {
 	
-	public PaintingPersistenceServiceImpl() {
-		super(new PaintingDaoImpl());
+	private static PaintingPersistenceService instance;
+
+	private PaintingPersistenceServiceImpl() {
+		super(PaintingDaoImpl.getInstance());
 	}
-		
+	
+	public static PaintingPersistenceService getInstance() {
+		if (instance == null) {
+			instance = new PaintingPersistenceServiceImpl();
+		}
+		return instance;
+	}
+
+	@Override
+	public Painting getProd() {
+		return new Painting();
+	}
 }

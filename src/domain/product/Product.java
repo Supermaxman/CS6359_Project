@@ -1,6 +1,11 @@
 package domain.product;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Base64;
+
+import javax.imageio.ImageIO;
 
 public class Product {
 
@@ -68,6 +73,30 @@ public class Product {
 	public BufferedImage getImage()
 	{
 		return image;
+	}
+	
+	public String getEncodedImage()
+	{
+		String encodedImage = null;
+		ByteArrayOutputStream baos = null;
+		try {
+			baos = new ByteArrayOutputStream();
+			ImageIO.write(this.image, "jpg", baos);
+			baos.flush();
+			byte[] imageInByteArray = baos.toByteArray();
+			encodedImage = Base64.getEncoder().encodeToString(imageInByteArray);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (baos != null) {
+				try {
+					baos.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return encodedImage;
 	}
 
 }

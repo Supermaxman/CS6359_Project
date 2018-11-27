@@ -28,9 +28,8 @@ import db.services.impl.CraftPersistenceServiceImpl;
 public class CraftController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private CraftPersistenceService craftService = new CraftPersistenceServiceImpl();
-	private CategoryPersistenceService catService = new CategoryPersistenceServiceImpl();
-	private static Integer catId = 3; 
+	private CraftPersistenceService craftService = CraftPersistenceServiceImpl.getInstance();
+	private CategoryPersistenceService catService = CategoryPersistenceServiceImpl.getInstance();
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -52,7 +51,7 @@ public class CraftController extends HttpServlet {
         InputStream inputStream = filePart.getInputStream();
         BufferedImage image = ImageIO.read(inputStream);
 
-		Craft craft = new Craft();
+		Craft craft = CraftPersistenceServiceImpl.getInstance().getProd();
 		craft.setName(name);
 		craft.setDescription(description);
 		craft.setPrice(price);
@@ -64,7 +63,7 @@ public class CraftController extends HttpServlet {
 		craft.setImage(image);
 
 		try {
-			Category cat = catService.retrieve(catId);
+			Category cat = catService.retrieve(Category.CRAFT);
 			craft.setCategory(cat);			
 			craftService.create(craft, invnId);
 		} catch (Exception ex) {
