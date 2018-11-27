@@ -6,6 +6,9 @@
 <%@page import="db.services.SculpturePersistenceService"%>
 <%@page import="db.services.impl.SculpturePersistenceServiceImpl"%>
 <%@ page import="javax.servlet.http.*" %>
+<%@ page import="java.io.ByteArrayOutputStream" %>
+<%@page import="java.awt.image.BufferedImage"%>
+<%@page import="javax.imageio.ImageIO"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,6 +51,7 @@
    <% 
    SculpturePersistenceService sculptureService = new SculpturePersistenceServiceImpl();
    List<Sculpture> sculptures = sculptureService.retrieveAll();
+   Product prod1=null;
 
    int forSaleCount = 0;
 	for (Product prod : sculptures){
@@ -60,15 +64,25 @@
    	%>  
    	<table border="1" style="margin-top: 20px; margin-right: 20px; margin-left: 29px; border-top-width: 2px;">
      	<tr>
+     		<th>Image</th>
        		<th>Name</th>
        		<th>Description</th>
        		<th>Price</th>
        		<th>Action</th>   
    		</tr>
      
-     	<%for(Sculpture prod : sculptures) {%>
+     	<%for(Sculpture prod : sculptures) {
+     	Sculpture s = sculptureService.retrieve(prod.getProdId());
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(s.getImage(), "jpg", baos);
+		baos.flush();
+		byte[] imageInByteArray = baos.toByteArray();
+		baos.close();
+		String encodedImage = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
+		prod1 = s;%>
 			<% if (!prod.isSold()){ %>
 			<tr>
+			<td><img src="data:image/jpeg;base64, <%=encodedImage%> " height="100" width="100" alt="bye"/></td>
 			<td><%= prod.getName() %></td>
 			<td><%= prod.getDescription() %></td>
 			<td><%= prod.getPrice() %></td>

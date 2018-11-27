@@ -4,6 +4,9 @@
 <%@page import="db.services.impl.CartPersistenceServiceImpl"%>
 <%@page import="domain.product.Product"%>
 <%@page import="java.sql.*"%>
+<%@ page import="java.io.ByteArrayOutputStream" %>
+<%@page import="java.awt.image.BufferedImage"%>
+<%@page import="javax.imageio.ImageIO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -48,7 +51,8 @@
 	 <%
 	CartPersistenceService cartService = new CartPersistenceServiceImpl();
 	Cart cart = cartService.retrieve(userId);
-	
+	Product prod1=null;
+
 	List<Product> prods = cart.getProducts();
 	double totalPrice = 0.0;
 	if (prods.size() > 0){
@@ -56,14 +60,23 @@
 	%>
 	<table border="1" style="margin-top: 20px; margin-right: 20px; margin-left: 29px; border-top-width: 2px;">
 		<tr>
+			<th>Image</th>
 			<th>Name</th>
 			<th>Description</th>
 			<th>Price</th>
 			<th>Action</th>   
 		</tr>
 	     
-		<%for(Product prod : prods) {%>
+		<%for(Product prod : prods) {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(prod.getImage(), "jpg", baos);
+			baos.flush();
+			byte[] imageInByteArray = baos.toByteArray();
+			baos.close();
+			String encodedImage = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
+		%>
 			<tr>
+				<td><img src="data:image/jpeg;base64, <%=encodedImage%> " height="100" width="100" alt="bye"/></td>
 				<td><%= prod.getName() %></td>
 				<td><%= prod.getDescription() %></td>
 				<td><%= prod.getPrice() %></td>

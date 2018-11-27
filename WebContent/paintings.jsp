@@ -6,6 +6,9 @@
 <%@page import="db.services.PaintingPersistenceService"%>
 <%@page import="db.services.impl.PaintingPersistenceServiceImpl"%>
 <%@ page import="javax.servlet.http.*" %>
+<%@ page import="java.io.ByteArrayOutputStream" %>
+<%@page import="java.awt.image.BufferedImage"%>
+<%@page import="javax.imageio.ImageIO"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,9 +50,12 @@
 	<h4>Paintings:</h4>
    <% 
    PaintingPersistenceService paintService = new PaintingPersistenceServiceImpl();
+   Product prod1=null;
+		
    List<Painting> paintings = paintService.retrieveAll();
    int forSaleCount = 0;
 	for (Product prod : paintings){
+		
 		if (!prod.isSold()){
 			forSaleCount ++;
 		}
@@ -59,15 +65,25 @@
    	%>  
    	<table border="1" style="margin-top: 20px; margin-right: 20px; margin-left: 29px; border-top-width: 2px;">
      	<tr>
+     		<th>Image</th>
        		<th>Name</th>
        		<th>Description</th>
        		<th>Price</th>
        		<th>Action</th>   
    		</tr>
      
-     	<%for(Painting prod : paintings) {%>
+     	<%for(Painting prod : paintings) {
+     	Painting p = paintService.retrieve(prod.getProdId());
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(p.getImage(), "jpg", baos);
+		baos.flush();
+		byte[] imageInByteArray = baos.toByteArray();
+		baos.close();
+		String encodedImage = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
+		prod1 = p;%>
 			<% if (!prod.isSold()){ %>
 			<tr>
+			<td><img src="data:image/jpeg;base64, <%=encodedImage%> " height="100" width="100" alt="bye"/></td>
 			<td><%= prod.getName() %></td>
 			<td><%= prod.getDescription() %></td>
 			<td><%= prod.getPrice() %></td>
