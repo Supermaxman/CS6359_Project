@@ -19,7 +19,7 @@ import domain.product.Sculpture;
 import domain.user.User;
 import test.utils.TestUtils;
 
-public class RemoveProductFromCart {
+public class RemoveProductFromCartTest {
 
 	private WebDriver driver;
 	private User testUser;
