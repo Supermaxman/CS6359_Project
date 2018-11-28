@@ -52,7 +52,6 @@ public class CreateProductTestCase
 		WebElement paintPaint = driver.findElement(By.xpath("html/body/form[1]/input[5]"));
 		WebElement paintLength = driver.findElement(By.xpath("html/body/form[1]/input[6]"));
 		WebElement paintWidth = driver.findElement(By.xpath("html/body/form[1]/input[7]"));
-		WebElement paintImage = driver.findElement(By.xpath("html/body/form[1]/input[8]"));
 		WebElement createButton = driver.findElement(By.xpath("/html/body/form[1]/input[9]")); 
 		paintName.sendKeys("Starry Nights");
 		paintDesc.sendKeys("Masterpiece by Vincent Van Gogh");
@@ -61,7 +60,6 @@ public class CreateProductTestCase
 		paintPaint.sendKeys("Acryllic");
 		paintLength.sendKeys("15");
 		paintWidth.sendKeys("10");
-		//paintImage.sendKeys("src/test/usecases/logo.PNG");
 		createButton.click();
 		
 		Assert.assertEquals("Inventory",driver.getTitle());
