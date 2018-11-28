@@ -84,7 +84,7 @@
 	{
 		%>
 		<h4 align="left"> Create Sculpture: </h4>
-		<form name="newsculptform" enctype='multipart/form-data' action="SculptureController" method="post" onsubmit="return true">		
+		<form name="newsculptform" enctype='multipart/form-data' action="SculptureController" method="post" onsubmit="return sculptValidate()">		
 		Name: <input type="text" name="name" id="name">
 		<br>
 		Description: <input type="text" name="description" id="description">
@@ -115,7 +115,7 @@
 	
 	%>
 	<h4 align="left"> Create Craft: </h4>
-		<form name="newcraftform" enctype='multipart/form-data' action="CraftController" method="post" onsubmit="return true">		
+		<form name="newcraftform" enctype='multipart/form-data' action="CraftController" method="post" onsubmit="return craftValidate()">		
 		Name: <input type="text" name="name" id="name">
 		<br>
 		Description: <input type="text" name="description" id="description">
