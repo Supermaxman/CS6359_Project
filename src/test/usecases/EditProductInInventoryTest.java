@@ -36,7 +36,7 @@ public class EditProductInInventoryTest {
 
 	
 	@Test
-	public void addPainting() throws Exception {
+	public void editPainting() throws Exception {
 		Painting painting = TestUtils.generatePainting();
 		PaintingPersistenceServiceImpl.getInstance().create(painting, testUser.getInventory().getInvnId());
 	    driver.findElement(By.name("menuinventory")).click();
@@ -60,7 +60,7 @@ public class EditProductInInventoryTest {
 	}
 	
 	@Test
-	public void addSculpture() throws Exception {
+	public void editculpture() throws Exception {
 		Sculpture sculpt = TestUtils.generateSculpture();
 		SculpturePersistenceServiceImpl.getInstance().create(sculpt, testUser.getInventory().getInvnId());
 	    driver.findElement(By.name("menuinventory")).click();
@@ -86,7 +86,7 @@ public class EditProductInInventoryTest {
 	}
 	
 	@Test
-	public void addCraft() throws Exception {
+	public void editCraft() throws Exception {
 		Craft craft = TestUtils.generateCraft();
 		CraftPersistenceServiceImpl.getInstance().create(craft, testUser.getInventory().getInvnId());
 	    driver.findElement(By.name("menuinventory")).click();

@@ -44,7 +44,7 @@ public class RemoveProductFromCart {
 	}
 
 	@Test
-	public void removePaintingToCart() throws Exception {
+	public void removePaintingFromCart() throws Exception {
 		Painting painting = TestUtils.generatePainting();
 		PaintingPersistenceServiceImpl.getInstance().create(painting, testUser.getInventory().getInvnId());
 		testUser.getCart().addProduct(painting);
@@ -55,7 +55,7 @@ public class RemoveProductFromCart {
 	}
 	
 	@Test
-	public void removeSculptureToCart() throws Exception {
+	public void removeSculptureFromCart() throws Exception {
 		Sculpture sculpt = TestUtils.generateSculpture();
 		SculpturePersistenceServiceImpl.getInstance().create(sculpt, testUser.getInventory().getInvnId());
 		testUser.getCart().addProduct(sculpt);
@@ -66,7 +66,7 @@ public class RemoveProductFromCart {
 	}
 	
 	@Test
-	public void removeCraftToCart() throws Exception {
+	public void removeCraftFromCart() throws Exception {
 		Craft craft = TestUtils.generateCraft();
 		CraftPersistenceServiceImpl.getInstance().create(craft, testUser.getInventory().getInvnId());
 		testUser.getCart().addProduct(craft);

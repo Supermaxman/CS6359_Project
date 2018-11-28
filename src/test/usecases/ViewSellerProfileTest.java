@@ -18,7 +18,7 @@ import domain.user.User;
 import test.utils.TestUtils;
 
 
-public class ViewProductDetailsTest {
+public class ViewSellerProfileTest {
 	
 	private WebDriver driver;
 	private User testUser;
@@ -37,34 +37,39 @@ public class ViewProductDetailsTest {
 		Painting painting = TestUtils.generatePainting();
 		Sculpture sculpt = TestUtils.generateSculpture();
 		Craft craft = TestUtils.generateCraft();
-		PaintingPersistenceServiceImpl.getInstance().create(painting, testUser.getInventory().getInvnId());
-		SculpturePersistenceServiceImpl.getInstance().create(sculpt, testUser.getInventory().getInvnId());
-		CraftPersistenceServiceImpl.getInstance().create(craft, testUser.getInventory().getInvnId());
+		User ownerUser = TestUtils.generateUser();
+		UserPersistenceServiceImpl.getInstance().create(ownerUser);
+		PaintingPersistenceServiceImpl.getInstance().create(painting, ownerUser.getInventory().getInvnId());
+		SculpturePersistenceServiceImpl.getInstance().create(sculpt, ownerUser.getInventory().getInvnId());
+		CraftPersistenceServiceImpl.getInstance().create(craft, ownerUser.getInventory().getInvnId());
 	    driver.findElement(By.name("menucategory")).click();
 	}
-	
+
 	@Test
-	public void viewPaintingsDetails() throws Exception { 
+	public void viewPaintingsSellerProfile() throws Exception { 
 		driver.findElement(By.name("paintings")).click();
 	    Assert.assertEquals("Paintings", driver.getTitle());
 		driver.findElement(By.name("ViewDetails")).click();
-	    Assert.assertEquals("Product Details", driver.getTitle());
+		driver.findElement(By.name("UserProfile")).click();
+	    Assert.assertEquals("Profile", driver.getTitle());
 	}
 	
 	@Test
-	public void viewSculpturesDetails() throws Exception { 
+	public void viewSculpturesSellerProfile() throws Exception { 
 		driver.findElement(By.name("sculptures")).click();
 	    Assert.assertEquals("Sculptures", driver.getTitle());
 		driver.findElement(By.name("ViewDetails")).click();
-	    Assert.assertEquals("Product Details", driver.getTitle());
+		driver.findElement(By.name("UserProfile")).click();
+	    Assert.assertEquals("Profile", driver.getTitle());
 	}
 	
 	@Test
-	public void viewCraftsDetails() throws Exception { 
+	public void viewCraftsSellerProfile() throws Exception { 
 		driver.findElement(By.name("crafts")).click();
 	    Assert.assertEquals("Crafts", driver.getTitle());
 		driver.findElement(By.name("ViewDetails")).click();
-	    Assert.assertEquals("Product Details", driver.getTitle());
+		driver.findElement(By.name("UserProfile")).click();
+	    Assert.assertEquals("Profile", driver.getTitle());
 	}
 
 	@After 
