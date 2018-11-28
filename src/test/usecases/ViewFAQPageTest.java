@@ -12,7 +12,7 @@ import domain.user.User;
 import test.utils.TestUtils;
 
 
-public class ViewPagesTestCase {
+public class ViewFAQPageTest {
 	
 	private WebDriver driver;
 	private User testUser;
@@ -31,13 +31,9 @@ public class ViewPagesTestCase {
 	}
 	
 	@Test
-	public void viewPage() throws Exception { 
-	    driver.findElement(By.name("menutransactions")).click();
-		Assert.assertEquals("Transactions", driver.getTitle());
+	public void viewFAQPage() throws Exception { 
 		driver.findElement(By.name("menufaq")).click();
 		Assert.assertEquals("FAQ", driver.getTitle());
-		driver.findElement(By.name("menuabout")).click();
-		Assert.assertEquals("About",driver.getTitle());		
 	}
 
 	@After 

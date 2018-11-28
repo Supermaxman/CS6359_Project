@@ -1,16 +1,19 @@
 package test.usecases;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import db.services.impl.UserPersistenceServiceImpl;
 import domain.user.User;
 import test.utils.TestUtils;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
-public class LogoutTestCase 
-{
+public class ViewAboutPageTest {
+	
 	private WebDriver driver;
 	private User testUser;
 	
@@ -24,18 +27,17 @@ public class LogoutTestCase
 	    driver.findElement(By.name("username")).sendKeys(testUser.getUsername());
 	    driver.findElement(By.name("password")).sendKeys(testUser.getPassword());
 	    driver.findElement(By.name("submit")).click();   
-	    Assert.assertEquals("Home", driver.getTitle());		
+	    Assert.assertEquals("Home", driver.getTitle());
+	}
+	
+	@Test
+	public void viewAboutPage() throws Exception { 
+		driver.findElement(By.name("menuabout")).click();
+		Assert.assertEquals("About",driver.getTitle());		
 	}
 
 	@After 
 	public void closePage(){
 		driver.quit();
 	}
-	
-	@Test
-	public void logout() throws Exception {
-		driver.findElement(By.name("menulogout")).click();
-		Assert.assertEquals("Login",driver.getTitle());
-	}
-	
 }

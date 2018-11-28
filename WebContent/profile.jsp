@@ -3,8 +3,10 @@
 <%@page import="db.services.InventoryPersistenceService"%>
 <%@page import="db.services.impl.InventoryPersistenceServiceImpl"%>
 <%@page import="db.services.impl.UserPersistenceServiceImpl"%>
+<%@page import="db.services.impl.TransactionPersistenceServiceImpl"%>
 <%@page import="domain.user.User"%>
 <%@page import="domain.product.Product"%>
+<%@page import="domain.transaction.Transaction"%>
 <%@page import= "db.services.UserPersistenceService"%>
 <%@page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -73,9 +75,11 @@
 	List<Product> prods = invn.getProducts();
 	int totalSold = 0;
 	double priceSum = 0.0;
+	double soldTotal = 0.0;
 	for(Product prod : prods){
 		if(prod.isSold()){
 			totalSold += 1;
+			soldTotal += prod.getPrice();
 		}
 		priceSum += prod.getPrice();
 	}
@@ -93,7 +97,14 @@
 		<tr><td>Average Price:</td><td><%=avgPrice%></td></tr>
 		<% 
 		if (sameUser) {
+			List<Transaction> trxns = TransactionPersistenceServiceImpl.getInstance().retrieveByUser(userId);
+			double trxnTotal = 0.0;
+			for (Transaction trxn : trxns) {
+				trxnTotal += trxn.getPrice();
+			}
+			double balance = soldTotal - trxnTotal;
 			%> 
+			<tr><td>Balance:</td><td><%=balance%></td></tr>
 			<tr><td>Deactivate?</td>
 				<td>
 					<form name="deactivateForm" action="DeactivateController" method="post">
