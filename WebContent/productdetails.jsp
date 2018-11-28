@@ -116,13 +116,17 @@
 			<tr><td>Height: </td><td><%=craft.getHeight()%></td></tr>
 		</table>
 	
-	<%} %>
-	<% if (!prod.isSold() ){ %>
+	<%}
+	if (!prod.isSold() ){ %>
 	<form name="addCartForm" action="CartController" method="post">
 		<input type="hidden" name="prodId" value="<%= prodId.toString() %>">
 		<input type="hidden" name="catId" value="<%= prod.getCategory().getCatId().toString() %>">
 		<input class="demo" type="submit" name="AddToCart" value = "Add to Cart" style="left: 460px;">
 	</form>
 	<%} %>
+	<form name="profileform" action="ProfileController" method="post">
+		<input type="hidden" name="prodId" value="<%= prod.getProdId().toString() %>">
+		<input class="demo" type="submit" name="UserProfile" value = "View User" style="left: 460px;">
+	</form>
 </body>
 </html>

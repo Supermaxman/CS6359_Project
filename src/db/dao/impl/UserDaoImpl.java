@@ -48,7 +48,7 @@ public class UserDaoImpl implements UserDao {
 			+ "JOIN INVENTORY i "
 			+ "ON i.INVNID = ip.INVNID "
 			+ "JOIN USER u "
-			+ "ON u.USERID = i.INVNID "
+			+ "ON u.USERID = i.USERID "
 			+ "WHERE ip.PRODID = ? ";
 
 	private static UserDao instance;

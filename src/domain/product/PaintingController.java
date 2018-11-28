@@ -43,12 +43,16 @@ public class PaintingController extends HttpServlet {
 		Double length = Double.parseDouble(request.getParameter("length"));
 		Double width = Double.parseDouble(request.getParameter("width"));
 		
-        // obtains the upload file part in this multipart request
+		// obtains the upload file part in this multipart request
         Part filePart = request.getPart("file");
         // obtains input stream of the upload file
         InputStream inputStream = filePart.getInputStream();
         BufferedImage image = ImageIO.read(inputStream);
-
+        if (image == null)
+        {
+        	image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+        }
+        
 		Painting painting = PaintingPersistenceServiceImpl.getInstance().getProd();
 		painting.setName(name);
 		painting.setDescription(description);

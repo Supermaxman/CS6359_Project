@@ -52,11 +52,18 @@
 		</div>
 	</div>
 	<hr>
-	<h4>Transactions:</h4>
-	<% 
+ 	<h4>Total Spent:</h4>
+	<%
 	TransactionPersistenceService trxnService = TransactionPersistenceServiceImpl.getInstance();
 	List<Transaction> trxns = trxnService.retrieveByUser(userId);
-
+	double total = 0.0;
+	for (Transaction trxn : trxns) {
+		total += trxn.getPrice();
+	}
+	%>
+	<%= total %>
+	<h4>Transactions:</h4>
+	<% 
 	if (trxns.size() > 0){
 	%>  
   	<table border="1" style="margin-top: 20px; margin-right: 20px; margin-left: 29px; border-top-width: 2px;">

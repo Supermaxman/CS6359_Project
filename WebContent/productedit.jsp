@@ -70,6 +70,7 @@
 		Painting paint = paintService.retrieve(prodId);
 		if (!paint.isSold()) {
 			%>
+			<img src="data:image/jpeg;base64, <%= paint.getEncodedImage() %> " height="100" width="100" alt="bye"/>
 			<form name="saveForm" action="UpdateController" method="post" >
 				<h4>Name: <input type="text" name="name" value=<%=paint.getName()%> ></h4>
 				<h5>Description: <input type="text" name="description" value=<%=paint.getDescription()%>></h5>
@@ -102,6 +103,7 @@
 		Sculpture sculp = sculpService.retrieve(prodId);
 		if (!sculp.isSold()) {
 			%>
+			<img src="data:image/jpeg;base64, <%= sculp.getEncodedImage() %> " height="100" width="100" alt="bye"/>
 			<form name="saveForm" action="UpdateController" method="post" >
 				<h4>Name: <input type="text" name="name" value=<%=sculp.getName()%> ></h4>
 				<h5>Description: <input type="text" name="description" value=<%=sculp.getDescription()%>></h5>
@@ -135,6 +137,7 @@
 		Craft craft = craftService.retrieve(prodId);
 		if (!craft.isSold()) {
 			%>
+			<img src="data:image/jpeg;base64, <%= craft.getEncodedImage() %> " height="100" width="100" alt="bye"/>
 			<form name="saveForm" action="UpdateController" method="post">
 				<h4>Name: <input type="text" name="name" value=<%=craft.getName()%> ></h4>
 				<h5>Description: <input type="text" name="description" value=<%=craft.getDescription()%>></h5>

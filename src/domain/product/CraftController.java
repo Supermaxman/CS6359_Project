@@ -50,6 +50,10 @@ public class CraftController extends HttpServlet {
         // obtains input stream of the upload file
         InputStream inputStream = filePart.getInputStream();
         BufferedImage image = ImageIO.read(inputStream);
+        if (image == null)
+        {
+        	image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+        }
 
 		Craft craft = CraftPersistenceServiceImpl.getInstance().getProd();
 		craft.setName(name);

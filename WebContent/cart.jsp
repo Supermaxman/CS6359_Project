@@ -64,6 +64,7 @@
 	%>
 	<table border="1" style="margin-top: 20px; margin-right: 20px; margin-left: 29px; border-top-width: 2px;">
 		<tr>
+			<th>Image</th>
 			<th>Name</th>
 			<th>Description</th>
 			<th>Price</th>
@@ -72,6 +73,7 @@
 	     
 		<%for(Product prod : prods) {%>
 			<tr>
+				<td><img src="data:image/jpeg;base64, <%= prod.getEncodedImage() %> " height="100" width="100" alt="bye"/></td>
 				<td><%= prod.getName() %></td>
 				<td><%= prod.getDescription() %></td>
 				<td><%= prod.getPrice() %></td>

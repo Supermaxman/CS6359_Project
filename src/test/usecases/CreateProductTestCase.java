@@ -61,7 +61,7 @@ public class CreateProductTestCase
 		paintPaint.sendKeys("Acryllic");
 		paintLength.sendKeys("15");
 		paintWidth.sendKeys("10");
-		paintImage.sendKeys("C:/A.jpg");
+		//paintImage.sendKeys("src/test/usecases/logo.PNG");
 		createButton.click();
 		
 		Assert.assertEquals("Inventory",driver.getTitle());

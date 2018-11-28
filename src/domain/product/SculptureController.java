@@ -51,6 +51,10 @@ public class SculptureController extends HttpServlet {
         // obtains input stream of the upload file
         InputStream inputStream = filePart.getInputStream();
         BufferedImage image = ImageIO.read(inputStream);
+        if (image == null)
+        {
+        	image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+        }
         
 		Sculpture sculpture = SculpturePersistenceServiceImpl.getInstance().getProd();
 		sculpture.setName(name);

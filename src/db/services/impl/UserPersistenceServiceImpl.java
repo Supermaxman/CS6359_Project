@@ -219,6 +219,32 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 	}
 
 	@Override
+	public int update(User user) throws SQLException, DaoException {
+		
+		Connection connection = db.getConnection();
+		try {
+			connection.setAutoCommit(false);
+
+			int count = userDao.update(connection, user);
+			
+			connection.commit();
+			return count;
+		} catch (Exception ex) {
+			System.out.println(ex);
+			ex.printStackTrace();
+			connection.rollback();
+			throw ex;
+		} finally {
+			if (connection != null) {
+				connection.setAutoCommit(true);
+				if (!connection.isClosed()) {
+					connection.close();
+				}
+			}
+		}
+	}
+	
+	@Override
 	public User getUser() {
 		return new User();
 	}

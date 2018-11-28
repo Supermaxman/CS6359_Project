@@ -63,6 +63,7 @@
    	%>  
 	<table border="1" style="margin-top: 20px; margin-right: 20px; margin-left: 29px; border-top-width: 2px;">
      	<tr>
+			<th>Image</th>
        		<th>Name</th>
        		<th>Description</th>
        		<th>Price</th>
@@ -71,6 +72,7 @@
    		
      	<%for(Product prod : products) {%>
 			<tr>
+			<td><img src="data:image/jpeg;base64, <%= prod.getEncodedImage() %> " height="100" width="100" alt="bye"/></td>
 			<td><%= prod.getName() %></td>
 			<td><%= prod.getDescription() %></td>
 			<td><%= prod.getPrice() %></td>
@@ -79,6 +81,10 @@
 					<input type="hidden" name="prodId" value="<%= prod.getProdId().toString() %>">
 					<input type="hidden" name="catId" value="<%= prod.getCategory().getCatId().toString() %>">
 					<input class="demo" type="submit" name="ViewDetails" value = "View Details" style="left: 460px;">
+				</form>			
+				<form name="profileform" action="ProfileController" method="post">
+						<input type="hidden" name="prodId" value="<%= prod.getProdId().toString() %>">
+						<input class="demo" type="submit" name="UserProfile" value = "View User" style="left: 460px;">
 				</form>
 			</td>
 			</tr>

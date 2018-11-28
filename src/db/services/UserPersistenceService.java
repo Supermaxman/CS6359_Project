@@ -15,6 +15,8 @@ public interface UserPersistenceService {
 	
 	public User retrieveByProduct(Integer prodId) throws SQLException, DaoException;
 	
-	public User getUser(); 
+	public int update(User user) throws SQLException, DaoException;
+	
+	public User getUser();
 
 }

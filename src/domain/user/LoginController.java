@@ -38,7 +38,7 @@ public class LoginController extends HttpServlet {
 			if (user != null) {
 				if (!user.isActive()) {
 					redirect = "login.jsp";
-					message = "User is disabled!";
+					message = "User is deactivated!";
 				} else if (user.checkPassword(login.getPassword())) {
 					request.getSession().setAttribute("name", user.getName());
 					request.getSession().setAttribute("userId", user.getUserId());

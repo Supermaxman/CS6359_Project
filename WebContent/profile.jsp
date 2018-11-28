@@ -2,8 +2,10 @@
 <%@page import="domain.user.Inventory"%>
 <%@page import="db.services.InventoryPersistenceService"%>
 <%@page import="db.services.impl.InventoryPersistenceServiceImpl"%>
+<%@page import="db.services.impl.UserPersistenceServiceImpl"%>
+<%@page import="domain.user.User"%>
 <%@page import="domain.product.Product"%>
-<%@page import="domain.product.Category"%>
+<%@page import= "db.services.UserPersistenceService"%>
 <%@page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -26,13 +28,19 @@
 	<% 
 	HttpSession sess = request.getSession(true);
 	Integer userId = (Integer) sess.getAttribute("userId");
+	Integer profileUserId = (Integer) request.getAttribute("userId");
 	if (userId == null){
 		response.sendRedirect("login.jsp");
 		return;
 	}
-	Integer invnId = (Integer) sess.getAttribute("invnId");
-	Integer cartId = (Integer) sess.getAttribute("cartId");
-	String name = (String) sess.getAttribute("name");
+	if(profileUserId == null)
+	{
+		profileUserId = userId;
+	}
+	boolean sameUser = userId == profileUserId;
+	
+	UserPersistenceService userService = UserPersistenceServiceImpl.getInstance();
+	User profileUser = userService.retrieve(profileUserId);
 	%>
 	<div class="menu" align = "Center">
 		<a href="home.jsp" name="menuhome">Home</a>
@@ -52,66 +60,55 @@
 			</form>
 		</div>
 	</div>
- 	<hr>
- 	<h4>Inventory:</h4>
-	<form>
-		<a name = "Painting" href="newproduct.jsp?catId=1">Add a painting</a>
-		<a name = "Sculpture" href="newproduct.jsp?catId=2">Add a sculpture</a>
-		<a name = "Craft" href="newproduct.jsp?catId=3">Add a craft</a>
-	</form>
- 	<h4>Total Earnings:</h4>
- 	<%
-	InventoryPersistenceService invnService = InventoryPersistenceServiceImpl.getInstance();
-	Inventory invn = invnService.retrieve(userId);
-	
+	<hr>
+	<% 
+	if (sameUser) 
+	{
+		%><h3>Your Profile:</h3><%
+	}
+	else {
+		%><h3>User Profile:</h3><%
+	}
+	Inventory invn = profileUser.getInventory();
 	List<Product> prods = invn.getProducts();
-	double total = 0.0;
-	double paintTotal = 0.0;
-	double sculptTotal = 0.0;
-	double craftTotal = 0.0;
- 	for (Product prod : prods){
- 		if (prod.isSold()){
- 			double price = prod.getPrice();
- 			total += price;
- 			Integer catId = prod.getCategory().getCatId();
- 			if (catId == Category.PAINTING){
- 				paintTotal += price;
- 			} else if (catId == Category.SCULPTURE){
- 				sculptTotal += price;
- 			} else if (catId == Category.CRAFT){
- 				craftTotal += price;
- 			}
- 		}
- 	}
- 	%>
- 	<table border="1" style="margin-top: 20px; margin-right: 20px; margin-left: 29px; border-top-width: 2px;">
-		<col width="130">
-	  	<col width="80">
-		<tr>
-			<th>Sale Category</th>
-			<th>Amount</th>
-		</tr>
-		<tr>
-			<td>Painting</td>
-		 	<td><%= paintTotal %></td>
-		</tr>
-		<tr>
-			<td>Sculpture</td>
-		 	<td><%= sculptTotal %></td>
-		</tr>
-		<tr>
-			<td>Craft</td>
-			<td><%= craftTotal %></td></tr>
-		<tr>
-		<td align = "right"><b>Total</b></td>
-		<td align = "right"><b><%= total %></b></td>
-		</tr>
-	</table>
- 	<h4>Products in Inventory:</h4>
-	<%
-	
+	int totalSold = 0;
+	double priceSum = 0.0;
+	for(Product prod : prods){
+		if(prod.isSold()){
+			totalSold += 1;
+		}
+		priceSum += prod.getPrice();
+	}
+	double avgPrice = 0.0;
 	if (prods.size() > 0){
-	
+		avgPrice = priceSum / (double) prods.size();
+	}
+	%>
+	<br>
+	<table>
+		<tr><th>User Details:&nbsp&nbsp&nbsp&nbsp&nbsp </th><th></th></tr>
+		<tr><td>Username:</td><td><%=profileUser.getUsername()%></td></tr>
+		<tr><td>Description:</td><td><%=profileUser.getDescription()%></td></tr>
+		<tr><td>Products Sold:</td><td><%=totalSold%></td></tr>
+		<tr><td>Average Price:</td><td><%=avgPrice%></td></tr>
+		<% 
+		if (sameUser) {
+			%> 
+			<tr><td>Deactivate?</td>
+				<td>
+					<form name="deactivateForm" action="DeactivateController" method="post">
+						<input class="demo" type="submit" name="Deactivate" value = "Deactivate" style="left: 460px;">
+					</form>
+				</td>
+			</tr>
+			<%
+		}
+		%>
+	</table>
+	<hr>	
+ 	<h4>Inventory:</h4> 	
+ 	<%
+	if (prods.size() > 0){
 	%>
 	<table border="1" style="margin-top: 20px; margin-right: 20px; margin-left: 29px; border-top-width: 2px;">
 		<tr>
@@ -124,31 +121,26 @@
 		</tr>
 	     
 		<%for(Product prod : prods) {%>
-			<tr>			
+			<tr>
 				<td><img src="data:image/jpeg;base64, <%= prod.getEncodedImage() %> " height="100" width="100" alt="bye"/></td>
 				<td><%= prod.getName() %></td>
 				<td><%= prod.getDescription() %></td>
 				<td><%= prod.getPrice() %></td>
 				<td><%= prod.isSold() %></td>
-				
 				<td>
 					<form name="detailsform" action="DetailsController" method="post">
 						<input type="hidden" name="prodId" value="<%= prod.getProdId().toString() %>">
 						<input type="hidden" name="catId" value="<%= prod.getCategory().getCatId().toString() %>">
 						<input class="demo" type="submit" name="ViewDetails" value = "View Details" style="left: 460px;">
 					</form>	
-					<form name="editform" action="EditController" method="post">
-						<input type="hidden" name="prodId" value="<%= prod.getProdId().toString() %>">
-						<input type="hidden" name="catId" value="<%= prod.getCategory().getCatId().toString() %>">
-						<input class="demo" type="submit" <%=prod.isSold() ? "disabled=\"\"" : "" %> name="EditDetails" value = "Edit Details" style="left: 460px;">
-					</form>
 				</td>
 			</tr>
 		<%}%>
 	</table>
 	<br>
 	<% } else {%>
-		<p> Your Inventory is empty. </p>
+		<p> This user's inventory is empty. </p>
 	<%}%>
+	
 </body>
-</html> 
+</html>  
