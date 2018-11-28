@@ -35,7 +35,6 @@ public class CheckoutController extends HttpServlet {
 			Cart cart = cartService.retrieve(userId);
 			for (Product prod : cart.getProducts()) {
 				if (prod.isSold()) {
-					// TODO figure out how to handle this
 					throw new Exception("Cannot purchase sold product!");
 				}
 			}
@@ -50,8 +49,7 @@ public class CheckoutController extends HttpServlet {
 			}
 			
 		} catch (Exception ex) {
-			System.out.println(ex);
-			// TODO return failure message
+			ex.printStackTrace();
 		}
 		
 		RequestDispatcher rs = request.getRequestDispatcher("complete.jsp");

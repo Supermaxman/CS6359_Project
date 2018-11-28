@@ -12,14 +12,18 @@ import org.openqa.selenium.WebDriver;
 
 public class RegisterTestCase 
 {
-	WebDriver driver;
+	private WebDriver driver;
+	
+	@Before
+	public void init() throws Exception {
+		System.setProperty("webdriver.chrome.driver","chromedriver.exe");
+	    driver = new ChromeDriver();
+	    driver.get("http://localhost:8080/CS6359_Project/register.jsp");
+	}
 	
 	@Test
 	public void register() throws Exception { 
 		User testUser = TestUtils.generateUser();
-		System.setProperty("webdriver.chrome.driver","chromedriver.exe");
-	    driver = new ChromeDriver();
-	    driver.get("http://localhost:8080/CS6359_Project/register.jsp");
 	    driver.findElement(By.name("username")).sendKeys(testUser.getUsername());
 	    driver.findElement(By.name("name")).sendKeys(testUser.getName());
 	    driver.findElement(By.name("description")).sendKeys(testUser.getDescription());
@@ -29,13 +33,10 @@ public class RegisterTestCase
 	    driver.findElement(By.name("number")).sendKeys(testUser.getCreditCard().getNumber());	   
 	    driver.findElement(By.name("cvv")).sendKeys(testUser.getCreditCard().getCvv());
 	    driver.findElement(By.name("submit")).click();
-	    
-	    Assert.assertEquals("Login", driver.getTitle());
 	    driver.findElement(By.name("username")).sendKeys(testUser.getUsername());
 	    driver.findElement(By.name("password")).sendKeys(testUser.getPassword());
 	    driver.findElement(By.name("submit")).click();
 	    Assert.assertEquals("Home", driver.getTitle());
-		
 	}
 	
 	@After 

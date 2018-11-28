@@ -64,15 +64,15 @@
 		<br>
 		Description: <input type="text" name="description" id="description">
 		<br>
-		Price: <input type="number" min="0" name="price" id="price">
+		Price: <input type="number" min="0" step="0.01" name="price" id="price">
 		<br>
 		Canvas Type: <input type="text" name="canvasType" id="canvasType">
 		<br>
 		Paint Type: <input type="text" name="paintType" id="paintType">
 		<br>
-		Length: <input type="number" min="0" name="length" id="length">
+		Length: <input type="number" min="0" step="0.01" name="length" id="length">
 		<br>
-		Width: <input type="number" min="0" name="width" id="width" >
+		Width: <input type="number" min="0" step="0.01" name="width" id="width" >
 		<br>		
 		Upload an Image: <input type="file" name="file" >
 		<br>
@@ -89,17 +89,17 @@
 		<br>
 		Description: <input type="text" name="description" id="description">
 		<br>
-		Price: <input type="number" min="0" name="price" id="price">
+		Price: <input type="number" min="0" step="0.01" name="price" id="price">
 		<br>
-		Length: <input type="number" min="0" name="length" id="length">
+		Length: <input type="number" min="0" step="0.01" name="length" id="length">
 		<br>
-		Width: <input type="number" min="0" name="width" id="width" >
+		Width: <input type="number" min="0" step="0.01" name="width" id="width" >
 		<br>
-		Height: <input type="number" min="0" name="height" id="height" >
+		Height: <input type="number" min="0" step="0.01" name="height" id="height" >
 		<br>
 		Material: <input type="text"  name="material" id="material" >
 		<br>
-		Weight: <input type="number" min="0" name="weight" id="weight" >
+		Weight: <input type="number" min="0" step="0.01" name="weight" id="weight" >
 		<br>
 		Upload an Image: <input type="file" name="file" >
 		<br>
@@ -120,13 +120,13 @@
 		<br>
 		Description: <input type="text" name="description" id="description">
 		<br>
-		Price: <input type="number" min="0" name="price" id="price">
+		Price: <input type="number" min="0" step="0.01" name="price" id="price">
 		<br>
-		Length: <input type="number" min="0" name="length" id="length">
+		Length: <input type="number" min="0" step="0.01" name="length" id="length">
 		<br>
-		Width: <input type="number" min="0" name="width" id="width" >
+		Width: <input type="number" min="0" step="0.01" name="width" id="width" >
 		<br>
-		Height: <input type="number" min="0" name="height" id="height" >
+		Height: <input type="number" min="0" step="0.01" name="height" id="height" >
 		<br>
 		Usage: <input type="text"  name="usage" id="usage">
 		<br>

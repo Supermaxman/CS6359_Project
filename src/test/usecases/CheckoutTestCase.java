@@ -2,73 +2,68 @@ package test.usecases;
 
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import db.services.PaintingPersistenceService;
-import db.services.UserPersistenceService;
+import db.services.impl.CraftPersistenceServiceImpl;
 import db.services.impl.PaintingPersistenceServiceImpl;
+import db.services.impl.SculpturePersistenceServiceImpl;
 import db.services.impl.UserPersistenceServiceImpl;
+import domain.product.Craft;
 import domain.product.Painting;
+import domain.product.Sculpture;
 import domain.user.User;
 import test.utils.TestUtils;
 
 public class CheckoutTestCase {
-	WebDriver driver;
 
-	@Test
-	public void checkout() throws Exception { 
-		User testUser = TestUtils.generateUser();
-		Painting painting = TestUtils.generatePainting();
-		UserPersistenceService userService = UserPersistenceServiceImpl.getInstance();
-		userService.create(testUser);
-		PaintingPersistenceService paintService = PaintingPersistenceServiceImpl.getInstance();
-		paintService.create(painting, testUser.getInventory().getInvnId());
-		
-		System.setProperty("webdriver.chrome.driver","chromedriver.exe");
-	    driver = new ChromeDriver();
+	private WebDriver driver;
+	private User testUser;
+	
+	@Before
+	public void login() throws Exception {		
+		testUser = TestUtils.generateUser();
+		UserPersistenceServiceImpl.getInstance().create(testUser);
+		System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+		driver = new ChromeDriver();
 	    driver.get("http://localhost:8080/CS6359_Project/login.jsp");
-	    WebElement username = driver.findElement(By.name("username"));
-	    WebElement password = driver.findElement(By.name("password"));
-	    WebElement button = driver.findElement(By.name("submit"));         
-
-	    username.sendKeys(testUser.getUsername());
-	    password.sendKeys(testUser.getPassword());
-	    button.click();
+	    driver.findElement(By.name("username")).sendKeys(testUser.getUsername());
+	    driver.findElement(By.name("password")).sendKeys(testUser.getPassword());
+	    driver.findElement(By.name("submit")).click();   
 	    Assert.assertEquals("Home", driver.getTitle());
 	    
-	    WebElement catLink = driver.findElement(By.name("menucategory"));
-		catLink.click();
-		Assert.assertEquals("Category",driver.getTitle());
-		
-		
-		WebElement paintLink = driver.findElement(By.name("paintings"));
-		paintLink.click();
-		Assert.assertEquals("Paintings",driver.getTitle());
-		
-		WebElement viewButton = driver.findElement(By.name("ViewDetails"));
-		viewButton.click();
-		Assert.assertEquals("Product Details",driver.getTitle());
-		
-		WebElement addCartButton = driver.findElement(By.name("AddToCart"));
-		addCartButton.click();
-		Assert.assertEquals("CartPage",driver.getTitle());
-		
-		WebElement checkoutButton = driver.findElement(By.name("Checkout"));
-		checkoutButton.click();		
-			
-		WebElement logout = driver.findElement(By.name("menulogout"));
-		logout.click();
-		Assert.assertEquals("Login",driver.getTitle());
-		
+		Painting painting = TestUtils.generatePainting();
+		Sculpture sculpt = TestUtils.generateSculpture();
+		Craft craft = TestUtils.generateCraft();
+		PaintingPersistenceServiceImpl.getInstance().create(painting, testUser.getInventory().getInvnId());
+		SculpturePersistenceServiceImpl.getInstance().create(sculpt, testUser.getInventory().getInvnId());
+		CraftPersistenceServiceImpl.getInstance().create(craft, testUser.getInventory().getInvnId());
 	}
 
 	@After 
 	public void closePage(){
 		driver.quit();
+	}
+	
+	@Test
+	public void checkout() throws Exception {
+	    driver.findElement(By.name("menucategory")).click();
+		driver.findElement(By.name("paintings")).click();
+		driver.findElement(By.name("ViewDetails")).click();
+		driver.findElement(By.name("AddToCart")).click();
+		driver.findElement(By.name("menucategory")).click();
+		driver.findElement(By.name("sculptures")).click();
+		driver.findElement(By.name("ViewDetails")).click();
+		driver.findElement(By.name("AddToCart")).click();
+		driver.findElement(By.name("menucategory")).click();
+		driver.findElement(By.name("crafts")).click();
+		driver.findElement(By.name("ViewDetails")).click();
+		driver.findElement(By.name("AddToCart")).click();
+		driver.findElement(By.name("Checkout")).click();
+		Assert.assertEquals("Transaction Complete", driver.getTitle());		
 	}
 
 }
