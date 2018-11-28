@@ -60,7 +60,7 @@ public class EditProductInInventoryTest {
 	}
 	
 	@Test
-	public void editculpture() throws Exception {
+	public void editSculpture() throws Exception {
 		Sculpture sculpt = TestUtils.generateSculpture();
 		SculpturePersistenceServiceImpl.getInstance().create(sculpt, testUser.getInventory().getInvnId());
 	    driver.findElement(By.name("menuinventory")).click();
@@ -106,7 +106,7 @@ public class EditProductInInventoryTest {
 		driver.findElement(By.name("usage")).clear();
 		driver.findElement(By.name("usage")).sendKeys(craft.getUsage());
 		driver.findElement(By.name("SaveDetails")).click();
-	    Assert.assertEquals("Inventory", driver.getTitle());		
+	    Assert.assertEquals("Inventory", driver.getTitle());
 	}
 	
 	@After 
